@@ -1,8 +1,14 @@
 package mapthatset.g1.util;
 
+/**
+ * Keeps the prameters for the guess together in a object.
+ * 
+ * @author Kanna
+ *
+ */
 public class GuessParams {
 	
-	int startIndex, endIndex, length;
+	int startIndex = -1, endIndex = -1, length = -1;
 	
 	public GuessParams() {
 	}
@@ -37,6 +43,9 @@ public class GuessParams {
 		this.length = length;
 	}
 	
+	@Override
+	public String toString() {
+		return " [GuessParams]  start = " + startIndex + "\t end = " + endIndex + "\t length = " + length;
+	}
 	
-
 }
