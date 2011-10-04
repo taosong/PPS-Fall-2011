@@ -7,7 +7,7 @@ import mapthatset.g1.util.GuesserOverlappingGuesser;
 import mapthatset.sim.Guesser;
 import mapthatset.sim.GuesserAction;
 
-public class G1Gusser extends Guesser {
+public class G1Guesser extends Guesser {
 	
 	GuesserOverlappingGuesser overlappingGuesser = null;
 
