@@ -13,16 +13,16 @@ public class GuesserOverlappingGuesser {
 	private int global_k = 0, global_overlap = 0, global_confidenceLevel = 0;
 	private int round = -1;
 	
-	List<Integer> question = null;
+	List<Integer> queryList = null;
 	List<GuessParams> guessParamsList = null;
 	List<GuessRounds> guessRounds = null;
 	
 	
 	public GuesserOverlappingGuesser(int mappingLength) {
 		this.mappingLength = mappingLength;
-		question = new ArrayList<Integer>();
+		queryList = new ArrayList<Integer>();
 		for(int i=0; i<mappingLength; i++){
-			question.add(i+1);
+			queryList.add(i+1);
 		}
 		guessParamsList = new ArrayList<GuessParams>();
 		guessRounds = new ArrayList<GuessRounds>();
@@ -97,7 +97,7 @@ public class GuesserOverlappingGuesser {
 			GuessParams gp = guessParamsList.get(0);
 			guessParamsList.remove(0);
 			System.out.println(" nextGuess() " + gp.getStartIndex() + " , " +gp.getEndIndex());
-			nextGuessList = question.subList(gp.getStartIndex(), gp.getEndIndex());
+			nextGuessList = queryList.subList(gp.getStartIndex(), gp.getEndIndex());
 			GuessRounds gr = new GuessRounds(gp, round, nextGuessList);
 			guessRounds.add(gr);
 		} else {

@@ -1,6 +1,2 @@
-<<<<<<< HEAD
-//mapthatset.dumbplayer.DumbGuesser
-mapthatset.g1.G1Gusser
-=======
-mapthatset.dumbplayer.DumbGuesser
->>>>>>> branch 'master' of https://kanap008@github.com/kanap008/PPS-Fall-2011.git
+mapthatset.g1.G1Guesser
+
