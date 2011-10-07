@@ -13,7 +13,7 @@ public class GuesserOverlappingGuesser {
 	private int global_queryLength = 0, global_overlap = 0, global_confidenceLevel = 0;
 	
 	List<Integer> allNumbers = null;
-	List<QueryParams> guessParamsList = null;
+	List<QueryParams> queryparamsList = null;
 	List<QueryRound> queryRounds = null;
 	
 	List<Integer> nextGuessList = null;
@@ -33,13 +33,13 @@ public class GuesserOverlappingGuesser {
 		for(int i=0; i<mappingLength; i++){
 			allNumbers.add(i+1);
 		}
-		guessParamsList = new ArrayList<QueryParams>();
+		queryparamsList = new ArrayList<QueryParams>();
 		queryRounds = new ArrayList<QueryRound>();
 		
-		global_queryLength = 5; global_overlap = 2; // as of now k can be 5 and overlap can be 2 --- but k should be a function of n
+		global_queryLength = (int)(mappingLength + Math.sqrt(mappingLength))/2; global_overlap = 2; // as of now k can be 5 and overlap can be 2 --- but k should be a function of n
 		global_confidenceLevel = 0;
 
-		updateGuessParams(0, mappingLength-1, global_confidenceLevel);
+		updateQueryParams(0, mappingLength-1, global_confidenceLevel);
 		
 		queryIndex = -1;
 		isQuery = true;
@@ -48,6 +48,7 @@ public class GuesserOverlappingGuesser {
 		nextQueryList = new ArrayList<Integer>();
 		
 		knowledgeBase = new KnowledgeBase(allNumbers);
+		knowledgeBase.printKnowledgeBase();
 	}
 	
 	
@@ -70,24 +71,16 @@ public class GuesserOverlappingGuesser {
 		System.out.println("[GuesserOverlappingGuesser] do I wanna query? - " + isQuery);
 		
 		// see if youk knowledgebase is complete.
-		boolean isKnowledgebaseComplete = true;
-		for (QueryElement qe : knowledgeBase.getListOfQueryElements()) {
-			if (qe.getMappingListSize() == mappingLength) {
-				isKnowledgebaseComplete = false;
-				break;
-			} else {
-				isKnowledgebaseComplete = true;
-			}
-		}
-		System.out.println("[GuesserOverlappingGuesser] do my knowBase complete? - " + isKnowledgebaseComplete);
+		boolean isKnowledgebaseComplete = knowledgeBase.isInitialKnowledgeBaseComplete();
+		System.out.println("[GuesserOverlappingGuesser] is my knowBase complete? - " + isKnowledgebaseComplete);
 		
 		if (isQuery) {
 			// querying
 			if(!isKnowledgebaseComplete){
 				// retrieve form list of guess params... 
-				if(!guessParamsList.isEmpty()){
-					QueryParams qp = guessParamsList.get(0);
-					guessParamsList.remove(0);
+				if(!queryparamsList.isEmpty()){
+					QueryParams qp = queryparamsList.get(0);
+					queryparamsList.remove(0);
 					System.out.println(">> nextGuess() " + qp.getStartIndex() + " , " +qp.getEndIndex());
 					
 					nextQueryList = allNumbers.subList(qp.getStartIndex(), qp.getEndIndex());
@@ -96,7 +89,7 @@ public class GuesserOverlappingGuesser {
 					QueryRound qr = new QueryRound(qp, queryIndex, nextQueryList);
 					queryRounds.add(qr);
 				} else {
-					System.out.println("\n --guessParamsList is Empty--ERROR-- \n");
+					System.out.println("\n --queryparamsList is Empty--ERROR-- \n");
 					for(QueryRound qr : queryRounds){
 						System.out.println(" - " + qr.toString());
 					}
@@ -122,14 +115,7 @@ public class GuesserOverlappingGuesser {
 			// guessing.. hopefully the correct guess...
 			nextGuessList = new ArrayList<Integer>();
 
-			for (int i = 0; i < mappingLength; i++) {
-				for (int j = 0; j < knowledgeBase.getListOfQueryElements().size(); j++) {
-					if (i == knowledgeBase.getListOfQueryElements().get(j).getValue()) {
-						nextGuessList.add(knowledgeBase.getListOfQueryElements().get(j)
-								.getMapping());
-					}
-				}
-			}
+			
 			
 			System.out.println(" [GuesserOverlappingGuesser] guessed = " + nextGuessList);
 			
@@ -155,7 +141,7 @@ public class GuesserOverlappingGuesser {
 			global_confidenceLevel = mappingLength;
 			int start = qr.getQueryParam().getEndIndex() + 1;
 			int end = mappingLength;
-			updateGuessParams(start, end, global_confidenceLevel);
+			updateQueryParams(start, end, global_confidenceLevel);
 		} else if(alResult.size() == qr.getQuery().size() || alResult.size() == qr.getQuery().size()-1) {   // WORST CASE all elements are distinct... set confidanceLevel as 0
 			global_confidenceLevel = 0;
 		} else { 	// MODERATE STRATEGY 
@@ -164,7 +150,7 @@ public class GuesserOverlappingGuesser {
 			global_confidenceLevel = queryLength - resultLength;
 			int start = qr.getQueryParam().getEndIndex() + 1;
 			int end = mappingLength;
-			updateGuessParams(start, end, global_confidenceLevel);
+			updateQueryParams(start, end, global_confidenceLevel);
 		}
 		
 		this.queryResultList = alResult;
@@ -179,7 +165,7 @@ public class GuesserOverlappingGuesser {
 	 * @param overlap 
 	 * @return List<QueryParams>
 	 */
-	private List<QueryParams> findGuessParams(int start, int end, int k, int overlap){
+	private List<QueryParams> findQueryParams(int start, int end, int k, int overlap){
 		int startSubList, endSubList;
 		List<QueryParams> gprms = new ArrayList<QueryParams>();
 		
@@ -203,20 +189,20 @@ public class GuesserOverlappingGuesser {
 	
 	
 	/**
-	 * Private method which updates the global varaible guessParamsList
+	 * Private method which updates the global varaible queryparamsList
 	 * @param start
 	 * @param end
 	 * @param confidenceLevel
 	 */
-	private void updateGuessParams(int start, int end, int confidenceLevel){
+	private void updateQueryParams(int start, int end, int confidenceLevel){
 		
 		if( start+confidenceLevel > mappingLength){
-			guessParamsList = findGuessParams(start, end, mappingLength-start, global_overlap);
+			queryparamsList = findQueryParams(start, end, mappingLength-start, global_overlap);
 		} else {
-			guessParamsList = findGuessParams(start, end, global_queryLength + confidenceLevel, global_overlap);
+			queryparamsList = findQueryParams(start, end, global_queryLength + confidenceLevel, global_overlap);
 		}
 		
-//		for(QueryParams gp : guessParamsList){
+//		for(QueryParams gp : queryparamsList){
 //			System.out.println(" - " + gp.toString() + " == " + question.subList(gp.getStartIndex(), gp.getEndIndex()));
 //		}
 		
@@ -227,7 +213,9 @@ public class GuesserOverlappingGuesser {
 	 * @param qr
 	 */
 	private void updateKnowledgeBase(QueryRound qr){
+		System.out.println("[GuesserOverlappingGuesser] qr - " + qr);
 		for(Integer i : qr.getQuery()){
+			System.out.println("[GuesserOverlappingGuesser] updateKnowledgeBase of - " + i);
 			knowledgeBase.updateKnowledgeBase(i, qr.getResult());
 		}
 	}

@@ -70,14 +70,16 @@ public class QueryElement {
 	 * @param mappings
 	 */
 	public void updateMappingsList(List<Integer> mappings){
-		System.out.println(" [QueryElement] - mappings=null? " + mappings==null + "," + listOfPossibleMappings + "," + mappings);
+//		System.out.println(" [QueryElement] - mappings=null? " + mappings==null + "," + listOfPossibleMappings + "," + mappings);
+		List<Integer> toBeRemoved = new ArrayList<Integer>();
 		for(Integer i : listOfPossibleMappings){
 			if(mappings.contains(i)){
 				continue;
 			}else{
-				listOfPossibleMappings.remove(i);
+				toBeRemoved.add(i);
 			}
 		}
+		listOfPossibleMappings.removeAll(toBeRemoved);
 	}
 	
 }

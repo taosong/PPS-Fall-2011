@@ -7,32 +7,31 @@ import java.util.Map;
 
 public class KnowledgeBase {
 	
-	List<QueryElement> listOfQueryElements = null;
+//	List<QueryElement> listOfQueryElements = null;
 	Map<Integer, QueryElement> mapQueryElements = null;
 	
 	public KnowledgeBase(List<Integer> allNumbers) {
-		List<Integer> possibleMappings = new ArrayList<Integer>(allNumbers);
 		QueryElement qe = null;
 
-		listOfQueryElements = new ArrayList<QueryElement>();		
-		for(Integer i : allNumbers){
-			qe = new QueryElement(i, possibleMappings);
-			listOfQueryElements.add(qe);
-		}
+//		listOfQueryElements = new ArrayList<QueryElement>();		
+//		for(Integer i : allNumbers){
+//			qe = new QueryElement(i, possibleMappings);
+//			listOfQueryElements.add(qe);
+//		}
 		
 		mapQueryElements = new HashMap<Integer, QueryElement>();
 		for(Integer i : allNumbers){
-			qe = new QueryElement(i, possibleMappings);
+			qe = new QueryElement(i, new ArrayList<Integer>(allNumbers));
 			mapQueryElements.put(i, qe);
 		}
 	}
 
-	public List<QueryElement> getListOfQueryElements() {
-		return listOfQueryElements;
-	}
-	public void setListOfQueryElements(List<QueryElement> listOfQueryElements) {
-		this.listOfQueryElements = listOfQueryElements;
-	}
+//	public List<QueryElement> getListOfQueryElements() {
+//		return listOfQueryElements;
+//	}
+//	public void setListOfQueryElements(List<QueryElement> listOfQueryElements) {
+//		this.listOfQueryElements = listOfQueryElements;
+//	}
 	
 	/**
 	 * returns true if all the queryElements have their result confirmed, othewise returns false.
@@ -68,7 +67,7 @@ public class KnowledgeBase {
 	
 	
 	public QueryElement getQueryElement(int value){
-		return listOfQueryElements.get(value);
+		return mapQueryElements.get(value);
 	}
 	
 	/**
