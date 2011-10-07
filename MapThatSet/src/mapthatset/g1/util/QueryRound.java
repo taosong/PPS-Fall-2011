@@ -17,11 +17,19 @@ public class QueryRound {
 	List<Integer> result = null;		// result of the query
 	int queryIndex = -1;				// the number of the Query
 	int confidenceLevel = -1;			// current confidance level... not used...
+	Boolean isInferred = null;
 	
 	public QueryRound(QueryParams queryParam, int queryIndex, List<Integer> query) {
 		this.queryParam = queryParam;
 		this.queryIndex = queryIndex;
 		this.query = query;
+		this.isInferred = false;
+	}
+	
+	public QueryRound(List<Integer> query, List<Integer> result){
+		this.query = query;
+		this.result = result;
+		this.isInferred = true;
 	}
 	
 	public QueryParams getQueryParam() {

@@ -14,7 +14,8 @@ public class G1Mapper extends Mapper {
 		ArrayList< Integer > alNewMapping = new ArrayList< Integer >();
 		for ( int intIndex = 0; intIndex < intMappingLength; intIndex ++ )
 		{
-			alNewMapping.add( 1 + (intIndex%2) );
+//			alNewMapping.add( 1 + (intIndex%2) );
+			alNewMapping.add(1+(int)(Math.random()*(intMappingLength-1)));
 		}
 		System.out.println( "The mapping is: " + alNewMapping );
 		return alNewMapping;

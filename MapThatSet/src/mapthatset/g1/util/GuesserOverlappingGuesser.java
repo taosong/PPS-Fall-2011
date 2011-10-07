@@ -16,6 +16,7 @@ public class GuesserOverlappingGuesser {
 	List<Integer> allNumbers = null;
 	List<QueryParams> queryparamsList = null;
 	List<QueryRound> queryRounds = null;
+	List<QueryRound> inferredRounds = null;
 	
 	List<Integer> nextGuessList = null;
 	List<Integer> queryContent = null;
@@ -38,6 +39,7 @@ public class GuesserOverlappingGuesser {
 		
 		queryparamsList = new ArrayList<QueryParams>();
 		queryRounds = new ArrayList<QueryRound>();
+		inferredRounds = new ArrayList<QueryRound>();
 		
 		global_queryLength = 5; global_overlap = 2; // as of now k can be 5 and overlap can be 2 --- but k should be a function of n
 		global_confidenceLevel = 0;
@@ -83,7 +85,7 @@ public class GuesserOverlappingGuesser {
 				if(!queryparamsList.isEmpty()){
 					QueryParams qp = queryparamsList.get(0);
 					queryparamsList.remove(0);
-					System.out.println(">> nextGuess() " + qp.getStartIndex() + " , " +qp.getEndIndex());
+//					System.out.println(">> nextGuess() " + qp.getStartIndex() + " , " +qp.getEndIndex());
 					
 					nextQueryList = allNumbers.subList(qp.getStartIndex(), qp.getEndIndex());
 					this.previousQueryList=nextQueryList;
@@ -92,6 +94,7 @@ public class GuesserOverlappingGuesser {
 					queryRounds.add(qr);
 				} else {
 					System.out.println("\n --queryparamsList is Empty--ERROR-- \n");
+					knowledgeBase.printKnowledgeBase();
 					for(QueryRound qr : queryRounds){
 						System.out.println(" - " + qr.toString());
 					}
@@ -109,7 +112,7 @@ public class GuesserOverlappingGuesser {
 //						knowledgeBase.getListOfQueryElements(), qp);
 			}
 			
-			System.out.println(" [GuesserOverlappingGuesser] query = " + nextQueryList);
+//			System.out.println(" [GuesserOverlappingGuesser] query = " + nextQueryList);
 			
 			return new ArrayList<Integer>(nextQueryList);
 			
@@ -119,7 +122,7 @@ public class GuesserOverlappingGuesser {
 
 			
 			
-			System.out.println(" [GuesserOverlappingGuesser] guessed = " + nextGuessList);
+//			System.out.println(" [GuesserOverlappingGuesser] guessed = " + nextGuessList);
 			
 			return new ArrayList<Integer>(nextGuessList);
 		}
@@ -133,7 +136,7 @@ public class GuesserOverlappingGuesser {
 	 */
 	public void setResult(ArrayList<Integer> alResult) {
 		
-		System.out.println(" [GuesserOverlappingGuesser] returned = " + alResult);
+//		System.out.println(" [GuesserOverlappingGuesser] returned = " + alResult);
 		QueryRound qr = queryRounds.get(queryRounds.size()-1);
 		qr.setResult(alResult);
 		// update my KnowledgeBase based on the result.
@@ -157,6 +160,8 @@ public class GuesserOverlappingGuesser {
 		
 		this.queryResultList = alResult;
 		
+		inferFromQueryRound();
+		
 	}
 	
 	/**
@@ -176,7 +181,7 @@ public class GuesserOverlappingGuesser {
 			if(i+k <= end){
 				endSubList = i+k;
 			} else {
-				endSubList = end;
+				endSubList = end+1;
 			}
 			QueryParams gp1 = new QueryParams();
 			gp1.setStartIndex(startSubList);
@@ -211,14 +216,35 @@ public class GuesserOverlappingGuesser {
 	}
 	
 	/**
-	 * uodates the KnowledgeBase for each element in the QueryRound's(qr) query with the result obtained for that query.
+	 * updates the KnowledgeBase for each element in the QueryRound's(qr) query with the result obtained for that query.
 	 * @param qr
 	 */
 	private void updateKnowledgeBase(QueryRound qr){
-		System.out.println("[GuesserOverlappingGuesser] qr - " + qr);
 		for(Integer i : qr.getQuery()){
-			System.out.println("[GuesserOverlappingGuesser] updateKnowledgeBase of - " + i);
 			knowledgeBase.updateKnowledgeBase(i, qr.getResult());
 		}
 	}
+	
+	/**
+	 * Inferres some queries and results based on the previous queryRounds
+	 * <i>Takes a LOT of time to run</i> 
+	 */
+	private void inferFromQueryRound(){
+		List<QueryRound> inferred = null;
+		int size = queryRounds.size();
+		for(int i=0; i<size-1; i++){
+			for(int j=i+1; j<size; j++){
+				inferred = SetHelper.inferredQueryRounds(queryRounds.get(i), queryRounds.get(j));
+			}
+		}
+		
+		if(inferred != null && inferred.size()>0){
+			for(QueryRound inf : inferred){
+				System.out.println(" -- inferred = " + inf);
+				updateKnowledgeBase(inf);
+			}
+			inferredRounds.addAll(inferred);
+		}
+	}
+	
 }

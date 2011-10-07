@@ -71,6 +71,9 @@ public class QueryElement {
 	 */
 	public void updateMappingsList(List<Integer> mappings){
 //		System.out.println(" [QueryElement] - mappings=null? " + mappings==null + "," + listOfPossibleMappings + "," + mappings);
+		if(mappings == null){
+			return;
+		}
 		List<Integer> toBeRemoved = new ArrayList<Integer>();
 		for(Integer i : listOfPossibleMappings){
 			if(mappings.contains(i)){
