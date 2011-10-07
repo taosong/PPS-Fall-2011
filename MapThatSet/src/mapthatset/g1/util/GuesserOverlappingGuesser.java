@@ -169,7 +169,7 @@ public class GuesserOverlappingGuesser {
 	 * Private method returns the List of QueryParams based on the parameters
 	 * @param start - start index of the original set(question)
 	 * @param end - end index of the original set(question)
-	 * @param k
+	 * @param k - queryLength
 	 * @param overlap 
 	 * @return List<QueryParams>
 	 */

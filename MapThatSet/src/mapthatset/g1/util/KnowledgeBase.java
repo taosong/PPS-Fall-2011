@@ -7,18 +7,11 @@ import java.util.Map;
 
 public class KnowledgeBase {
 	
-//	List<QueryElement> listOfQueryElements = null;
 	Map<Integer, QueryElement> mapQueryElements = null;
 	
 	public KnowledgeBase(List<Integer> allNumbers) {
 		QueryElement qe = null;
 
-//		listOfQueryElements = new ArrayList<QueryElement>();		
-//		for(Integer i : allNumbers){
-//			qe = new QueryElement(i, possibleMappings);
-//			listOfQueryElements.add(qe);
-//		}
-		
 		mapQueryElements = new HashMap<Integer, QueryElement>();
 		for(Integer i : allNumbers){
 			qe = new QueryElement(i, new ArrayList<Integer>(allNumbers));
@@ -26,13 +19,6 @@ public class KnowledgeBase {
 		}
 	}
 
-//	public List<QueryElement> getListOfQueryElements() {
-//		return listOfQueryElements;
-//	}
-//	public void setListOfQueryElements(List<QueryElement> listOfQueryElements) {
-//		this.listOfQueryElements = listOfQueryElements;
-//	}
-	
 	/**
 	 * returns true if all the queryElements have their result confirmed, othewise returns false.
 	 * @return
@@ -41,7 +27,6 @@ public class KnowledgeBase {
 		Boolean readyForGuess = true;
 		try{
 		for(Integer i : mapQueryElements.keySet()){
-			System.out.print(" -- i="+i);
 			if(mapQueryElements.get(i).isResultConfirmed()){
 				continue;
 			}
