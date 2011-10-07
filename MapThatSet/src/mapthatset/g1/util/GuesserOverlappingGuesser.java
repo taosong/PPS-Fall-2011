@@ -35,13 +35,14 @@ public class GuesserOverlappingGuesser {
 		for(int i=0; i<mappingLength; i++){
 			allNumbers.add(i+1);
 		}
-		Collections.shuffle(allNumbers);
+//		Collections.shuffle(allNumbers);
 		
 		queryparamsList = new ArrayList<QueryParams>();
 		queryRounds = new ArrayList<QueryRound>();
 		inferredRounds = new ArrayList<QueryRound>();
 		
-		global_queryLength = 5; global_overlap = 2; // as of now k can be 5 and overlap can be 2 --- but k should be a function of n
+		global_queryLength = 5; 
+		global_overlap = 2; // as of now k can be 5 and overlap can be 2 --- but k should be a function of n
 		global_confidenceLevel = 0;
 
 		updateQueryParams(0, mappingLength-1, global_confidenceLevel);
@@ -145,7 +146,7 @@ public class GuesserOverlappingGuesser {
 		if(alResult.size() == 1){ 	// BEST CASE if all the queries elements are mapped to only 1 element... set the confidenceLevel high
 			global_confidenceLevel = mappingLength;
 			int start = qr.getQueryParam().getEndIndex() + 1;
-			int end = mappingLength;
+			int end = mappingLength-1;
 			updateQueryParams(start, end, global_confidenceLevel);
 		} else if(alResult.size() == qr.getQuery().size() || alResult.size() == qr.getQuery().size()-1) {   // WORST CASE all elements are distinct... set confidanceLevel as 0
 			global_confidenceLevel = 0;
@@ -154,7 +155,7 @@ public class GuesserOverlappingGuesser {
 			int resultLength = qr.getResult().size();
 			global_confidenceLevel = queryLength - resultLength;
 			int start = qr.getQueryParam().getEndIndex() + 1 - global_confidenceLevel;
-			int end = mappingLength;
+			int end = mappingLength-1;
 			updateQueryParams(start, end, global_confidenceLevel);
 		}
 		

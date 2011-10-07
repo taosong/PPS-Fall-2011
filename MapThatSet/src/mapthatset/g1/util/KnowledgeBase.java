@@ -39,12 +39,19 @@ public class KnowledgeBase {
 	 */
 	public Boolean readyForGuessing(){
 		Boolean readyForGuess = true;
+		try{
 		for(Integer i : mapQueryElements.keySet()){
+			System.out.print(" -- i="+i);
 			if(mapQueryElements.get(i).isResultConfirmed()){
 				continue;
 			}
 			readyForGuess = false;
 			break;
+		}
+		}catch(Exception e){
+			e.printStackTrace();
+			printKnowledgeBase();
+			System.exit(1);
 		}
 		return readyForGuess;
 	}

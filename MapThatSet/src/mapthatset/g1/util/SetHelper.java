@@ -71,7 +71,7 @@ public class SetHelper {
 			return null;
 		}
 		
-		if(queryIntersection != null || resultIntersection != null){
+		if(queryIntersection != null && resultIntersection != null){
 			QueryRound inferredQR1 = new QueryRound(queryIntersection, resultIntersection);
 			inferredRounds.add(inferredQR1);
 		}
@@ -81,11 +81,11 @@ public class SetHelper {
 		List<Integer> qr1ResultDifference = setDifference(qr1.getResult(), resultIntersection);
 		List<Integer> qr2ResultDifference = setDifference(qr2.getResult(), resultIntersection);
 		
-		if(qr1QueryDifference != null || qr1ResultDifference != null){
+		if(qr1QueryDifference != null && qr1ResultDifference != null && qr1QueryDifference.size() == qr1ResultDifference.size()){
 			QueryRound inferredQR1 = new QueryRound(qr1QueryDifference, qr1ResultDifference);
 			inferredRounds.add(inferredQR1);
 		}
-		if(qr2QueryDifference != null || qr2ResultDifference != null){
+		if(qr2QueryDifference != null && qr2ResultDifference != null && qr2QueryDifference.size() == qr2ResultDifference.size()){
 			QueryRound inferredQR2 = new QueryRound(qr2QueryDifference, qr2ResultDifference);
 			inferredRounds.add(inferredQR2);
 		}
