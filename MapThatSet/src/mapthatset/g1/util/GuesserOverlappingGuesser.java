@@ -1,6 +1,7 @@
 package mapthatset.g1.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -33,10 +34,12 @@ public class GuesserOverlappingGuesser {
 		for(int i=0; i<mappingLength; i++){
 			allNumbers.add(i+1);
 		}
+		Collections.shuffle(allNumbers);
+		
 		queryparamsList = new ArrayList<QueryParams>();
 		queryRounds = new ArrayList<QueryRound>();
 		
-		global_queryLength = (int)(mappingLength + Math.sqrt(mappingLength))/2; global_overlap = 2; // as of now k can be 5 and overlap can be 2 --- but k should be a function of n
+		global_queryLength = 5; global_overlap = 2; // as of now k can be 5 and overlap can be 2 --- but k should be a function of n
 		global_confidenceLevel = 0;
 
 		updateQueryParams(0, mappingLength-1, global_confidenceLevel);
@@ -48,7 +51,7 @@ public class GuesserOverlappingGuesser {
 		nextQueryList = new ArrayList<Integer>();
 		
 		knowledgeBase = new KnowledgeBase(allNumbers);
-		knowledgeBase.printKnowledgeBase();
+//		knowledgeBase.printKnowledgeBase();
 	}
 	
 	
@@ -57,7 +60,6 @@ public class GuesserOverlappingGuesser {
 	 * @return
 	 */
 	public ArrayList<Integer> nextGuess(){
-		
 		// basically qureyIndex is same as the current round.
 		queryIndex++;
 		System.out.println("[GuesserOverlappingGuesser] current round - " + queryIndex);
@@ -148,7 +150,7 @@ public class GuesserOverlappingGuesser {
 			int queryLength = qr.getQuery().size();
 			int resultLength = qr.getResult().size();
 			global_confidenceLevel = queryLength - resultLength;
-			int start = qr.getQueryParam().getEndIndex() + 1;
+			int start = qr.getQueryParam().getEndIndex() + 1 - global_confidenceLevel;
 			int end = mappingLength;
 			updateQueryParams(start, end, global_confidenceLevel);
 		}
@@ -174,7 +176,7 @@ public class GuesserOverlappingGuesser {
 			if(i+k <= end){
 				endSubList = i+k;
 			} else {
-				endSubList = end+1;
+				endSubList = end;
 			}
 			QueryParams gp1 = new QueryParams();
 			gp1.setStartIndex(startSubList);
@@ -203,7 +205,7 @@ public class GuesserOverlappingGuesser {
 		}
 		
 //		for(QueryParams gp : queryparamsList){
-//			System.out.println(" - " + gp.toString() + " == " + question.subList(gp.getStartIndex(), gp.getEndIndex()));
+//			System.out.println(" ->>>>> " + gp.toString());
 //		}
 		
 	}
