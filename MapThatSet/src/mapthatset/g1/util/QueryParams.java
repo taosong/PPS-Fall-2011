@@ -6,14 +6,14 @@ package mapthatset.g1.util;
  * @author Kanna
  *
  */
-public class GuessParams {
+public class QueryParams {
 	
 	int startIndex = -1, endIndex = -1, length = -1;
 	
-	public GuessParams() {
+	public QueryParams() {
 	}
 	
-	public GuessParams(int start, int end){
+	public QueryParams(int start, int end){
 		startIndex = start;
 		endIndex = end;
 	}
@@ -45,7 +45,7 @@ public class GuessParams {
 	
 	@Override
 	public String toString() {
-		return " [GuessParams]  start = " + startIndex + "\t end = " + endIndex + "\t length = " + length;
+		return " [QueryParams]  start = " + startIndex + "\t end = " + endIndex + "\t length = " + length;
 	}
 	
 }
