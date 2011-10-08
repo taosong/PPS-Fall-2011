@@ -8,7 +8,7 @@ import java.util.List;
  * @author Lenovo
  *
  */
-public class GuesserOverlappingGuesser {
+public class GuesserStrategy {
 	
 	private int mappingLength;
 	private int global_queryLength = 0, global_overlap = 0, global_confidenceLevel = 0;
@@ -29,7 +29,7 @@ public class GuesserOverlappingGuesser {
 	KnowledgeBase knowledgeBase = null;
 	
 	
-	public GuesserOverlappingGuesser(int mappingLength) {
+	public GuesserStrategy(int mappingLength) {
 		this.mappingLength = mappingLength;
 		allNumbers = new ArrayList<Integer>();
 		for(int i=0; i<mappingLength; i++){

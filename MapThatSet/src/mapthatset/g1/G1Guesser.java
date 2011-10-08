@@ -2,13 +2,13 @@ package mapthatset.g1;
 
 import java.util.ArrayList;
 
-import mapthatset.g1.util.GuesserOverlappingGuesser;
+import mapthatset.g1.util.GuesserStrategy;
 import mapthatset.sim.Guesser;
 import mapthatset.sim.GuesserAction;
 
 public class G1Guesser extends Guesser {
 
-	GuesserOverlappingGuesser overlappingGuesser = null;
+	GuesserStrategy guesserStrategy = null;
 	int mappingLength = 0;
 	
 	ArrayList<Integer> nextGuessList = null;
@@ -16,14 +16,14 @@ public class G1Guesser extends Guesser {
 	@Override
 	public void startNewMapping(int mappingLength) {
 		this.mappingLength = mappingLength;
-		overlappingGuesser = new GuesserOverlappingGuesser(mappingLength);
+		guesserStrategy = new GuesserStrategy(mappingLength);
 		
 	}
 
 	@Override
 	public GuesserAction nextAction() {
 
-		nextGuessList = overlappingGuesser.nextGuess();
+		nextGuessList = guesserStrategy.nextGuess();
 		
 		return new GuesserAction("q", nextGuessList);
 	}
@@ -31,12 +31,12 @@ public class G1Guesser extends Guesser {
 	@Override
 	public void setResult(ArrayList<Integer> queryResult) {
 		
-		overlappingGuesser.setResult(queryResult);
+		guesserStrategy.setResult(queryResult);
 	}
 
 	@Override
 	public String getID() {
-		return overlappingGuesser.getClass().toString();
+		return guesserStrategy.getClass().toString();
 	}
 
 }
