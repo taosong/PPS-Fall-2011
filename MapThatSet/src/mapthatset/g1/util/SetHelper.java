@@ -55,7 +55,7 @@ public class SetHelper {
 	 * @param qr2
 	 * @return
 	 */
-	public static List<QueryRound> inferredQueryRounds(QueryRound qr1, QueryRound qr2){
+	public static List<QueryRound> getInferredQueryRounds(QueryRound qr1, QueryRound qr2){
 		List<QueryRound> inferredRounds = new ArrayList<QueryRound>();
 		
 		List<Integer> queryIntersection = setIntersection(qr1.getQuery(), qr2.getQuery()); 

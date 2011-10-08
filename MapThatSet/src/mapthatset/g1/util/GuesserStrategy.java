@@ -1,7 +1,6 @@
 package mapthatset.g1.util;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -173,26 +172,26 @@ public class GuesserStrategy {
 	 * @param overlap 
 	 * @return List<QueryParams>
 	 */
-	private List<QueryParams> findQueryParams(int start, int end, int k, int overlap){
+	private List<QueryParams> findQueryParams(int start, int end, int subQueryLength, int overlap){
 		int startSubList, endSubList;
-		List<QueryParams> gprms = new ArrayList<QueryParams>();
+		List<QueryParams> queryParamsList = new ArrayList<QueryParams>();
 		
 		for(int i=start; i<end; ){
 			startSubList = i;
-			if(i+k <= end){
-				endSubList = i+k;
+			if(i+subQueryLength <= end){
+				endSubList = i+subQueryLength;
 			} else {
 				endSubList = end+1;
 			}
-			QueryParams gp1 = new QueryParams();
-			gp1.setStartIndex(startSubList);
-			gp1.setEndIndex(endSubList);
-			gp1.setLength(endSubList-startSubList);
-			gprms.add(gp1);
-			i = i+k-overlap;
+			QueryParams queryParameter = new QueryParams();
+			queryParameter.setStartIndex(startSubList);
+			queryParameter.setEndIndex(endSubList);
+			queryParameter.setLength(endSubList-startSubList);
+			queryParamsList.add(queryParameter);
+			i = i+subQueryLength-overlap;
 		}
 		
-		return gprms;
+		return queryParamsList;
 	}
 	
 	
@@ -209,11 +208,6 @@ public class GuesserStrategy {
 		} else {
 			queryparamsList = findQueryParams(start, end, global_queryLength + confidenceLevel, global_overlap);
 		}
-		
-//		for(QueryParams gp : queryparamsList){
-//			System.out.println(" ->>>>> " + gp.toString());
-//		}
-		
 	}
 	
 	/**
@@ -235,7 +229,7 @@ public class GuesserStrategy {
 		int size = queryRounds.size();
 		for(int i=0; i<size-1; i++){
 			for(int j=i+1; j<size; j++){
-				inferred = SetHelper.inferredQueryRounds(queryRounds.get(i), queryRounds.get(j));
+				inferred = SetHelper.getInferredQueryRounds(queryRounds.get(i), queryRounds.get(j));
 			}
 		}
 		
