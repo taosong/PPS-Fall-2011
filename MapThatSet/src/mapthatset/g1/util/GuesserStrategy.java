@@ -42,6 +42,14 @@ public class GuesserStrategy {
 		listOfDistinctQueryElements = new ArrayList<DistinctQueryElement>();
 		
 		global_queryLength = 20; //mappingLength/20; 
+		if( mappingLength< 10){
+			global_queryLength= 3;
+		}else if(mappingLength <100){
+			global_queryLength= 6;
+		}else if(mappingLength<1000){
+			global_queryLength= mappingLength/20;
+		}
+		global_queryLength = 150; 
 		global_overlap = 2; // as of now k can be 5 and overlap can be 2 --- but k should be a function of n
 		global_confidenceLevel = 0;
 
