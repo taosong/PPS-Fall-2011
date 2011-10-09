@@ -11,7 +11,7 @@ public class GuesserStrategy {
 	
 	private int mappingLength;
 	private int global_queryLength = 0, global_overlap = 0, global_confidenceLevel = 0;
-	
+	private int globalCount=0;
 	List<Integer> allNumbers = null;
 	List<QueryParams> queryparamsList = null;
 	List<QueryRound> queryRounds = null;
@@ -104,20 +104,19 @@ public class GuesserStrategy {
 				// use Strategy.
 				System.out.println(" Knowledgebase complete. ");
 				knowledgeBase.printKnowledgeBase();
-				System.exit(0);
 				
-//				GuessStrategy guessStrategy = new GuessStrategy(allNumbers);
-//				nextQueryList = guessStrategy.deviseStrategy(queryIndex,
-//						mappingLength, queryResultList, previousQueryList,
-//						knowledgeBase.getListOfQueryElements(), qp);
+				List<DistinctQueryElement> listOfDistinctQueryElements = knowledgeBase.getDistinctElements();
+				nextQueryList = listOfDistinctQueryElements.get(globalCount).getListOfDistinctElements();
+				globalCount++;
+				// trying to query elements with intersected knowledge bases
+				
+				
 			}
-			
-//			System.out.println(" [GuesserOverlappingGuesser] query = " + nextQueryList);
-			
 			return new ArrayList<Integer>(nextQueryList);
 			
 		} else {
 			// guessing.. hopefully the correct guess...
+			
 			nextGuessList = new ArrayList<Integer>();
 
 			
@@ -241,5 +240,9 @@ public class GuesserStrategy {
 			inferredRounds.addAll(inferred);
 		}
 	}
+	
+	
+			
+	
 	
 }

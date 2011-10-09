@@ -9,10 +9,12 @@ public class KnowledgeBase {
 	
 	Map<Integer, QueryElement> mapQueryElements = null;
 	
+
 	public KnowledgeBase(List<Integer> allNumbers) {
 		QueryElement qe = null;
 
 		mapQueryElements = new HashMap<Integer, QueryElement>();
+	
 		for(Integer i : allNumbers){
 			qe = new QueryElement(i, new ArrayList<Integer>(allNumbers));
 			mapQueryElements.put(i, qe);
@@ -91,4 +93,13 @@ public class KnowledgeBase {
 		System.out.println(" ------------- KNOWLEDGE BASE ENDS--------------");
 	}
 	
+	public List<DistinctQueryElement> getDistinctElements(){
+		List<DistinctQueryElement> listOfDistinctQueryElements = new ArrayList<DistinctQueryElement>();
+		for( int i : mapQueryElements.keySet()){
+			if(!mapQueryElements.get(i).isResultConfirmed()){
+				listOfDistinctQueryElements=SetHelper.addDistinctElement(listOfDistinctQueryElements, (QueryElement) mapQueryElements.get(i));
+			}					
+		}
+		return listOfDistinctQueryElements;
+	}
 }
