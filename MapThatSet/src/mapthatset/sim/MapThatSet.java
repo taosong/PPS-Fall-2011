@@ -154,7 +154,7 @@ public class MapThatSet
 		}	
 	}
 
-	public static void auto_main(String strMappingLength, String args[]){
+	public static void auto_main(String strMappingLength, int roundsToPlay, String args[]){
 
 		try
 		{
@@ -166,24 +166,8 @@ public class MapThatSet
 			System.out.println( "Length has to be integer" );
 		}
 		
-		initialize();
+//		initialize();
 		
-		for ( String strArg : args )
-		{
-			if ( strArg.equals( "MM" ) )			// manual mapper
-			{
-				useManualMapper();
-			}
-			else if ( strArg.equals( "MG" ) )		// mannual guesser
-			{
-				useManualGuesser();
-			}
-			else
-			{
-				System.out.println( "Unknow Parameter" );
-				return;
-			}
-		}
 		// use manual player if the player class list is empty
 		if ( alMappers.isEmpty() )
 		{
@@ -200,7 +184,7 @@ public class MapThatSet
 			for ( Mapper mprCurrent : alMappers )
 			{
 				ArrayList< Mapping > alMappings = new ArrayList< Mapping >();
-				for ( int intRound = 0; intRound < intRoundToPlay; intRound ++ )
+				for ( int intRound = 0; intRound < roundsToPlay; intRound ++ )
 				{
 					boolean blnMappingValid = false;
 					while ( !blnMappingValid )
@@ -292,7 +276,7 @@ public class MapThatSet
 		intRoundToPlay = 1;
 	}
 	
-	private static void initialize()
+	public static void initialize()
 	{
 		// load all mappers classes
 		File filMappersClasses = new File( "MappersClasses.txt" );
