@@ -60,7 +60,12 @@ public class GuesserStrategy {
 	public ArrayList<Integer> nextGuess(){
 		// basically qureyIndex is same as the current round.
 		queryIndex++;
-		System.out.println(" - " + queryIndex);
+		if(queryIndex%100 == 0){
+			System.out.println(".");
+		} else {
+			System.out.print(".");
+		}
+//		System.out.println(" - " + queryIndex);
 		
 		// decide if you want to query or guess.
 		if (knowledgeBase.readyForGuessing()) {
