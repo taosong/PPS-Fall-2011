@@ -40,4 +40,11 @@ public class DistinctQueryElement {
 		
 	}
 	
+	
+	@Override
+	public String toString() {
+		String ret = "[DistinctQueryElement] elements - " + listOfDistinctElements + ",, mappings - " + listOfAllMappedValues;
+		return ret;
+	}
+	
 }

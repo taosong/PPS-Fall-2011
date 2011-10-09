@@ -16,6 +16,13 @@ public class QueryElement {
 		this.mapping = -1;
 		this.initialMappingSize = possibleMappings.size();
 	}
+	
+	public QueryElement(QueryElement qe){
+		this.value = qe.getValue();
+		this.listOfPossibleMappings = new ArrayList<Integer>(qe.getListOfPossibleMappings());
+		this.mapping = -1;
+		this.initialMappingSize = listOfPossibleMappings.size();
+	}
 
 	public List<Integer> getListOfPossibleMappings() {
 		return listOfPossibleMappings;

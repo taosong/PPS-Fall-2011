@@ -83,6 +83,24 @@ public class KnowledgeBase {
 		qe.updateMappingsList(mappingList);
 	}
 	
+	/**
+	 * get the final guessList from knowledgeBase. 
+	 * <br/><b>throws exception if knowledge base in insufficient to make a guess.!!!!</b>
+	 * @return
+	 * @throws Exception
+	 */
+	public List<Integer> getGuessList() throws Exception{
+		List<Integer> guessList = new ArrayList<Integer>();
+		for(int i=1; i<=mapQueryElements.keySet().size(); i++){
+			if(mapQueryElements.get(i).isResultConfirmed()){
+				guessList.add(mapQueryElements.get(i).getListOfPossibleMappings().get(0));
+			} else {
+				throw new Exception("Knowledge Base is insufficient");
+			}
+		}
+		return guessList;
+	}
+	
 	public void printKnowledgeBase(){
 		QueryElement qe = null;
 		System.out.println(" ------------- KNOWLEDGE BASE --------------");
@@ -97,9 +115,12 @@ public class KnowledgeBase {
 		List<DistinctQueryElement> listOfDistinctQueryElements = new ArrayList<DistinctQueryElement>();
 		for( int i : mapQueryElements.keySet()){
 			if(!mapQueryElements.get(i).isResultConfirmed()){
-				listOfDistinctQueryElements=SetHelper.addDistinctElement(listOfDistinctQueryElements, (QueryElement) mapQueryElements.get(i));
+				QueryElement tempQE = new QueryElement(mapQueryElements.get(i));
+				listOfDistinctQueryElements=SetHelper.addDistinctElement(listOfDistinctQueryElements, tempQE);
 			}					
 		}
 		return listOfDistinctQueryElements;
 	}
+	
+	
 }

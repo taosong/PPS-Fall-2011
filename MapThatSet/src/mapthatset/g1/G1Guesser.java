@@ -24,14 +24,22 @@ public class G1Guesser extends Guesser {
 	public GuesserAction nextAction() {
 
 		nextGuessList = guesserStrategy.nextGuess();
+		if (!guesserStrategy.isGuess()) {
+			return new GuesserAction("q", nextGuessList);
+		} else {
+			System.out.println(" SCORE = " + guesserStrategy.queryIndex);
+			return new GuesserAction("g", nextGuessList);
+		}
 		
-		return new GuesserAction("q", nextGuessList);
 	}
 
 	@Override
 	public void setResult(ArrayList<Integer> queryResult) {
 		
 		guesserStrategy.setResult(queryResult);
+		if(guesserStrategy.isGuess()){
+			System.exit(0);
+		}
 	}
 
 	@Override

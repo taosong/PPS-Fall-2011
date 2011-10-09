@@ -114,17 +114,20 @@ public class SetHelper {
 		return inferredRounds;
 	}
 
+	
+	
 	public static Boolean checkIfintersectionPresent(List<Integer> list1,
 			List<Integer> list2) {
-		boolean isIntersectionPresent = false;
-		for (int i : list1) {
-			if (list2.contains(i)) {
-				isIntersectionPresent = true;
-				continue;
-			}
-			isIntersectionPresent = false;
-		}
-		return isIntersectionPresent;
+//		boolean isIntersectionPresent = false;
+//		for (int i : list1) {
+//			if (list2.contains(i)) {
+//				isIntersectionPresent = true;
+//				continue;
+//			}
+//			isIntersectionPresent = false;
+//		}
+//		return isIntersectionPresent;
+		return (setIntersection(list1, list2)==null?true:false);
 	}
 
 	public static List<DistinctQueryElement> addDistinctElement(List<DistinctQueryElement> listOfDistinctElements,
