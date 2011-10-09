@@ -50,9 +50,13 @@ public class Mapping
 		
 		for ( int i = 0; i < alActionContent.size(); i ++ )
 		{
-			if ( alActionContent.get( i ) != alMapping.get( i ) )
+			if ( alActionContent.get( i ).intValue() != alMapping.get( i ).intValue() )//&& !(alActionContent.get( i ).equals(alMapping.get( i ))) )
 			{
 //				System.out.println( "Your guess is wrong. The mapping is: " + alMapping );
+				System.out.println( "Your guess is wrong for i=" + i + " which was=" + alActionContent.get( i ) 
+						+ " but it should be=" + alMapping.get( i ) + " <--> " 
+						+ (alActionContent.get( i ).intValue() != alMapping.get( i ).intValue()));
+//				continue;
 				return false;
 			}
 		}

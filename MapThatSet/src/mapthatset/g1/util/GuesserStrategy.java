@@ -3,6 +3,8 @@ package mapthatset.g1.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import mapthatset.sim.MapThatSet;
+
 /**
  * @author Lenovo
  *
@@ -39,7 +41,7 @@ public class GuesserStrategy {
 		inferredRounds = new ArrayList<QueryRound>();
 		listOfDistinctQueryElements = new ArrayList<DistinctQueryElement>();
 		
-		global_queryLength = 5; 
+		global_queryLength = 20; //mappingLength/20; 
 		global_overlap = 2; // as of now k can be 5 and overlap can be 2 --- but k should be a function of n
 		global_confidenceLevel = 0;
 
@@ -59,12 +61,12 @@ public class GuesserStrategy {
 	 */
 	public ArrayList<Integer> nextGuess(){
 		// basically qureyIndex is same as the current round.
-		queryIndex++;
-		if(queryIndex%100 == 0){
-			System.out.println(".");
-		} else {
-			System.out.print(".");
-		}
+//		queryIndex++;
+//		if(queryIndex%100 == 0){
+//			System.out.println(".");
+//		} else {
+//			System.out.print(".");
+//		}
 //		System.out.println(" - " + queryIndex);
 		
 		// decide if you want to query or guess.
@@ -211,7 +213,10 @@ public class GuesserStrategy {
 	private void updateQueryParams(int start, int end, int confidenceLevel){
 		
 		if( start+confidenceLevel > mappingLength){
-			queryparamsList = findQueryParams(start, end, mappingLength-start, global_overlap);
+			QueryParams qp = new QueryParams(start+confidenceLevel, end);
+			queryparamsList = new ArrayList<QueryParams>();
+			queryparamsList.add(qp);
+//			queryparamsList = findQueryParams(start, end, mappingLength-start, global_overlap);
 		} else {
 			queryparamsList = findQueryParams(start, end, global_queryLength + confidenceLevel, global_overlap);
 		}

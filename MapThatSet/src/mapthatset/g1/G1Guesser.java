@@ -27,7 +27,6 @@ public class G1Guesser extends Guesser {
 		if (!guesserStrategy.isGuess()) {
 			return new GuesserAction("q", nextGuessList);
 		} else {
-			System.out.println(" SCORE = " + guesserStrategy.queryIndex);
 			return new GuesserAction("g", nextGuessList);
 		}
 		
@@ -37,9 +36,9 @@ public class G1Guesser extends Guesser {
 	public void setResult(ArrayList<Integer> queryResult) {
 		
 		guesserStrategy.setResult(queryResult);
-		if(guesserStrategy.isGuess()){
-			System.exit(0);
-		}
+//		if(guesserStrategy.isGuess()){
+//			System.exit(0);
+//		}
 	}
 
 	@Override
