@@ -50,7 +50,7 @@ public class GuesserStrategy {
 		}else if(mappingLength<1000){
 			global_queryLength= mappingLength/20;
 		}
-		global_queryLength = AutomateSim.QUERY_LENGTH;
+		//global_queryLength = AutomateSim.QUERY_LENGTH;
 		System.out.print(" -- using QueryLength = " + global_queryLength + " >>> ");
 		global_overlap = 2; // as of now k can be 5 and overlap can be 2 --- but k should be a function of n
 		global_confidenceLevel = 0;
