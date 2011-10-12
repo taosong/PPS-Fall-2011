@@ -13,8 +13,8 @@ public class AutomateSim {
 		
 		MapThatSet.initialize();
 		
-		for(int x=100; x<1000; x=x+100){
-			for(QUERY_LENGTH = x/30; QUERY_LENGTH<x/5; QUERY_LENGTH=QUERY_LENGTH+5){
+		for(int x=2; x<500; x=x+10){
+			for(QUERY_LENGTH = 1; QUERY_LENGTH<4; QUERY_LENGTH++){
 				MapThatSet.auto_main(""+x, 1, args);
 				r.gc();
 			}

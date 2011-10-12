@@ -2,13 +2,11 @@ package mapthatset.g1;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Iterator;
-//import java.util.Random;
+import java.util.Random;
 
-//import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
-
-import mapthatset.sim.*;
-import mapthatset.g1.util.*;
+import mapthatset.g1.util.GuessAnalyser;
+import mapthatset.sim.GuesserAction;
+import mapthatset.sim.Mapper;
 
 public class AshMapper extends Mapper
 {
@@ -20,28 +18,38 @@ public class AshMapper extends Mapper
 	boolean firstRound = true;
 	
 	private ArrayList< Integer > getNewMapping() {
-		ArrayList< Integer > alNewMapping = new ArrayList< Integer >();
+		
+		long seed = System.currentTimeMillis();
+		Random rand = new Random(seed);
+		int n = rand.nextInt(15);
+		if(n < 5){
+			return naryMapping(n, rand);
+		} else if(n<10){
+			return uniqueMapping();
+		} else {
+			return randomMapping(rand);
+		}
 		
 		/*
 		 * First Mapping
 		 */
-		if (firstRound){
-			analyseGuesserAction();
-			alNewMapping = uniqueMapping();
-			System.out.println( "The mapping is: " + alNewMapping );
-			notFirstRound();
-			return alNewMapping;
-				
-		}
-		/*
-		 * Subsequent Mapping
-		 */
-		else {
-			prepareForNextRound();
-			analyseGuesserAction();
-			alNewMapping = uniqueMapping();
-			return alNewMapping;
-		}
+//		if (firstRound){
+//			analyseGuesserAction();
+//			alNewMapping = uniqueMapping();
+//			System.out.println( "The mapping is: " + alNewMapping );
+//			notFirstRound();
+//			return alNewMapping;
+//				
+//		}
+//		/*
+//		 * Subsequent Mapping
+//		 */
+//		else {
+//			prepareForNextRound();
+//			analyseGuesserAction();
+//			alNewMapping = uniqueMapping();
+//			return alNewMapping;
+//		}
 		
 		
 	}
@@ -61,6 +69,21 @@ public class AshMapper extends Mapper
 		return alMapping;
 	}
 	
+	/*
+	 * This function returns only unique mapping.
+	 * i.e. Each element - maps to a unique element.
+	 */
+	public ArrayList<Integer> randomMapping(Random r) {
+		ArrayList<Integer> alMapping = new ArrayList<Integer>();
+		
+		for (int i=0 ; i<intMappingLength;i++){
+			alMapping.add(r.nextInt(intMappingLength) + 1);
+		}
+		Collections.shuffle(alMapping);
+		
+		return alMapping;
+	}
+	
 	@Override
 	public void updateGuesserAction(GuesserAction gsaGA) 
 	{
@@ -72,6 +95,19 @@ public class AshMapper extends Mapper
 		System.out.println("The elements that the guesser asked this time are :"+ gsaGA.getContent().toString());
 		allQueries.add(gsaGA);
 		
+	}
+	
+	public ArrayList<Integer> naryMapping(int n, Random rand){
+		ArrayList<Integer> alMapping = new ArrayList<Integer>();
+		for (int i=0;i<10;i++){
+		for ( int intIndex = 0; intIndex < intMappingLength; intIndex ++ )
+		{
+			alMapping.add( rand.nextInt( n ) + 1 );
+		}
+		System.out.println( "The mapping is: " + alMapping );
+		}
+		
+		return alMapping;
 	}
 	
 	/*

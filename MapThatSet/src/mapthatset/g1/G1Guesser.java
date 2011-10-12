@@ -37,7 +37,7 @@ public class G1Guesser extends Guesser {
 		
 		guesserStrategy.setResult(queryResult);
 		if(guesserStrategy.isGuess()){
-			System.err.println("Score="+guesserStrategy.queryIndex);
+//			System.err.println("Score="+guesserStrategy.queryIndex);
 //			System.exit(0);
 		}
 	}

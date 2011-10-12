@@ -16,12 +16,12 @@ public class G1Mapper extends Mapper {
 		for ( int intIndex = 0; intIndex < intMappingLength; intIndex ++ )
 		{
 //			alNewMapping.add( 1 );
-			alNewMapping.add( intIndex + 1 );
+//			alNewMapping.add( intIndex + 1 );
 //			alNewMapping.add( 1 + (intIndex%2) );
-//			alNewMapping.add(1+(int)(Math.random()*(intMappingLength-1)));
+			alNewMapping.add(1+(int)(Math.random()*(intMappingLength-1)));
 		}
 		Collections.shuffle(alNewMapping);
-		System.out.println( "The mapping is: " + alNewMapping );
+//		System.out.println( "The mapping is: " + alNewMapping );
 		return alNewMapping;
 	}
 	
