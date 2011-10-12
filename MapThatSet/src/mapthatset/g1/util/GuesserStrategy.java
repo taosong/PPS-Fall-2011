@@ -1,7 +1,6 @@
 package mapthatset.g1.util;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -53,7 +52,7 @@ public class GuesserStrategy {
 			global_queryLength= mappingLength/20;
 		}
 		//global_queryLength = AutomateSim.QUERY_LENGTH;
-		System.out.print(" -- using QueryLength = " + global_queryLength + " >>> ");
+//		System.out.print(" -- using QueryLength = " + global_queryLength + " >>> ");
 		global_overlap = 2; // as of now k can be 5 and overlap can be 2 --- but k should be a function of n
 		if(global_overlap <= mappingLength){
 			global_overlap = 0;
@@ -77,11 +76,11 @@ public class GuesserStrategy {
 	public ArrayList<Integer> nextGuess(){
 		// basically qureyIndex is same as the current round.
 		queryIndex++;
-		if(queryIndex%100 == 0){
-			System.out.println(".");
-		} else {
-			System.out.print(".");
-		}
+//		if(queryIndex%100 == 0){
+//			System.out.println(".");
+//		} else {
+//			System.out.print(".");
+//		}
 //		System.out.println(" - " + queryIndex);
 		
 		// decide if you want to query or guess.
@@ -94,7 +93,7 @@ public class GuesserStrategy {
 		
 		// see if youk knowledgebase is complete.
 		boolean isKnowledgebaseComplete = knowledgeBase.isInitialKnowledgeBaseComplete();
-		System.out.println("[GuesserOverlappingGuesser] is my knowBase complete? - " + isKnowledgebaseComplete + " <> " + queryIndex);
+//		System.out.println("[GuesserOverlappingGuesser] is my knowBase complete? - " + isKnowledgebaseComplete + " <> " + queryIndex);
 		
 		if (isQuery) {
 			// querying
@@ -114,14 +113,13 @@ public class GuesserStrategy {
 					QueryRound qr = new QueryRound(qp, queryIndex, toBeQueried);
 					queryRounds.add(qr);
 				} else {
-					System.out.println("\n --queryparamsList is Empty--ERROR-- \n");
-					knowledgeBase.printKnowledgeBase();
-					for(QueryRound qr : queryRounds){
-						System.out.println(" - " + qr.toString());
-					}
+//					System.out.println("\n --queryparamsList is Empty--ERROR-- \n");
+//					knowledgeBase.printKnowledgeBase();
+//					for(QueryRound qr : queryRounds){
+//						System.out.println(" - " + qr.toString());
+//					}
 					
 					updateQueryParams(0, mappingLength-1, global_confidenceLevel, false);
-					Collections.shuffle(allNumbers);
 					QueryParams qp = queryparamsList.get(0);
 					queryparamsList.remove(0);
 					try {
@@ -263,10 +261,10 @@ public class GuesserStrategy {
 			queryparamsList = findQueryParams(start, end, global_queryLength + confidenceLevel, global_overlap);
 		}
 		
-		System.out.println("------start=" + start + ", end=" + end + ", conf=" + confidenceLevel + ", initial=" + isInital);
-		for(QueryParams qp : queryparamsList){
-			System.out.println(" --qp-- " + qp);
-		}
+//		System.out.println("------start=" + start + ", end=" + end + ", conf=" + confidenceLevel + ", initial=" + isInital);
+//		for(QueryParams qp : queryparamsList){
+//			System.out.println(" --qp-- " + qp);
+//		}
 	}
 	
 	/**
@@ -293,7 +291,6 @@ public class GuesserStrategy {
 		}
 		
 		if(inferred != null && inferred.size()>0){
-			System.out.println("inferred = " + inferred);
 			for(QueryRound inf : inferred){
 				updateKnowledgeBase(inf);
 			}

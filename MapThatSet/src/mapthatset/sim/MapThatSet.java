@@ -1,11 +1,8 @@
 package mapthatset.sim;
 
-import java.io.Console;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.lang.reflect.Constructor;
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Scanner;
 
 
@@ -138,7 +135,7 @@ public class MapThatSet
 						{
 							ArrayList< Integer > alQueryResult = mpnCurrent.query( alActionContent );
 							gsrCurrent.setResult( alQueryResult );					
-//							System.out.print( alActionContent + " --> " + alQueryResult + "\t" );
+							System.out.print( alActionContent + " --> " + alQueryResult + "\t" );
 						}
 					}
 					mpnCurrent.setScore( intRoundScore );
@@ -148,7 +145,7 @@ public class MapThatSet
 				System.out.println( "The scores between " + gsrCurrent.getID() + " and " + mprCurrent.getID() + " are:" );
 				for ( Mapping mpnMapping : alMappings )
 				{
-					System.out.print( mpnMapping.getMapping() + " : " + mpnMapping.getScore() + "\t" );
+					System.out.print( " : " + mpnMapping.getScore() + "\t" );
 				}
 			}
 		}	

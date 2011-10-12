@@ -68,10 +68,10 @@ public class QueryElement {
 	 * @return
 	 */
 	public Boolean isAnyKnowledgeGained(){
-		if(initialMappingSize<5){
-			return (initialMappingSize/1.5-this.getMappingListSize() > 0?true:false);
+		if(initialMappingSize<14){
+			return (initialMappingSize-this.getMappingListSize() > 0?true:false);
 		}
-		return (initialMappingSize/1.5-this.getMappingListSize() > 0?true:false);
+		return ((initialMappingSize-(initialMappingSize/2))-this.getMappingListSize() > 0?true:false);
 	}
 
 	/**
@@ -82,6 +82,9 @@ public class QueryElement {
 	public void updateMappingsList(List<Integer> mappings){
 //		System.out.println(" [QueryElement] - mappings=null? " + mappings==null + "," + listOfPossibleMappings + "," + mappings);
 		if(mappings == null){
+			return;
+		}
+		if(this.isResultConfirmed()){
 			return;
 		}
 		List<Integer> toBeRemoved = new ArrayList<Integer>();
