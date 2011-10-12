@@ -68,7 +68,10 @@ public class QueryElement {
 	 * @return
 	 */
 	public Boolean isAnyKnowledgeGained(){
-		return (initialMappingSize-this.getMappingListSize() > 0?true:false);
+		if(initialMappingSize<5){
+			return (initialMappingSize/1.5-this.getMappingListSize() > 0?true:false);
+		}
+		return (initialMappingSize/1.5-this.getMappingListSize() > 0?true:false);
 	}
 
 	/**

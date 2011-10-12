@@ -80,7 +80,7 @@ public class SetHelper {
 			return null;
 		}
 
-		if (queryIntersection != null && resultIntersection != null) {
+		if (queryIntersection != null && resultIntersection != null && queryIntersection.size()==resultIntersection.size()) {
 			QueryRound inferredQR1 = new QueryRound(queryIntersection,
 					resultIntersection);
 			inferredRounds.add(inferredQR1);
