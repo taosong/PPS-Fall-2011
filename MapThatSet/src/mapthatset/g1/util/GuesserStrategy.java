@@ -1,6 +1,7 @@
 package mapthatset.g1.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -14,6 +15,7 @@ public class GuesserStrategy {
 	private Boolean readyToGuess = null;
 	
 	List<Integer> allNumbers = null;
+	List<Integer> allNumbers1 = null;
 	List<QueryParams> queryparamsList = null;
 	List<QueryRound> queryRounds = null;
 	List<QueryRound> inferredRounds = null;
@@ -24,15 +26,20 @@ public class GuesserStrategy {
 	Boolean isQuery;
 	KnowledgeBase knowledgeBase = null;
 	
+	Integer mappingIndex = null;
+	Boolean hasMappingIndex = null;
 	
 	public GuesserStrategy(int mappingLength) {
 		this.readyToGuess = false;
 		this.mappingLength = mappingLength;
 		allNumbers = new ArrayList<Integer>();
+		allNumbers1 = new ArrayList<Integer>();
 		for(int i=0; i<mappingLength; i++){
 			allNumbers.add(i+1);
+			allNumbers1.add(i+1);
 		}
 //		Collections.shuffle(allNumbers);
+		Collections.shuffle(allNumbers1);
 		
 		queryparamsList = new ArrayList<QueryParams>();
 		queryRounds = new ArrayList<QueryRound>();
@@ -63,6 +70,9 @@ public class GuesserStrategy {
 		
 		queryIndex = -1;
 		isQuery = true;
+		
+		mappingIndex = -1;
+		hasMappingIndex = false;
 		
 		knowledgeBase = new KnowledgeBase(allNumbers);
 //		knowledgeBase.printKnowledgeBase();
@@ -112,7 +122,19 @@ public class GuesserStrategy {
 					
 					QueryRound qr = new QueryRound(qp, queryIndex, toBeQueried);
 					queryRounds.add(qr);
-				} else {
+				} 
+//				else if(hasMappingIndex){
+//					int subGroupSize = mappingIndex;
+//					for(Integer i:allNumbers1){
+//						if(knowledgeBase.getQueryElement(i.intValue()).isResultConfirmed()){
+//							toBeQueried.add(i);
+//						}
+//						if(toBeQueried.size()>=subGroupSize){
+//							break;
+//						}
+//					}
+//				} 
+				else {
 //					System.out.println("\n --queryparamsList is Empty--ERROR-- \n");
 //					knowledgeBase.printKnowledgeBase();
 //					for(QueryRound qr : queryRounds){
@@ -182,6 +204,13 @@ public class GuesserStrategy {
 		qr.setResult(alResult);
 		// update my KnowledgeBase based on the result.
 		updateKnowledgeBase(qr);
+		
+//		if(queryIndex == 1){
+//			mappingIndex = knowledgeBase.getIndex();
+//			if(!mappingIndex.equals(-1)){
+//				hasMappingIndex = true;
+//			}
+//		}
 		
 		if(!knowledgeBase.isInitialKnowledgeBaseComplete()){
 			if(alResult.size() == 1){ 	// BEST CASE if all the queries elements are mapped to only 1 element... set the confidenceLevel high
