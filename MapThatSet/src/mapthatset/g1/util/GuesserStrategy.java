@@ -12,6 +12,7 @@ public class GuesserStrategy {
 	private int mappingLength;
 	private int global_queryLength = 0, global_overlap = 0,global_confidenceLevel = 0;
 	private Boolean readyToGuess = null;
+	private Boolean isStrategyBinary = false;
 	private Boolean isMapBinary = false;
 	List<Integer> allNumbers = null;
 	List<Integer> allNumbers1 = null;
@@ -122,6 +123,7 @@ public class GuesserStrategy {
 						listOfDistinctQueryElements.remove(0);
 					} else {
 						listOfDistinctQueryElements = knowledgeBase.getDistinctElements();
+						
 						toBeQueried = listOfDistinctQueryElements.get(0).getListOfDistinctElements();
 						listOfDistinctQueryElements.remove(0);
 					}
@@ -148,7 +150,7 @@ public class GuesserStrategy {
 	 * Form Queries for n-ary Guessers.
 	 */
 	public void generateListOfQueriesForNaryStrategy(int nary) {
-
+		nary = 2;
 //		System.out.println("The shuffled list is : " + allNumbers1.toString());
 //		System.out.println("The list of queries for the n-ary mapping strategy is");
 		QueryParams qp;
@@ -197,7 +199,7 @@ public class GuesserStrategy {
 		// update my KnowledgeBase based on the result.
 		updateKnowledgeBase(qr);
 		if (queryIndex == 0) {
-			if (knowledgeBase.getIndex() == 2) {
+			if (knowledgeBase.getIndex()<9){
 				generateListOfQueriesForNaryStrategy(knowledgeBase.getIndex());
 				isMapBinary = true;
 			}
@@ -246,6 +248,7 @@ public class GuesserStrategy {
 //			}
 //		}
 		inferFromQueryRound();
+		
 	}
 
 	/**
