@@ -37,13 +37,14 @@ public class G1Mapper extends Mapper
 		long seed = System.currentTimeMillis();
 		Random rand = new Random(seed);
 		int n = rand.nextInt(15)+1;
-		if(n < 5){
-			return naryMapping(n, rand);
-		} else if(n<10){
-			return uniqueMapping();
-		} else {
-			return randomMapping(rand);
-		}
+		return naryMapping(10, rand);
+//		if(n < 5){
+//			return naryMapping(n, rand);
+//		} else if(n<10){
+//			return uniqueMapping();
+//		} else {
+//			return randomMapping(rand);
+//		}
 		
 		/*
 		 * First Mapping
