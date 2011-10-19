@@ -135,7 +135,7 @@ public class MapThatSet
 						{
 							ArrayList< Integer > alQueryResult = mpnCurrent.query( alActionContent );
 							gsrCurrent.setResult( alQueryResult );					
-							System.out.print( alActionContent + " --> " + alQueryResult + "\t" );
+							System.out.println( alActionContent + " --> " + alQueryResult + "\t" );
 						}
 					}
 					mpnCurrent.setScore( intRoundScore );

@@ -53,6 +53,7 @@ public class GuesserStrategy {
 		} else if (mappingLength < 1000) {
 			global_queryLength = mappingLength / 20;
 		}
+//		global_queryLength = (int)Math.sqrt(mappingLength);
 		// global_queryLength = AutomateSim.QUERY_LENGTH;
 		global_overlap = 2; // as of now k can be 5 and overlap can be 2 --- but
 							// k should be a function of n
@@ -217,26 +218,26 @@ public class GuesserStrategy {
 		// update my KnowledgeBase based on the result.
 		updateKnowledgeBase(qr);
 		int nary = 1;
-		if ( queryIndex == 0) {
-			if(knowledgeBase.getIndex() == 2 ){
-			generateListOfQueriesForNaryStrategy(knowledgeBase.getIndex());
-			isMapBinary = true;
+		if (queryIndex == 0) {
+			if (knowledgeBase.getIndex() == 2) {
+				generateListOfQueriesForNaryStrategy(knowledgeBase.getIndex());
+				isMapBinary = true;
 			}
 			nary = knowledgeBase.getIndex();
 		}
-			if (isMapBinary ){
-				if( queryIndex != 0 && queryparamsList.size() > 0) {
-					if (alResult.size() == 1)  {
-						queryparamsList.remove(0);
-					} else {
-						QueryParams queryParams = queryparamsList.get(0);
-						queryParams.setEndIndex(queryParams.getEndIndex() - 1);
-						queryparamsList.remove(0);
-						queryparamsList.add(0, queryParams);
-					}
-				} 
+		
+		if (isMapBinary) {
+			if (queryIndex != 0 && queryparamsList.size() > 0) {
+				if (alResult.size() == 1) {
+					queryparamsList.remove(0);
+				} else {
+					QueryParams queryParams = queryparamsList.get(0);
+					queryParams.setEndIndex(queryParams.getEndIndex() - 1);
+					queryparamsList.remove(0);
+					queryparamsList.add(0, queryParams);
+				}
 			}
-		else {
+		} else {
 			if (!knowledgeBase.isInitialKnowledgeBaseComplete()) {
 				// BEST CASE if all the queries elements are mapped to only 1
 				// element... set the confidenceLevel high
@@ -321,6 +322,8 @@ public class GuesserStrategy {
 		if (start + confidenceLevel > end) {
 			QueryParams qp = new QueryParams(start, end);
 			queryparamsList = new ArrayList<QueryParams>();
+//		queryparamsList.add(qp);
+//      queryparamsList = findQueryParams(start, end, mappingLength-start, global_overlap);
 			/*queryparamsList = findQueryParams(start, end, global_queryLength
 					, global_overlap);*/
 			 

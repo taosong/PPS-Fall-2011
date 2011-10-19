@@ -146,7 +146,7 @@ public class SetHelper {
 			 }
 			if(!isElementAlreadyAdded){
 			 DistinctQueryElement distinctQueryElement1 = new DistinctQueryElement();
-			 List<Integer> listOfDistinctValues = new ArrayList();
+			 List<Integer> listOfDistinctValues = new ArrayList<Integer>();
 			 distinctQueryElement1.setValue(queryElement.getValue());
 			 listOfDistinctValues.add(queryElement.getValue());
 			 distinctQueryElement1.setListOfAllMappedValues(queryElement.getListOfPossibleMappings());
@@ -156,7 +156,7 @@ public class SetHelper {
 			
 		}else{
 			DistinctQueryElement distinctQueryElement = new DistinctQueryElement();
-			List<Integer> listOfDistinctValues = new ArrayList();
+			List<Integer> listOfDistinctValues = new ArrayList<Integer>();
 			distinctQueryElement.setValue(queryElement.getValue());
 			listOfDistinctValues.add(queryElement.getValue());
 			distinctQueryElement.setListOfAllMappedValues(queryElement.getListOfPossibleMappings());
