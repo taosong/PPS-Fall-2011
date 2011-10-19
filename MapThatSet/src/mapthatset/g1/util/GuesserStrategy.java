@@ -41,7 +41,6 @@ public class GuesserStrategy {
 		queryRounds = new ArrayList<QueryRound>();
 		inferredRounds = new ArrayList<QueryRound>();
 		listOfDistinctQueryElements = new ArrayList<DistinctQueryElement>();
-		global_queryLength = 20; // mappingLength/20;
 		if (mappingLength < 3) {
 			global_queryLength = 1;
 		} else {
@@ -251,7 +250,8 @@ public class GuesserStrategy {
 				else {
 					int queryLength = qr.getQuery().size();
 					int resultLength = qr.getResult().size();
-					global_confidenceLevel = queryLength - resultLength;
+//					global_confidenceLevel = queryLength - resultLength;
+					global_confidenceLevel = 0;
 					int start = qr.getQueryParam().getEndIndex() + 1
 							- global_confidenceLevel;
 					int end = mappingLength - 1;
