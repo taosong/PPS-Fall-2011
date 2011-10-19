@@ -34,7 +34,7 @@ public class AutomateSim {
 				System.out.println("<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 				System.out.println("4-ary");
 			}
-			for (int x = 2; x < 500; x = x + x/2) {
+			for (int x = 900; x < 1001; x = x + 50) {
 				for(int x1 = 1; x1 <= 3; x1++){
 					MapThatSet.auto_main("" + x, 1, args);
 					r.gc();
