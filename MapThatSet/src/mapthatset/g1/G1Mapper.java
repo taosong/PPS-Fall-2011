@@ -21,7 +21,7 @@ public class G1Mapper extends Mapper {
 //			alNewMapping.add(1 + (intIndex % 2));
 //			alNewMapping.add(1 + r.nextInt(2));
 //			alNewMapping.add(1+(int)(Math.random()*(intMappingLength-1)));
-//			alNewMapping.add(1 + r.nextInt(intMappingLength));
+			alNewMapping.add(1 + r.nextInt(intMappingLength));
 		}
 		Collections.shuffle(alNewMapping);
 		System.out.println("The mapping is: " + alNewMapping);

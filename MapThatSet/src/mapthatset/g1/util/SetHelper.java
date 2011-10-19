@@ -145,18 +145,19 @@ public class SetHelper {
 					isElementAlreadyAdded = true;
 					break;
 				}
-			 }
-			if(!isElementAlreadyAdded){
-			 DistinctQueryElement distinctQueryElement1 = new DistinctQueryElement();
-			 List<Integer> listOfDistinctValues = new ArrayList<Integer>();
-			 distinctQueryElement1.setValue(queryElement.getValue());
-			 listOfDistinctValues.add(queryElement.getValue());
-			 distinctQueryElement1.setListOfAllMappedValues(queryElement.getListOfPossibleMappings());
-			 distinctQueryElement1.setListOfDistinctElements(listOfDistinctValues);
-			 newList.add(distinctQueryElement1);
-			 listOfDistinctElements.addAll(newList);}
-			
-		}else{
+			}
+			if (!isElementAlreadyAdded) {
+				DistinctQueryElement distinctQueryElement1 = new DistinctQueryElement();
+				List<Integer> listOfDistinctValues = new ArrayList<Integer>();
+				distinctQueryElement1.setValue(queryElement.getValue());
+				listOfDistinctValues.add(queryElement.getValue());
+				distinctQueryElement1.setListOfAllMappedValues(queryElement.getListOfPossibleMappings());
+				distinctQueryElement1.setListOfDistinctElements(listOfDistinctValues);
+				newList.add(distinctQueryElement1);
+				listOfDistinctElements.addAll(newList);
+			}
+
+		} else {
 			DistinctQueryElement distinctQueryElement = new DistinctQueryElement();
 			List<Integer> listOfDistinctValues = new ArrayList<Integer>();
 			distinctQueryElement.setValue(queryElement.getValue());

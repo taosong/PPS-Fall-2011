@@ -68,6 +68,21 @@ public class AshMapper extends Mapper
 
 
 	}
+	
+	/*
+	 * This function returns only unique mapping.
+	 * i.e. Each element - maps to a unique element.
+	 */
+	public ArrayList<Integer> confusingMapping(Random r) {
+		ArrayList<Integer> alMapping = new ArrayList<Integer>();
+
+		for (int i=0 ; i<intMappingLength;i++){
+			alMapping.add(i+1);
+		}
+		Collections.shuffle(alMapping);
+		System.out.println( "The mapping is:<UNIQUE> " + alMapping );
+		return alMapping;
+	}
 
 	/*
 	 * This function returns only unique mapping.
