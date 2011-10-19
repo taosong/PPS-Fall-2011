@@ -10,14 +10,14 @@ public class G1Guesser extends Guesser {
 
 	GuesserStrategy guesserStrategy = null;
 	int mappingLength = 0;
-	
+
 	ArrayList<Integer> nextGuessList = null;
 
 	@Override
 	public void startNewMapping(int mappingLength) {
 		this.mappingLength = mappingLength;
 		guesserStrategy = new GuesserStrategy(mappingLength);
-		
+
 	}
 
 	@Override
@@ -29,16 +29,16 @@ public class G1Guesser extends Guesser {
 		} else {
 			return new GuesserAction("g", nextGuessList);
 		}
-		
+
 	}
 
 	@Override
 	public void setResult(ArrayList<Integer> queryResult) {
-		
+
 		guesserStrategy.setResult(queryResult);
-		if(guesserStrategy.isGuess()){
-//			System.err.println("Score="+guesserStrategy.queryIndex);
-//			System.exit(0);
+		if (guesserStrategy.isGuess()) {
+			System.err.println("Score=" + guesserStrategy.queryIndex);
+			// System.exit(0);
 		}
 	}
 

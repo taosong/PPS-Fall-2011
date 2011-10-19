@@ -36,15 +36,16 @@ public class DistinctQueryElement {
 		return (Boolean) null;
 	}
 
-	public void addElement(){
-		
+	public void addElement() {
+
 	}
-	
-	
+
 	@Override
 	public String toString() {
-		String ret = "[DistinctQueryElement] elements - " + listOfDistinctElements + ",, mappings - " + listOfAllMappedValues;
+		String ret = "[DistinctQueryElement] elements - "
+				+ listOfDistinctElements + ",, mappings - "
+				+ listOfAllMappedValues;
 		return ret;
 	}
-	
+
 }
