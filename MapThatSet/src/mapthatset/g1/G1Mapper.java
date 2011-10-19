@@ -14,14 +14,14 @@ public class G1Mapper extends Mapper {
 
 	private ArrayList<Integer> getNewMapping() {
 		ArrayList<Integer> alNewMapping = new ArrayList<Integer>();
-		Random r = new Random(100);
+		Random r = new Random(System.currentTimeMillis());
 		for (int intIndex = 0; intIndex < intMappingLength; intIndex++) {
 //			alNewMapping.add( 1 );
 //			alNewMapping.add( intIndex + 1 );
 //			alNewMapping.add(1 + (intIndex % 2));
 //			alNewMapping.add(1 + r.nextInt(2));
 //			alNewMapping.add(1+(int)(Math.random()*(intMappingLength-1)));
-			alNewMapping.add(1 + r.nextInt(intMappingLength-1));
+//			alNewMapping.add(1 + r.nextInt(intMappingLength));
 		}
 		Collections.shuffle(alNewMapping);
 		System.out.println("The mapping is: " + alNewMapping);

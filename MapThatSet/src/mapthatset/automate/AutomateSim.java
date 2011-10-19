@@ -13,9 +13,9 @@ public class AutomateSim {
 		
 		MapThatSet.initialize();
 		
-		for(int x=2; x<500; x=x+10){
-			for(QUERY_LENGTH = 1; QUERY_LENGTH<4; QUERY_LENGTH++){
-				MapThatSet.auto_main(""+x, 1, args);
+		for(int x=2; x<20; x=x+10){
+			for(QUERY_LENGTH = 1; QUERY_LENGTH<50; QUERY_LENGTH++){
+				MapThatSet.auto_main(""+100, 1, args);
 				r.gc();
 			}
 			System.out.println("--");

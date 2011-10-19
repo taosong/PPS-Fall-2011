@@ -81,10 +81,10 @@ public class QueryElement {
 	public Boolean isAnyKnowledgeGained(int index) {
 
 		
-		if (initialMappingSize < 14) {
-			return (initialMappingSize - this.getMappingListSize() > 0 ? true
-					: false);
-		}
+//		if (initialMappingSize < 14) {
+//			return (initialMappingSize - this.getMappingListSize() > 0 ? true
+//					: false);
+//		}
 		return ((initialMappingSize - (initialMappingSize / 2))
 				- this.getMappingListSize() > 0 ? true : false);
 	}

@@ -116,8 +116,8 @@ public class SetHelper {
 
 	
 	
-	public static Boolean checkIfintersectionPresent(List<Integer> list1,
-			List<Integer> list2) {
+//	public static Boolean checkIfintersectionPresent(List<Integer> list1,
+//			List<Integer> list2) {
 //		boolean isIntersectionPresent = false;
 //		for (int i : list1) {
 //			if (list2.contains(i)) {
@@ -127,8 +127,8 @@ public class SetHelper {
 //			isIntersectionPresent = false;
 //		}
 //		return isIntersectionPresent;
-		return (setIntersection(list1, list2)==null?true:false);
-	}
+//		return (setIntersection(list1, list2)==null?true:false);
+//	}
 
 	public static List<DistinctQueryElement> addDistinctElement(List<DistinctQueryElement> listOfDistinctElements,
 			QueryElement queryElement) {

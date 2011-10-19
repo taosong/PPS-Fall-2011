@@ -1,7 +1,6 @@
 package mapthatset.g1.util;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -36,7 +35,7 @@ public class GuesserStrategy {
 			allNumbers.add(i + 1);
 			allNumbers1.add(i + 1);
 		}
-		Collections.shuffle(allNumbers1);
+//		Collections.shuffle(allNumbers1);
 		queryparamsList = new ArrayList<QueryParams>();
 		queryRounds = new ArrayList<QueryRound>();
 		inferredRounds = new ArrayList<QueryRound>();
@@ -75,9 +74,8 @@ public class GuesserStrategy {
 			isQuery = true;
 		}
 		// see if youk knowledgebase is complete.
-		// knowledgeBase.printKnowledgeBase();
-		boolean isKnowledgebaseComplete = knowledgeBase
-				.isInitialKnowledgeBaseComplete();
+		boolean isKnowledgebaseComplete = knowledgeBase.isInitialKnowledgeBaseComplete();
+//		System.out.println("isQuery=" + isQuery + ", isKnowledgebaseComplete=" + isKnowledgebaseComplete);
 		if (isQuery) {
 			// querying
 			List<Integer> toBeQueried = null;
@@ -99,46 +97,36 @@ public class GuesserStrategy {
 						QueryParams qp = queryparamsList.get(0);
 						queryparamsList.remove(0);
 						try {
-							toBeQueried = allNumbers.subList(
-									qp.getStartIndex(), qp.getEndIndex());
+							toBeQueried = allNumbers.subList(qp.getStartIndex(), qp.getEndIndex());
 						} catch (IllegalArgumentException e) {
 							e.printStackTrace();
 						}
-						QueryRound qr = new QueryRound(qp, queryIndex,
-								toBeQueried);
+						QueryRound qr = new QueryRound(qp, queryIndex,toBeQueried);
 						queryRounds.add(qr);
 					} else {
-						updateQueryParams(0, mappingLength - 1,
-								global_confidenceLevel, false);
+						updateQueryParams(0, mappingLength - 1,global_confidenceLevel, false);
 						QueryParams qp = queryparamsList.get(0);
 						queryparamsList.remove(0);
 						try {
-							toBeQueried = allNumbers.subList(
-									qp.getStartIndex(), qp.getEndIndex());
+							toBeQueried = allNumbers.subList(qp.getStartIndex(), qp.getEndIndex());
 						} catch (IllegalArgumentException e) {
 							e.printStackTrace();
 						}
-						QueryRound qr = new QueryRound(qp, queryIndex,
-								toBeQueried);
+						QueryRound qr = new QueryRound(qp, queryIndex,toBeQueried);
 						queryRounds.add(qr);
 					}
 				} else {
 					// use Strategy.
-					if (listOfDistinctQueryElements != null
-							&& listOfDistinctQueryElements.size() > 0) {
-						toBeQueried = listOfDistinctQueryElements.get(0)
-								.getListOfDistinctElements();
+					if (listOfDistinctQueryElements != null && listOfDistinctQueryElements.size() > 0) {
+						toBeQueried = listOfDistinctQueryElements.get(0).getListOfDistinctElements();
 						listOfDistinctQueryElements.remove(0);
 					} else {
-						listOfDistinctQueryElements = knowledgeBase
-								.getDistinctElements();
-						toBeQueried = listOfDistinctQueryElements.get(0)
-								.getListOfDistinctElements();
+						listOfDistinctQueryElements = knowledgeBase.getDistinctElements();
+						toBeQueried = listOfDistinctQueryElements.get(0).getListOfDistinctElements();
 						listOfDistinctQueryElements.remove(0);
 					}
 					// trying to query elements with intersected knowledge bases
-					QueryRound qr = new QueryRound(null, queryIndex,
-							toBeQueried);
+					QueryRound qr = new QueryRound(null, queryIndex, toBeQueried);
 					queryRounds.add(qr);
 				}
 			}
@@ -161,8 +149,8 @@ public class GuesserStrategy {
 	 */
 	public void generateListOfQueriesForNaryStrategy(int nary) {
 
-		System.out.println("The shuffled list is : " + allNumbers1.toString());
-		System.out.println("The list of queries for the n-ary mapping strategy is");
+//		System.out.println("The shuffled list is : " + allNumbers1.toString());
+//		System.out.println("The list of queries for the n-ary mapping strategy is");
 		QueryParams qp;
 		// Iterate over all the elements.
 		for (int i = 0; i < allNumbers1.size(); i += nary) {
@@ -186,8 +174,7 @@ public class GuesserStrategy {
 			 */
 
 		}
-		System.out.println("The entire query Params List is  : "
-				+ queryparamsList);
+//		System.out.println("The entire query Params List is  : " + queryparamsList);
 	}
 
 	
@@ -209,13 +196,12 @@ public class GuesserStrategy {
 		qr.setResult(alResult);
 		// update my KnowledgeBase based on the result.
 		updateKnowledgeBase(qr);
-		int nary = 1;
 		if (queryIndex == 0) {
 			if (knowledgeBase.getIndex() == 2) {
 				generateListOfQueriesForNaryStrategy(knowledgeBase.getIndex());
 				isMapBinary = true;
 			}
-			nary = knowledgeBase.getIndex();
+			mappingIndex = knowledgeBase.getIndex();
 		}
 		
 		if (isMapBinary) {
@@ -229,38 +215,37 @@ public class GuesserStrategy {
 					queryparamsList.add(0, queryParams);
 				}
 			}
-		} else {
-			if (!knowledgeBase.isInitialKnowledgeBaseComplete()) {
-				// BEST CASE if all the queries elements are mapped to only 1
-				// element... set the confidenceLevel high
-				if (alResult.size() == 1) {
-					global_confidenceLevel = mappingLength;
-					int start = qr.getQueryParam().getEndIndex() + 1;
-					int end = mappingLength - 1;
-					updateQueryParams(start, end, global_confidenceLevel, false);
-				}
-				// WORST CASE all elements are distinct...set confidanceLevel as
-				// 0
-				else if (alResult.size() == qr.getQuery().size()
-						|| alResult.size() == qr.getQuery().size() - 1) {
-					global_confidenceLevel = 0;
-
-				}
-				// MODERATE STRATEGY
-				else {
-					int queryLength = qr.getQuery().size();
-					int resultLength = qr.getResult().size();
-//					global_confidenceLevel = queryLength - resultLength;
-					global_confidenceLevel = 0;
-					int start = qr.getQueryParam().getEndIndex() + 1
-							- global_confidenceLevel;
-					int end = mappingLength - 1;
-					updateQueryParams(start, end, global_confidenceLevel, false);
-				}
-			}
-		}
+		} 
+//		else {
+//			if (!knowledgeBase.isInitialKnowledgeBaseComplete()) {
+//				// BEST CASE if all the queries elements are mapped to only 1
+//				// element... set the confidenceLevel high
+//				if (alResult.size() == 1) {
+//					global_confidenceLevel = mappingLength;
+//					int start = qr.getQueryParam().getEndIndex() + 1;
+//					int end = mappingLength - 1;
+////					updateQueryParams(start, end, global_confidenceLevel, false);
+//				}
+//				// WORST CASE all elements are distinct...set confidanceLevel as
+//				// 0
+//				else if (alResult.size() == qr.getQuery().size()
+//						|| alResult.size() == qr.getQuery().size() - 1) {
+//					global_confidenceLevel = 0;
+//
+//				}
+//				// MODERATE STRATEGY
+//				else {
+////					int queryLength = qr.getQuery().size();
+////					int resultLength = qr.getResult().size();
+////					global_confidenceLevel = queryLength - resultLength;
+//					global_confidenceLevel = 0;
+//					int start = qr.getQueryParam().getEndIndex() + 1 - global_confidenceLevel;
+//					int end = mappingLength - 1;
+////					updateQueryParams(start, end, global_confidenceLevel, false);
+//				}
+//			}
+//		}
 		inferFromQueryRound();
-		// knowledgeBase.printKnowledgeBase();
 	}
 
 	/**
@@ -275,11 +260,10 @@ public class GuesserStrategy {
 	 * @param overlap
 	 * @return List<QueryParams>
 	 */
-	private List<QueryParams> findQueryParams(int start, int end,
-			int subQueryLength, int overlap) {
+	private List<QueryParams> findQueryParams(int start, int end, int subQueryLength, int overlap) {
 		int startSubList, endSubList;
 		List<QueryParams> queryParamsList = new ArrayList<QueryParams>();
-		for (int i = start; i < end;) {
+		for (int i = start; i <= end;) {
 			startSubList = i;
 			if (i + subQueryLength <= end) {
 				endSubList = i + subQueryLength;
@@ -315,8 +299,8 @@ public class GuesserStrategy {
 		if (start + confidenceLevel > end) {
 			QueryParams qp = new QueryParams(start, end);
 			queryparamsList = new ArrayList<QueryParams>();
-//		queryparamsList.add(qp);
-//      queryparamsList = findQueryParams(start, end, mappingLength-start, global_overlap);
+			queryparamsList.add(qp);
+			queryparamsList = findQueryParams(start, end, mappingLength-start, global_overlap);
 			/*queryparamsList = findQueryParams(start, end, global_queryLength
 					, global_overlap);*/
 			 
@@ -327,9 +311,9 @@ public class GuesserStrategy {
 
 		// System.out.println("------start=" + start + ", end=" + end +
 		// ", conf=" + confidenceLevel + ", initial=" + isInital);
-		// for(QueryParams qp : queryparamsList){
-		// System.out.println(" --qp-- " + qp);
-		// }
+//		for (QueryParams qp : queryparamsList) {
+//			System.out.println(" --qp-- " + qp);
+//		}
 	}
 
 	/**
