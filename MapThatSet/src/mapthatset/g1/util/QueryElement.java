@@ -85,8 +85,9 @@ public class QueryElement {
 //			return (initialMappingSize - this.getMappingListSize() > 0 ? true
 //					: false);
 //		}
-		return ((initialMappingSize - (initialMappingSize / 2))
-				- this.getMappingListSize() > 0 ? true : false);
+//		return ((initialMappingSize - (initialMappingSize / 2))
+//				- this.getMappingListSize() > 0 ? true : false);
+		return ( (2*(int)Math.sqrt(initialMappingSize)) - this.getMappingListSize() > 0 ? true : false);
 	}
 
 	/**

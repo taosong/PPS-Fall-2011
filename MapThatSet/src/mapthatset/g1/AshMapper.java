@@ -50,8 +50,8 @@ public class AshMapper extends Mapper
 		switch(z){
 			case 1: //Permutation
 				return uniqueMapping();
-			case 2: //random
-				return randomMapping(new Random(10));
+			case 2: //mix mapper
+				return naryMapping(2, rand);
 			case 3: //more random
 				return randomMapping(rand);
 			case 4: //binary
@@ -66,21 +66,19 @@ public class AshMapper extends Mapper
 
 	}
 	
-	/*
-	 * This function returns only unique mapping.
-	 * i.e. Each element - maps to a unique element.
-	 */
-	public ArrayList<Integer> confusingMapping(Random r) {
-		ArrayList<Integer> alMapping = new ArrayList<Integer>();
-
-		for (int i=0 ; i<intMappingLength;i++){
-			alMapping.add(i+1);
-		}
-		Collections.shuffle(alMapping);
-//		System.out.println( "The mapping is:<UNIQUE> " + alMapping );
-		return alMapping;
-	}
-
+	 public ArrayList<Integer> naryMixMapping (int nary,Random r) {
+         ArrayList<Integer> alMapping = new ArrayList<Integer>();
+         
+         for (int i=0; i< intMappingLength/2 ; i++){
+                 alMapping.add( r.nextInt( nary ) + 1 );
+         }
+         for ( int i=intMappingLength/2 ; i<intMappingLength ; i++){
+                 alMapping.add(r.nextInt(intMappingLength)+1);
+         }
+         System.out.println(alMapping);
+         return alMapping;
+	 }
+	
 	/*
 	 * This function returns only unique mapping.
 	 * i.e. Each element - maps to a unique element.
