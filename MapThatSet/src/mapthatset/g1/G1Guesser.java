@@ -36,10 +36,10 @@ public class G1Guesser extends Guesser {
 	public void setResult(ArrayList<Integer> queryResult) {
 
 		guesserStrategy.setResult(queryResult);
-		if (guesserStrategy.isGuess()) {
-			System.err.println("Score=" + guesserStrategy.queryIndex);
-			// System.exit(0);
-		}
+//		if (guesserStrategy.isGuess()) {
+//			System.err.println("Score=" + guesserStrategy.queryIndex);
+//			// System.exit(0);
+//		}
 	}
 
 	@Override

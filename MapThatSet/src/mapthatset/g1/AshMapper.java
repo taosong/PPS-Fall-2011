@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
+import mapthatset.automate.AutomateSim;
 import mapthatset.g1.util.GuessAnalyser;
 import mapthatset.sim.GuesserAction;
 import mapthatset.sim.Mapper;
@@ -36,36 +37,32 @@ public class AshMapper extends Mapper
 
 		long seed = System.currentTimeMillis();
 		Random rand = new Random(seed);
-		int n = rand.nextInt(15)+1;
-		if(n < 5){
-			return naryMapping(n, rand);
-		} else if(n<10){
-			return uniqueMapping();
-		} else {
-			return randomMapping(rand);
+//		int n = rand.nextInt(15)+1;
+//		if(n < 5){
+//			return naryMapping(n, rand);
+//		} else if(n<10){
+//			return uniqueMapping();
+//		} else {
+//			return randomMapping(rand);
+//		}
+		
+		int z = AutomateSim.Z_VALUE;
+		switch(z){
+			case 1: //Permutation
+				return uniqueMapping();
+			case 2: //random
+				return randomMapping(new Random(10));
+			case 3: //more random
+				return randomMapping(rand);
+			case 4: //binary
+				return naryMapping(2, rand);
+			case 5: //ternary
+				return naryMapping(3, rand);
+			case 6: //four-ary
+				return naryMapping(4, rand);
+			default:
+				return naryMapping(1, rand);
 		}
-
-		/*
-		 * First Mapping
-		 */
-//		if (firstRound){
-//			analyseGuesserAction();
-//			alNewMapping = uniqueMapping();
-//			System.out.println( "The mapping is: " + alNewMapping );
-//			notFirstRound();
-//			return alNewMapping;
-//				
-//		}
-//		/*
-//		 * Subsequent Mapping
-//		 */
-//		else {
-//			prepareForNextRound();
-//			analyseGuesserAction();
-//			alNewMapping = uniqueMapping();
-//			return alNewMapping;
-//		}
-
 
 	}
 	
@@ -80,7 +77,7 @@ public class AshMapper extends Mapper
 			alMapping.add(i+1);
 		}
 		Collections.shuffle(alMapping);
-		System.out.println( "The mapping is:<UNIQUE> " + alMapping );
+//		System.out.println( "The mapping is:<UNIQUE> " + alMapping );
 		return alMapping;
 	}
 
@@ -95,7 +92,7 @@ public class AshMapper extends Mapper
 			alMapping.add(i+1);
 		}
 		Collections.shuffle(alMapping);
-		System.out.println( "The mapping is:<UNIQUE> " + alMapping );
+//		System.out.println( "The mapping is:<UNIQUE> " + alMapping );
 		return alMapping;
 	}
 
@@ -110,7 +107,7 @@ public class AshMapper extends Mapper
 			alMapping.add(r.nextInt(intMappingLength) + 1);
 		}
 		Collections.shuffle(alMapping);
-		System.out.println( "The mapping is:<RANDOM> " + alMapping );
+//		System.out.println( "The mapping is:<RANDOM> " + alMapping );
 		return alMapping;
 	}
 
@@ -133,7 +130,7 @@ public class AshMapper extends Mapper
 		{
 			alMapping.add( rand.nextInt( n ) + 1 );
 		}
-		System.out.println( "The mapping is:<MOD("+n+")> " + alMapping );
+//		System.out.println( "The mapping is:<MOD("+n+")> " + alMapping );
 		return alMapping;
 	}
 

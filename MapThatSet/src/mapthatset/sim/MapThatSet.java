@@ -222,7 +222,7 @@ public class MapThatSet
 //							System.out.println();
 //							System.out.println( "Guess: " + alActionContent + " ::: It is " + strGuessResult );
 //							System.out.println();
-							System.out.println(" for x = " + strMappingLength + " GUESS is " + strGuessResult + " and score is " + intScore);
+							System.err.println(" for x = " + strMappingLength + " GUESS is " + strGuessResult + " and score is " + intScore);
 							if ( !blnGuessCorrect )			// guess wrong
 							{
 								intRoundScore = intWrongOverMax * intMaxQuery;
