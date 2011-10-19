@@ -1,7 +1,6 @@
 package mapthatset.g1.util;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -13,7 +12,6 @@ public class GuesserStrategy {
 	private int mappingLength;
 	private int global_queryLength = 0, global_overlap = 0,global_confidenceLevel = 0;
 	private Boolean readyToGuess = null;
-	private Boolean isStrategyBinary = false;
 	private Boolean isMapBinary = false;
 	List<Integer> allNumbers = null;
 	List<Integer> allNumbers1 = null;
@@ -82,7 +80,7 @@ public class GuesserStrategy {
 			// querying
 			List<Integer> toBeQueried = null;
 
-			if (isMapBinary ) {
+			if (isMapBinary && mappingLength!=2) {
 				QueryParams qp = queryparamsList.get(0);
 				try {
 					toBeQueried = allNumbers1.subList(qp.getStartIndex(),
@@ -250,6 +248,13 @@ public class GuesserStrategy {
 //		}
 		inferFromQueryRound();
 		
+		if(mappingLength==2){
+			queryparamsList = new ArrayList<QueryParams>();
+			QueryParams qp1 = new QueryParams();
+			qp1.setStartIndex(0);
+			qp1.setEndIndex(1);
+			queryparamsList.add(qp1);
+		}
 	}
 
 	/**
