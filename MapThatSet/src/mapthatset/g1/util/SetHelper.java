@@ -137,6 +137,8 @@ public class SetHelper {
 		if(listOfDistinctElements.size()>0){
 			for( DistinctQueryElement distinctElement: listOfDistinctElements){
 				if(!distinctElement.getListOfDistinctElements().contains(queryElement.getValue()) && !distinctElement.getListOfAllMappedValues().containsAll(queryElement.getListOfPossibleMappings()))
+//				if (!distinctElement.getListOfDistinctElements().contains(queryElement.getValue())
+//						&& setIntersection(distinctElement.getListOfAllMappedValues(), queryElement.getListOfPossibleMappings()) == null)	
 				{		
 					distinctElement.getListOfDistinctElements().add(queryElement.getValue());
 					distinctElement.getListOfAllMappedValues().addAll(queryElement.getListOfPossibleMappings());
