@@ -15,54 +15,54 @@ public class G1Player extends Player {
 	private int intLastEatIndex;
 	private int intLastEatNum;
 	
-	EatStrategy eatStrategy;
-	OfferStrategy offerStrategy;
-	PickStrategy pickStrategy;
-	Infobase info;
+	protected EatStrategy eatStrategy;
+	protected OfferStrategy offerStrategy;
+	protected PickStrategy pickStrategy;
+	protected Infobase info; 
 
 	@Override
 	public void eat(int[] aintTempEat) {
-		eatStrategy.update(aintTempEat);
-		// TODO Auto-generated method stub
-
+		eatStrategy.update(aintTempEat,info);
+		for(int i = 0; i<aintTempEat.length;i++){
+			if(aintTempEat[i]!=0)
+			{
+				intLastEatIndex = i;
+				intLastEatNum = aintTempEat[i];
+				break;
+			}
+		}
 	}
 	@Override
 	public void offer(Offer offTemp) {
-		// TODO Auto-generated method stub
 		int[] aintOffer = new int[intColorNum];
 		int[] aintDesire = new int[intColorNum];
-		offerStrategy.getOffer(aintOffer,aintDesire);
+		offerStrategy.getOffer(aintOffer,aintDesire,info);
 		offTemp.setOffer( aintOffer, aintDesire );
 	}
 
 	@Override
 	public void syncInHand(int[] aintInHand) {
-		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void happier(double dblHappinessUp) {
-		// TODO Auto-generated method stub
-		info.updateHappiness(dblHappinessUp);
+		info.updateHappiness(dblHappinessUp,intLastEatIndex, intLastEatNum);
 	}
 
 	@Override
 	public Offer pickOffer(Offer[] aoffCurrentOffers) {
-		// TODO Auto-generated method stub
-		return null;
+		return pickStrategy.pick(aoffCurrentOffers,info);
 	}
 
 	@Override
 	public void offerExecuted(Offer offPicked) {
-		// TODO Auto-generated method stub
-
+		info.updateOfferExecute(offPicked);
 	}
 
 	@Override
 	public void updateOfferExe(Offer[] aoffCurrentOffers) {
-		// TODO Auto-generated method stub
-
+		info.updateOfferExe(aoffCurrentOffers);
 	}
 
 	@Override
@@ -78,19 +78,15 @@ public class G1Player extends Player {
 		{
 			adblTastes[ intColorIndex ] = -1;
 		}
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override
 	public String getClassName() {
-		// TODO Auto-generated method stub
 		return "G1Player";
 	}
 
 	@Override
 	public int getPlayerIndex() {
-		// TODO Auto-generated method stub
 		return intPlayerIndex;
 	}
 

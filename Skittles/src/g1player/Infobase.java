@@ -39,7 +39,17 @@ public class Infobase {
 	{
 		
 	}
-	public void updateHappiness(double dblHappinessUp) {
+	public void updateHappiness(double dblHappinessUp, int intLastEatIndex, int intLastEatNum) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void updateOfferExecute(Offer offPicked) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void updateOfferExe(Offer[] aoffCurrentOffers) {
 		// TODO Auto-generated method stub
 		
 	}
