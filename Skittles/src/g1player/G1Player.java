@@ -32,6 +32,7 @@ public class G1Player extends Player {
 			}
 		}
 	}
+	
 	@Override
 	public void offer(Offer offTemp) {
 		int[] aintOffer = new int[intColorNum];
