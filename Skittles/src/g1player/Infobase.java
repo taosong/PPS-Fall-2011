@@ -12,13 +12,13 @@ public class Infobase {
 	int[][] playerPreferences;
 	int[][] estimatedSkittles;
 	int numPlayers;
-	int numColors;
 	
 	//private Priority priority;
 	private Priority priority;
 	private int desiredColorCount = 0; //'c' as per discussion terminology
 	private int[] colorHappinessArray;//happiness matrix
 	private int[] aintInHand;
+	private int initialSkittlesPerPlayer;
 	
 	private int intColorNum;
 	double dblHappiness;
@@ -60,26 +60,25 @@ public class Infobase {
 			return false;
 	}
 		
-	public void createTable(int numPlayers, int numColors, int skittlesPerPlayer)
+	public void createTable(int numPlayers)
 	{
-		playerPreferences = new int[numPlayers][numColors];
-		estimatedSkittles = new int[numPlayers][numColors];
+		playerPreferences = new int[numPlayers][intColorNum];
+		estimatedSkittles = new int[numPlayers][intColorNum];
 		this.numPlayers = numPlayers;
-		this.numColors = numColors;
 		
-		int estSkittlesPerColor = skittlesPerPlayer/numColors;
+		int estSkittlesPerColor = initialSkittlesPerPlayer/intColorNum;
 		
 		for (int i = 0; i < numPlayers; ++i)
 		{
-			for (int j = 0; j <numColors ; ++j)
+			for (int j = 0; j <intColorNum ; ++j)
 			{
 				estimatedSkittles[i][j] = estSkittlesPerColor;
 			}
 			// calculate desired number of colors for this round
-			if (numPlayers >= numColors) {
+			if (numPlayers >= intColorNum) {
 				desiredColorCount = 1;
 			} else {
-				desiredColorCount = Math.round(numColors / numPlayers);
+				desiredColorCount = Math.round(intColorNum / numPlayers);
 			}
 		}
 
@@ -209,6 +208,14 @@ public class Infobase {
 
 	public void setIntLastEatNum(int intLastEatNum) {
 		this.intLastEatNum = intLastEatNum;
+	}
+
+	public int getInitialSkittlesPerPlayer() {
+		return initialSkittlesPerPlayer;
+	}
+
+	public void setInitialSkittlesPerPlayer(int initialSkittlesPerPlayer) {
+		this.initialSkittlesPerPlayer = initialSkittlesPerPlayer;
 	}
 
 

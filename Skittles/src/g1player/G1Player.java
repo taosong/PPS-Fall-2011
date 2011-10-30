@@ -76,8 +76,16 @@ public class G1Player extends Player {
 			info.setAdblTasteElement(intColorIndex, -1);
 			//adblTastes[ intColorIndex ] = -1;
 		}
-		
+
 		info.getPriority().initializePriority(aintInHand);
+		
+		int totalSkittles = 0;
+		for (int i : aintInHand)
+		{
+			totalSkittles += i;
+		}
+		
+		info.setInitialSkittlesPerPlayer(totalSkittles);
 		
 		eatStrategy = new EatStrategy();
 		pickStrategy = new PickStrategy();

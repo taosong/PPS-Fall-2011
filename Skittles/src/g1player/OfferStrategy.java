@@ -62,12 +62,12 @@ public class OfferStrategy {
 		if(maxQuantity==0){   
 			//TODO: take other's like/dislike into consideration
 			int leastLike = priorityArray[c+rand.nextInt(colorNum-c)];
-			int quantity = info.getAintInHand()[leastLike]/(rand.nextInt(c)+1);
+			int quantity = info.getAintInHand()[leastLike]/(rand.nextInt(c+1)+1);
 			if(count==1){
 				quantity=1;
 			}
 			aintOffer[leastLike] = quantity;
-			aintDesire[priorityArray[rand.nextInt(c)]] = quantity;
+			aintDesire[priorityArray[rand.nextInt(c+1)]] = quantity;
 		}
 	}
 
