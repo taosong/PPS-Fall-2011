@@ -1,5 +1,6 @@
 package g1player;
 
+import java.util.ArrayList;
 
 
 public class Priority {
@@ -185,6 +186,16 @@ public class Priority {
 		isWeightedPriorityComplete = true;
 	}
 	
+	/*
+	 * this will return the all the colors  that we desire to have at the end
+	 */
+	public ArrayList<Integer> getDesiredVector(Infobase info){
+		ArrayList<Integer> desiredVector = new ArrayList<Integer>();
+		for(int i = 0; i<info.getDesiredColorCount(); i++){
+			desiredVector.add(weightedPriority[i]);
+		}
+		return desiredVector;
+	}
 	
 	public Boolean isWeightedPriorityComplete(){
 		return isWeightedPriorityComplete;

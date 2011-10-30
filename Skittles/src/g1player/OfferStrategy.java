@@ -1,9 +1,6 @@
 package g1player;
 
-import java.rmi.dgc.Lease;
 import java.util.Random;
-
-import com.sun.org.apache.bcel.internal.generic.NEW;
 
 public class OfferStrategy {
 	private Infobase info;
@@ -40,9 +37,9 @@ public class OfferStrategy {
 			for (int j = c+1;j < priorityArray.length;j++) 
 			{
 				int tempOffer = this.calculateOffer(priorityArray[i],priorityArray[j]);
-				if (tempOffer<info.aintInHand[priorityArray[j]]) //check if we have that many of skittles?
+				if (tempOffer<info.getAintInHand()[priorityArray[j]]) //check if we have that many of skittles?
 				{
-					tempOffer = info.aintInHand[priorityArray[j]];
+					tempOffer = info.getAintInHand()[priorityArray[j]];
 				}
 				if (tempOffer> maxOffers[i] ){ 
 					maxOffers[i] = tempOffer;
@@ -65,7 +62,7 @@ public class OfferStrategy {
 		if(maxQuantity==0){   
 			//TODO: take other's like/dislike into consideration
 			int leastLike = info.getPriority().getLestPriorityColor();
-			int quantity = rand.nextInt(info.aintInHand[leastLike]-1)+1;
+			int quantity = rand.nextInt(info.getAintInHand()[leastLike]-1)+1;
 			aintOffer[leastLike] = quantity;
 			aintDesire[info.getPriority().getHighestPriorityColor()] = quantity;
 		}
