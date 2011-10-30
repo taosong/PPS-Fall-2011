@@ -7,9 +7,10 @@ import com.sun.org.apache.bcel.internal.generic.NEW;
 
 public class OfferStrategy {
 	private Infobase info;
-	int c = 3 ; 	//how many colors we are going to have last round.N/k or 1.
-	int count = 0;
-	Random rand = new Random();
+	private int c = 3 ; 	//how many colors we are going to have last round.N/k or 1.
+
+	private int count = 0;
+	private Random rand = new Random();
 	
 	public OfferStrategy(int c) {
 		this.c=c;
@@ -20,15 +21,15 @@ public class OfferStrategy {
 	 * skittles we are going to give away as long as it is not in C.
 	 */
 	public void getOffer(int[] aintOffer, int[] aintDesire, Infobase infoUpdate) {
+		this.info = infoUpdate;
 		
 		/*
 		 * TODO:at the beginning of the game, we have little info about what other's like of dislike
 		 * so the beginning rounds will have special strategy
 		 */
-			
-		this.info = infoUpdate;
+		
 		int[] priorityArray = info.getPriority().getPriorityArray(); 
-		 
+		
 		int[] maxOffers = new int[c]; //# of skittles others able to give us
 		int[] colorOffers = new int[c]; //what should we offer
 		int colorOffer=0;
@@ -85,4 +86,19 @@ public class OfferStrategy {
 		return max;
 	}
 
+	public int getC() {
+		return c;
+	}
+	
+	public void setC(int c) {
+		this.c = c;
+	}
+	
+	public int getCount() {
+		return count;
+	}
+	
+	public void setCount(int count) {
+		this.count = count;
+	}
 }
