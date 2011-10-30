@@ -55,9 +55,9 @@ public class Infobase {
 	public boolean tablesExist()
 	{
 		if (playerPreferences == null || estimatedSkittles == null)
-			return true;
-		else
 			return false;
+		else
+			return true;
 	}
 		
 	public void createTable(int numPlayers)
