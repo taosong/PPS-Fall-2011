@@ -16,7 +16,7 @@ public class Infobase {
 	//private Priority priority;
 	private Priority priority;
 	private int desiredColorCount = 0; //'c' as per discussion terminology
-	private int[] colorHappinessArray;//happiness matrix
+	private double[] colorHappinessArray;//happiness matrix
 	private int[] aintInHand;
 	private int initialSkittlesPerPlayer;
 	
@@ -94,8 +94,10 @@ public class Infobase {
 		
 	}
 	public void updateHappiness(double dblHappinessUp, int intLastEatIndex, int intLastEatNum) {
-		// TODO Auto-generated method stub
-		
+		if (intLastEatNum == 1)
+		{
+			INFO_BASE.colorHappinessArray[intLastEatIndex] = dblHappinessUp;
+		}
 	}
 
 	public void updateOfferExecute(Offer offPicked) {
@@ -130,15 +132,15 @@ public class Infobase {
 		this.desiredColorCount = desiredColorCount;
 	}
 
-	public int[] getColorHappinessArray() {
+	public double[] getColorHappinessArray() {
 		return colorHappinessArray;
 	}
 
-	public void setColorHappinessArray(int[] colorHappiness) {
+	public void setColorHappinessArray(double[] colorHappiness) {
 		this.colorHappinessArray = colorHappiness;
 	}
 
-	public int getColorHappiness(int index) {
+	public double getColorHappiness(int index) {
 		return colorHappinessArray[index];
 	}
 
