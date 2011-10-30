@@ -12,6 +12,12 @@ public class PickStrategy {
 		/* keeps track of which offers are giving us goal skittles */
 		ArrayList<Integer> offersGainingGoalSkittles = new ArrayList<Integer>();
 		
+		/* make sure the tables in infobase are created */
+		if (!info.tablesExist())
+		{
+//			info.createTable();
+		}
+		
 		/* for each offer, analyze how much it's worth to us */
 		for (int j = 0; j < aoffCurrentOffers.length; ++j)
 		{
@@ -22,8 +28,8 @@ public class PickStrategy {
 			/* for each color, add up how our score would change if we accepted the offer */
 			for (int i = 0; i < weReceive.length; ++i)
 			{
-				score += weReceive[i] * info.happinessPerSkittle[i];
-				score -= weGiveUp[i] * info.happinessPerSkittle[i];
+				score += weReceive[i] * info.getColorHappiness(i);
+				score -= weGiveUp[i] * info.getColorHappiness(i);
 				/* if it's a skittle we'd be receiving and it's a goal skittle, keep track of it */
 				if (weReceive[i] > 0 && info.getPriority().getHighestPriorityColor() == i)
 				{
@@ -53,6 +59,19 @@ public class PickStrategy {
 					bestScore = offerScores[i];
 				}
 			}
+			
+			/* update the skittles we have */
+			int[] skittlesWeHave = info.getAintInHand();
+			int[] getting = aoffCurrentOffers[bestIndex].getOffer();
+			int[] giving = aoffCurrentOffers[bestIndex].getDesire();
+			for (int j = 0; j < getting.length; ++j)
+			{
+				skittlesWeHave[j] -= giving[j];
+				skittlesWeHave[j] += getting[j];
+			}
+			info.setAintInHand(skittlesWeHave);
+
+			/* return chosen offer */
 			return aoffCurrentOffers[bestIndex];
 		}		
 	}

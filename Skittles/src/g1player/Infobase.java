@@ -14,9 +14,6 @@ public class Infobase {
 	int numPlayers;
 	int numColors;
 	
-	int[] happinessPerSkittle; /* I added this to the info base because in order to pick offers I needed to know
-									how much we liked each skittle.  We should discuss this decision tomorrow and 
-									whether or not to keep it */
 	//private Priority priority;
 	private Priority priority;
 	private int desiredColorCount = 0; //'c' as per discussion terminology
@@ -69,7 +66,6 @@ public class Infobase {
 		estimatedSkittles = new int[numPlayers][numColors];
 		this.numPlayers = numPlayers;
 		this.numColors = numColors;
-		happinessPerSkittle = new int[numColors];
 		
 		int estSkittlesPerColor = skittlesPerPlayer/numColors;
 		
@@ -117,10 +113,13 @@ public class Infobase {
 			int[] offered = o.getOffer();
 			for (int i = 0; i < desired.length; ++i)
 			{
-				INFO_BASE.playerPreferences[i][offeredBy] += desired[i];
-				INFO_BASE.playerPreferences[i][offeredBy] -= offered[i];
-				INFO_BASE.playerPreferences[i][tookOffer] -= desired[i];
-				INFO_BASE.playerPreferences[i][tookOffer] += offered[i];
+				if (!o.getOfferLive())
+				{
+					INFO_BASE.playerPreferences[i][offeredBy] += desired[i];
+					INFO_BASE.playerPreferences[i][offeredBy] -= offered[i];
+					INFO_BASE.playerPreferences[i][tookOffer] -= desired[i];
+					INFO_BASE.playerPreferences[i][tookOffer] += offered[i];
+				}
 			}
 		}
 	}

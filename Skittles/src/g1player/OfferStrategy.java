@@ -4,28 +4,29 @@ import java.util.Random;
 
 public class OfferStrategy {
 	private Infobase info;
-	int c = 3 ; 	//how many colors we are going to have last round.N/k or 1.
-	int count = 0;
-	Random rand = new Random();
+	private int c = 2 ; 	//how many colors we are going to have last round.N/k or 1.
+
+	private int count = 0;
+	private Random rand = new Random();
+	private int colorNum;
 	
-	public OfferStrategy(int c) {
-		this.c=c;
-	}
-	
+
 	/*
 	 * We look for the most number of skittles we can get this term, in {C}, we don't care what kind of 
 	 * skittles we are going to give away as long as it is not in C.
 	 */
 	public void getOffer(int[] aintOffer, int[] aintDesire, Infobase infoUpdate) {
-		
+		this.info = infoUpdate;
+		this.c=info.getDesiredColorCount();
+		count++;
 		/*
 		 * TODO:at the beginning of the game, we have little info about what other's like of dislike
 		 * so the beginning rounds will have special strategy
 		 */
-			
-		this.info = infoUpdate;
+		
 		int[] priorityArray = info.getPriority().getPriorityArray(); 
-		 
+		colorNum=priorityArray.length;
+		
 		int[] maxOffers = new int[c]; //# of skittles others able to give us
 		int[] colorOffers = new int[c]; //what should we offer
 		int colorOffer=0;
@@ -33,7 +34,7 @@ public class OfferStrategy {
 		
 		for (int i = 0; i < c; i++){
 			maxOffers[i] = 0;
-			for (int j = c+1;j < priorityArray.length;j++) 
+			for (int j = c;j < priorityArray.length;j++) 
 			{
 				int tempOffer = this.calculateOffer(priorityArray[i],priorityArray[j]);
 				if (tempOffer<info.getAintInHand()[priorityArray[j]]) //check if we have that many of skittles?
@@ -60,10 +61,13 @@ public class OfferStrategy {
 		//if we can't find perfect trade, propose some other trade.
 		if(maxQuantity==0){   
 			//TODO: take other's like/dislike into consideration
-			int leastLike = info.getPriority().getLestPriorityColor();
-			int quantity = rand.nextInt(info.getAintInHand()[leastLike]-1)+1;
+			int leastLike = priorityArray[c+rand.nextInt(colorNum-c)];
+			int quantity = info.getAintInHand()[leastLike]/(rand.nextInt(c)+1);
+			if(count==1){
+				quantity=1;
+			}
 			aintOffer[leastLike] = quantity;
-			aintDesire[info.getPriority().getHighestPriorityColor()] = quantity;
+			aintDesire[priorityArray[rand.nextInt(c)]] = quantity;
 		}
 	}
 
@@ -82,4 +86,20 @@ public class OfferStrategy {
 		return max;
 	}
 
+	public int getC() {
+		return c;
+	}
+	
+	public void setC(int c) {
+		this.c = c;
+	}
+	
+	public int getCount() {
+		return count;
+	}
+	
+	public void setCount(int count) {
+		this.count = count;
+	}
 }
+

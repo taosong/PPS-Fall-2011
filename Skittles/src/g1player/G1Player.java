@@ -10,7 +10,7 @@ public class G1Player extends Player {
 	
 	protected EatStrategy eatStrategy;
 	protected OfferStrategy offerStrategy;
-	//protected PickStrategy pickStrategy;
+	protected PickStrategy pickStrategy;
 	protected Infobase info; 
 
 	@Override
@@ -78,6 +78,10 @@ public class G1Player extends Player {
 		}
 		
 		info.getPriority().initializePriority(aintInHand);
+		
+		eatStrategy = new EatStrategy();
+		pickStrategy = new PickStrategy();
+		offerStrategy = new OfferStrategy();
 	}
 
 	@Override
