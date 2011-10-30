@@ -1,6 +1,7 @@
 package g1player;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 
 public class Priority {
@@ -10,6 +11,8 @@ public class Priority {
 	 * the % of each color.
 	 */
 	private int[] initialPriority;
+	private int[] initialPriorityForEat;
+	
 	/**
 	 * Priorities of all the colors calculated based on the knowledge of the %
 	 * of each color and the happiness of each color.
@@ -149,6 +152,8 @@ public class Priority {
 			System.out.print(""+initialPriority[ii]+", ");
 		}
 		System.out.println();
+		
+		initialPriorityForEat = Arrays.copyOf(initialPriority, initialPriority.length);
 	}
 	
 	/**
@@ -224,5 +229,11 @@ public class Priority {
 	
 	public Boolean isWeightedPriorityComplete(){
 		return isWeightedPriorityComplete;
+	}
+	public int[] getInitialPriorityForEat() {
+		return initialPriorityForEat;
+	}
+	public void setInitialPriorityForEat(int[] initialPriorityForEat) {
+		this.initialPriorityForEat = initialPriorityForEat;
 	}
 }

@@ -67,6 +67,7 @@ public class OfferStrategy {
 				quantity=1;
 			}
 			aintOffer[leastLike] = quantity;
+			System.out.println(" <<  c=" + c);
 			aintDesire[priorityArray[rand.nextInt(c+1)]] = quantity;
 		}
 	}
