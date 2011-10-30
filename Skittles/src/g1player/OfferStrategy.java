@@ -19,6 +19,7 @@ public class OfferStrategy {
 		this.info = infoUpdate;
 //		this.c=info.getDesiredColorCount();
 		count++;
+
 				
 		int[] priorityArray = info.getPriority().getPriorityArray(); 
 		colorNum=priorityArray.length;
@@ -27,6 +28,25 @@ public class OfferStrategy {
 		int[] colorOffers = new int[c]; //what should we offer
 		int colorOffer=0;
 		int colorGet=0;
+		
+		if(count==1){
+			/*
+			 * at the beginning of the game, we have little info about what other's like of dislike
+			 * so the beginning rounds will have special strategy
+			 */
+			int tempLeast=colorNum;
+			int leastLike = priorityArray[tempLeast-1];
+			while(info.getAintInHand()[leastLike]==0){
+				leastLike=priorityArray[--tempLeast];
+				System.out.println("tempLeast<<<<   ".concat(String.valueOf(tempLeast)));
+			}
+			int quantity = info.getAintInHand()[leastLike];
+			quantity=Math.min(info.getAintInHand()[leastLike], 1);
+
+			aintOffer[leastLike] = quantity;
+			aintDesire[priorityArray[rand.nextInt(c)]] = quantity;
+			return;
+		}
 		
 		for (int i = 0; i < c; i++){
 			maxOffers[i] = 0;
@@ -57,15 +77,14 @@ public class OfferStrategy {
 		//if we can't find perfect trade, propose some other trade.
 		if(maxQuantity==0){   
 			//TODO: take other's like/dislike into consideration
-			int leastLike = priorityArray[c+rand.nextInt(colorNum-c)];
-			int quantity = info.getAintInHand()[leastLike]/(rand.nextInt(c+1)+1);
-			if(count==1){
-				/*
-				 * at the beginning of the game, we have little info about what other's like of dislike
-				 * so the beginning rounds will have special strategy
-				 */
-				quantity=1;
+			int tempLeast=colorNum;
+			int leastLike = priorityArray[tempLeast];
+			while(info.getAintInHand()[leastLike]==0){
+				leastLike=priorityArray[--tempLeast];
+				System.out.println("tempLeast<<<<   ".concat(String.valueOf(tempLeast)));
 			}
+			int quantity = info.getAintInHand()[leastLike];
+
 			aintOffer[leastLike] = quantity;
 			aintDesire[priorityArray[rand.nextInt(c)]] = quantity;
 		}
