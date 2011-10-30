@@ -2,12 +2,12 @@ package g1player;
 
 public class OfferStrategy {
 	private Infobase info;
-	int c; //how many colors we are going to have last round, as we discussed.
+	int c = 3 ; //how many colors we are going to have last round, as we discussed.
 
 	public void getOffer(int[] aintOffer, int[] aintDesire, Infobase infoUpdate) {
 		// TODO Auto-generated method stub
 		this.info = infoUpdate;
-		int[] priorityArray = info.priority.getPriorityArray();
+		int[] priorityArray = info.getPriority().getPriorityArray();
 		int[] maxOffers = new int[c];
 		int[] colorOffers = new int[c];
 		int colorOffer=0;
@@ -34,9 +34,6 @@ public class OfferStrategy {
 		}
 		aintOffer[colorOffer]=maxQuantity;
 		aintDesire[colorGet]=maxQuantity;
-		if(maxQuantity==0){
-			
-		}
 	}
 
 	// this functions calculates the max number of color i we can get from trading j
