@@ -1,31 +1,36 @@
 package g1player;
 
 
+
 public class Priority {
 
 	/**
 	 * Priorities of all the colors calculated based on only the knowledge of
 	 * the % of each color.
 	 */
-	int[] initialPriority;
+	private int[] initialPriority;
 	/**
 	 * Priorities of all the colors calculated based on the knowledge of the %
 	 * of each color and the happiness of each color.
 	 */
-	int[] weightedPriority;
+	private int[] weightedPriority;
 	/**
 	 * the array with the percentages of all colors in hand. 
 	 */
-	double[] percentInHand;
+	private double[] percentInHand;
 	/**
 	 * the array with the percentages of all colors in hand times their happiness. 
 	 */
-	double[] weightedPercentInHand;
+	private double[] weightedPercentInHand;
+	
+	private Boolean isWeightedPriorityComplete;
+	
 	
 	/**
 	 * Dummy Constructor.
 	 */
 	public Priority() {
+		isWeightedPriorityComplete = false;
 	}
 	
 	/**
@@ -33,8 +38,10 @@ public class Priority {
 	 * @return
 	 */
 	public int getHighestPriorityColor(){
-		
-		return -1;
+		if(isWeightedPriorityComplete){
+			return weightedPriority[0];
+		}
+		return initialPriority[0];
 	}
 
 	/**
@@ -42,8 +49,10 @@ public class Priority {
 	 * @return
 	 */
 	public int getLestPriorityColor(){
-		
-		return -1;
+		if(isWeightedPriorityComplete){
+			return weightedPriority[weightedPriority.length-1];
+		}
+		return initialPriority[initialPriority.length-1];
 	}
 	
 	/**
@@ -52,7 +61,9 @@ public class Priority {
 	 * @return
 	 */
 	public int[] getPriorityArray(){
-		
+		if(isWeightedPriorityComplete){
+			return weightedPriority;
+		}
 		return initialPriority;
 	}
 	
@@ -74,30 +85,44 @@ public class Priority {
 			weightedPercentInHand[i] = -1.0;
 			totalSkittles += aintInHand[i];
 		}
+//		System.out.println(" >> totalSkittles=" + totalSkittles);
 		
 		// calculate the percent of each color.
 		for(int i=0; i<numColors; i++){
-			percentInHand[i] = aintInHand[i]/totalSkittles;
+			percentInHand[i] = (double)aintInHand[i]/totalSkittles;
 		}
+//		System.out.print(" >>>  percentInHand: ");
+//		for(int i=0; i<numColors; i++){
+//			System.out.print(""+percentInHand[i]+", ");
+//		}
+//		System.out.println();
 		
 		int priorityOfColor;
 		for(int i=0; i<numColors; i++){
 			priorityOfColor = 0;
 			for(int j=0; j<numColors; j++){
+//				System.out.println("comparing " + percentInHand[i] +" , "+ percentInHand[j]
+//						+",, "+(percentInHand[i] < percentInHand[j]));
 				if(percentInHand[i] < percentInHand[j]) {
 					priorityOfColor++;
 				}
 			}
+//			System.out.println(" >> priorityOfColor=" + priorityOfColor);
 			int k=0;
-			while(initialPriority[priorityOfColor+1+k] == -1){
-				initialPriority[priorityOfColor+1+k] = i;	
+			while(true){
+				if(initialPriority[priorityOfColor+k] == -1){
+					initialPriority[priorityOfColor+k] = i;
+					break;
+				}
+				k++;
 			}
 		}
-		
-		System.out.println(" >>>  initialPriority: ");
-		for(int i=0; i<numColors; i++){
-			System.out.print(""+initialPriority[i]+", ");
+
+		System.out.print(" >>>  initialPriority: ");
+		for(int ii=0; ii<numColors; ii++){
+			System.out.print(""+initialPriority[ii]+", ");
 		}
+		System.out.println();
 	}
 	
 	/**
@@ -108,6 +133,12 @@ public class Priority {
 	public void updatePriority(int colorIndex, double happiness){
 
 		weightedPercentInHand[colorIndex] = percentInHand[colorIndex] * happiness;
+		
+//		System.out.print(" >>>  weightedPercentInHand: ");
+//		for(int ii=0; ii<weightedPercentInHand.length; ii++){
+//			System.out.print(""+weightedPercentInHand[ii]+", ");
+//		}
+//		System.out.println();
 		
 		for(int i=0; i<weightedPercentInHand.length; i++){
 			if(weightedPercentInHand[i] == -1.0){
@@ -123,21 +154,39 @@ public class Priority {
 	 */
 	private void calculateWeightedPriorities(){
 		
-		int numColors = initialPriority.length; 
+		int numColors = weightedPercentInHand.length; 
 		int priorityOfColor;
 		for(int i=0; i<numColors; i++){
 			priorityOfColor = 0;
 			for(int j=0; j<numColors; j++){
+//				System.out.println("comparing " + weightedPercentInHand[i] +" , "+ weightedPercentInHand[j]
+//						+",, "+(weightedPercentInHand[i] < weightedPercentInHand[j]));
 				if(weightedPercentInHand[i] < weightedPercentInHand[j]) {
 					priorityOfColor++;
 				}
 			}
+//			System.out.println(" >>> priorityOfColor=" + priorityOfColor);
 			int k=0;
-			while(weightedPriority[priorityOfColor+1+k] == -1){
-				weightedPriority[priorityOfColor+1+k] = i;	
+			while(true){
+				if(weightedPriority[priorityOfColor+k] == -1){
+					weightedPriority[priorityOfColor+k] = i;
+					break;
+				}
+				k++;
 			}
 		}
 		
+		System.out.print(" >>>  weightedPriority: ");
+		for(int ii=0; ii<numColors; ii++){
+			System.out.print(""+weightedPriority[ii]+", ");
+		}
+		System.out.println();
+		
+		isWeightedPriorityComplete = true;
 	}
 	
+	
+	public Boolean isWeightedPriorityComplete(){
+		return isWeightedPriorityComplete;
+	}
 }
