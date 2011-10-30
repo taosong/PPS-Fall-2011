@@ -75,8 +75,9 @@ public class PickStrategy {
 				int[] giving = aoffCurrentOffers[bestIndex].getDesire();
 				for (int j = 0; j < getting.length; ++j)
 				{
-					skittlesWeHave[j] -= giving[j];
-					skittlesWeHave[j] += getting[j];
+					//this seems backward, but it's working
+					skittlesWeHave[j] += giving[j];
+					skittlesWeHave[j] -= getting[j];
 				}	
 				info.setAintInHand(skittlesWeHave);
 
