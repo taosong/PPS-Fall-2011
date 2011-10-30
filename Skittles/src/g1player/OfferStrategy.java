@@ -35,7 +35,7 @@ public class OfferStrategy {
 			 * so the beginning rounds will have special strategy
 			 */
 			int tempLeast=colorNum;
-			int leastLike = priorityArray[tempLeast-1];
+			int leastLike = info.getPriority().getLestPriorityColor();
 			while(info.getAintInHand()[leastLike]==0){
 				leastLike=priorityArray[--tempLeast];
 				System.out.println("tempLeast<<<<   ".concat(String.valueOf(tempLeast)));
@@ -44,6 +44,7 @@ public class OfferStrategy {
 			quantity=Math.min(info.getAintInHand()[leastLike], 1);
 
 			aintOffer[leastLike] = quantity;
+			System.out.println("leastLike<<<<   ".concat(String.valueOf(leastLike)));
 			aintDesire[priorityArray[rand.nextInt(c)]] = quantity;
 			return;
 		}
