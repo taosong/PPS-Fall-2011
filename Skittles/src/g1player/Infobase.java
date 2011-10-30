@@ -74,8 +74,17 @@ public class Infobase {
 	}
 
 	public void updateOfferExe(Offer[] aoffCurrentOffers) {
-		// TODO Auto-generated method stub
-		
+		for (Offer o : aoffCurrentOffers)
+		{
+			int offeredBy = o.getOfferedByIndex();
+			int[] desired = o.getDesire();
+			int[] offered = o.getOffer();
+			for (int i = 0; i < desired.length; ++i)
+			{
+				INFO_BASE.playerPreferences[i][offeredBy] += desired[i];
+				INFO_BASE.playerPreferences[i][offeredBy] -= offered[i];
+			}
+		}
 	}
 
 }
