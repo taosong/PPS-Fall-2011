@@ -55,9 +55,9 @@ public class Infobase {
 	public boolean tablesExist()
 	{
 		if (playerPreferences == null || estimatedSkittles == null)
-			return true;
-		else
 			return false;
+		else
+			return true;
 	}
 		
 	public void createTable(int numPlayers)
@@ -116,10 +116,10 @@ public class Infobase {
 			{
 				if (!o.getOfferLive())
 				{
-					INFO_BASE.playerPreferences[i][offeredBy] += desired[i];
-					INFO_BASE.playerPreferences[i][offeredBy] -= offered[i];
-					INFO_BASE.playerPreferences[i][tookOffer] -= desired[i];
-					INFO_BASE.playerPreferences[i][tookOffer] += offered[i];
+					INFO_BASE.playerPreferences[offeredBy][i] += desired[i];
+					INFO_BASE.playerPreferences[offeredBy][i] -= offered[i];
+					INFO_BASE.playerPreferences[tookOffer][i] -= desired[i];
+					INFO_BASE.playerPreferences[tookOffer][i] += offered[i];
 				}
 			}
 		}

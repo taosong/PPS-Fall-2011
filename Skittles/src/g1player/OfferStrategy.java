@@ -19,11 +19,7 @@ public class OfferStrategy {
 		this.info = infoUpdate;
 		this.c=info.getDesiredColorCount();
 		count++;
-		/*
-		 * TODO:at the beginning of the game, we have little info about what other's like of dislike
-		 * so the beginning rounds will have special strategy
-		 */
-		
+				
 		int[] priorityArray = info.getPriority().getPriorityArray(); 
 		colorNum=priorityArray.length;
 		
@@ -64,10 +60,14 @@ public class OfferStrategy {
 			int leastLike = priorityArray[c+rand.nextInt(colorNum-c)];
 			int quantity = info.getAintInHand()[leastLike]/(rand.nextInt(c+1)+1);
 			if(count==1){
+				/*
+				 * at the beginning of the game, we have little info about what other's like of dislike
+				 * so the beginning rounds will have special strategy
+				 */
 				quantity=1;
 			}
 			aintOffer[leastLike] = quantity;
-			aintDesire[priorityArray[rand.nextInt(c+1)]] = quantity;
+			aintDesire[priorityArray[rand.nextInt(c)]] = quantity;
 		}
 	}
 
