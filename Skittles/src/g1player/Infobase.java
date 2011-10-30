@@ -11,6 +11,8 @@ public class Infobase {
 	
 	int[][] playerPreferences;
 	int[][] estimatedSkittles;
+	int numPlayers;
+	int numColors;
 	Priority priority;
 
 	/**
@@ -40,6 +42,8 @@ public class Infobase {
 	{
 		playerPreferences = new int[numPlayers][numColors];
 		estimatedSkittles = new int[numPlayers][numColors];
+		this.numPlayers = numPlayers;
+		this.numColors = numColors;
 		
 		int estSkittlesPerColor = skittlesPerPlayer/numColors;
 		
