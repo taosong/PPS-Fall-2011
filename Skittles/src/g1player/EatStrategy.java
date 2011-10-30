@@ -76,6 +76,7 @@ public class EatStrategy {
 						
 				}
 			}
+			
 			if(eatIndex !=-1){
 				aintTempEat[eatIndex] = 1;
 				aintInHand[eatIndex]--;
