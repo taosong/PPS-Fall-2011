@@ -13,10 +13,14 @@ public class Infobase {
 	int[][] estimatedSkittles;
 	int numPlayers;
 	int numColors;
+	protected int[] aintInHand = {0,1,2,3,4,5,6,7,8};   // # of skittles in hand, assigned value for debug
+	//TODO: update aintInHand in infobase
+	
 	int[] happinessPerSkittle; /* I added this to the info base because in order to pick offers I needed to know
 									how much we liked each skittle.  We should discuss this decision tomorrow and 
 									whether or not to keep it */
 	private Priority priority;
+
 
 	/**
 	 * get the infobase object using this static method.
@@ -58,9 +62,9 @@ public class Infobase {
 		
 		int estSkittlesPerColor = skittlesPerPlayer/numColors;
 		
-		for (int i = 0; i < numColors; ++i)
+		for (int i = 0; i < numPlayers; ++i)
 		{
-			for (int j = 0; j < numPlayers; ++j)
+			for (int j = 0; j <numColors ; ++j)
 			{
 				estimatedSkittles[i][j] = estSkittlesPerColor;
 			}
