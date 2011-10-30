@@ -1,5 +1,7 @@
 package g1player;
 
+import g1player.main.DummyMain;
+
 import java.util.Random;
 
 public class OfferStrategy {
@@ -22,6 +24,7 @@ public class OfferStrategy {
 
 				
 		int[] priorityArray = info.getPriority().getPriorityArray(); 
+		DummyMain.printArray(priorityArray, "OfferStrategy priorityArray:");
 		colorNum=priorityArray.length;
 		
 		int[] maxOffers = new int[c]; //# of skittles others able to give us
@@ -36,9 +39,10 @@ public class OfferStrategy {
 			 */
 			int tempLeast=colorNum;
 			int leastLike = priorityArray[tempLeast-1];
+			System.out.println(" >> 1tempLeast<<<<   ".concat(String.valueOf(leastLike)));
 			while(info.getAintInHand()[leastLike]==0){
 				leastLike=priorityArray[--tempLeast];
-				System.out.println("tempLeast<<<<   ".concat(String.valueOf(tempLeast)));
+				System.out.println(" >> 2tempLeast<<<<   ".concat(String.valueOf(tempLeast)));
 			}
 			int quantity = info.getAintInHand()[leastLike];
 			quantity=Math.min(info.getAintInHand()[leastLike], 1);

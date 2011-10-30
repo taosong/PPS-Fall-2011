@@ -165,11 +165,11 @@ public class Priority {
 
 		weightedPercentInHand[colorIndex] = percentInHand[colorIndex] * happiness;
 		
-//		System.out.print(" >>>  weightedPercentInHand: ");
-//		for(int ii=0; ii<weightedPercentInHand.length; ii++){
-//			System.out.print(""+weightedPercentInHand[ii]+", ");
-//		}
-//		System.out.println();
+		System.out.print(" >>>  weightedPercentInHand: ");
+		for(int ii=0; ii<weightedPercentInHand.length; ii++){
+			System.out.print(""+weightedPercentInHand[ii]+", ");
+		}
+		System.out.println();
 		
 		for(int i=0; i<weightedPercentInHand.length; i++){
 			if(weightedPercentInHand[i] == -1.0){

@@ -13,8 +13,9 @@ public class G1Player extends Player {
 
 	@Override
 	public void eat(int[] aintTempEat) {
-		DummyMain.printArray(info.getAintInHand(), "info.getAintInHand()");
+		DummyMain.printArray(info.getAintInHand(), "[G1Player] [eat] info.getAintInHand()");
 		eatStrategy.update(aintTempEat,info);
+		DummyMain.printArray(aintTempEat, "[G1Player] [eat] aintTempEat");
 		for(int i = 0; i<aintTempEat.length;i++){
 			if(aintTempEat[i]!=0)
 			{
@@ -45,6 +46,10 @@ public class G1Player extends Player {
 	@Override
 	public void happier(double dblHappinessUp) {
 		info.updateHappiness(dblHappinessUp,info.getIntLastEatIndex(),info.getIntLastEatNum());
+		if(!info.getPriority().isWeightedPriorityComplete()){
+			System.out.println("[G1Player] [happier] " + dblHappinessUp + ", " + info.getIntLastEatIndex() + ", " + info.getIntLastEatNum());
+			info.getPriority().updatePriority(info.getIntLastEatIndex(), dblHappinessUp/info.getIntLastEatNum());
+		}
 	}
 
 	@Override
@@ -54,11 +59,16 @@ public class G1Player extends Player {
 
 	@Override
 	public void offerExecuted(Offer offPicked) {
+		System.out.println("[G1Player] [offerExecuted]: " + offPicked);
 		info.updateOfferExecute(offPicked);
 	}
 
 	@Override
 	public void updateOfferExe(Offer[] aoffCurrentOffers) {
+		System.out.println("[G1Player] [updateOfferExe]");
+		for(Offer o : aoffCurrentOffers){
+			System.out.println(" -- " + o);
+		}
 		info.updateOfferExe(aoffCurrentOffers);
 	}
 

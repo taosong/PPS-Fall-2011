@@ -31,6 +31,7 @@ public class EatStrategy {
 		//if all desired colors gathered - eat one by one
 	    if(complete){
 			
+	    	System.out.println(" >>[EatStrategy] [update] complete");
 	    	for(int i=0 ; i<aintInHand.length; i++){
 				if(aintInHand[i] != -1){
 					aintTempEat[i] = aintInHand[i];
@@ -40,6 +41,7 @@ public class EatStrategy {
 			
 		} else if(!isWeightedPriorityComplete){ //for initial n/2  rounds check for colors not tasted according to priority queue
 			
+			System.out.println(" >>[EatStrategy] [update] !complete and !isWeightedPriorityComplete");
 			for(int i=0; i<initialPriorityForEat.length ; i++){
 				
 				if(initialPriorityForEat[i] != -1){
@@ -55,6 +57,7 @@ public class EatStrategy {
 			
 		} else {
 			
+			System.out.println(" >>[EatStrategy] [update] complete and isWeightedPriorityComplete");
 			int eatIndex = -1;
 			double eatHappiness = -1;
 			for(int i=info.getDesiredColorCount(); i<initialPriority.length; i++){
