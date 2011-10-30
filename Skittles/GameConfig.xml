@@ -11,6 +11,7 @@
 	</Player>
 	<Player>
 		<Class>g1player.G1Player</Class>
+<<<<<<< HEAD
 		<Happiness>random,5</Happiness>
 		<InHand>random</InHand>
 	</Player>
@@ -21,6 +22,8 @@
 	</Player>
 	<Player>
 		<Class>skittles.dumpplayer.DumpPlayer</Class>
+=======
+>>>>>>> branch 'master' of git@github.com:kanap008/PPS-Fall-2011.git
 		<Happiness>random,5</Happiness>
 		<InHand>random</InHand>
 	</Player>

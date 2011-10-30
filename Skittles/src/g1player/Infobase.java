@@ -9,8 +9,8 @@ public class Infobase {
 	 */
 	public static Infobase INFO_BASE = null;
 	
-	int[][] playerPreferences;
-	int[][] estimatedSkittles;
+	int[][] playerPreferences = null;
+	int[][] estimatedSkittles = null;
 	int numPlayers;
 	
 	//private Priority priority;
