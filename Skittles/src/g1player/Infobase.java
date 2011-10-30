@@ -9,14 +9,14 @@ public class Infobase {
 	 */
 	public static Infobase INFO_BASE = null;
 	
-	int[][] playerPreferences;
-	int[][] estimatedSkittles;
+	int[][] playerPreferences = null;
+	int[][] estimatedSkittles = null;
 	int numPlayers;
 	
 	//private Priority priority;
 	private Priority priority;
 	private int desiredColorCount = 0; //'c' as per discussion terminology
-	private int[] colorHappinessArray;//happiness matrix
+	private double[] colorHappinessArray;//happiness matrix
 	private int[] aintInHand;
 	private int initialSkittlesPerPlayer;
 	
@@ -55,9 +55,9 @@ public class Infobase {
 	public boolean tablesExist()
 	{
 		if (playerPreferences == null || estimatedSkittles == null)
-			return true;
-		else
 			return false;
+		else
+			return true;
 	}
 		
 	public void createTable(int numPlayers)
@@ -94,8 +94,10 @@ public class Infobase {
 		
 	}
 	public void updateHappiness(double dblHappinessUp, int intLastEatIndex, int intLastEatNum) {
-		// TODO Auto-generated method stub
-		
+		if (intLastEatNum == 1)
+		{
+			INFO_BASE.colorHappinessArray[intLastEatIndex] = dblHappinessUp;
+		}
 	}
 
 	public void updateOfferExecute(Offer offPicked) {
@@ -114,10 +116,10 @@ public class Infobase {
 			{
 				if (!o.getOfferLive())
 				{
-					INFO_BASE.playerPreferences[i][offeredBy] += desired[i];
-					INFO_BASE.playerPreferences[i][offeredBy] -= offered[i];
-					INFO_BASE.playerPreferences[i][tookOffer] -= desired[i];
-					INFO_BASE.playerPreferences[i][tookOffer] += offered[i];
+					INFO_BASE.playerPreferences[offeredBy][i] += desired[i];
+					INFO_BASE.playerPreferences[offeredBy][i] -= offered[i];
+					INFO_BASE.playerPreferences[tookOffer][i] -= desired[i];
+					INFO_BASE.playerPreferences[tookOffer][i] += offered[i];
 				}
 			}
 		}
@@ -130,15 +132,15 @@ public class Infobase {
 		this.desiredColorCount = desiredColorCount;
 	}
 
-	public int[] getColorHappinessArray() {
+	public double[] getColorHappinessArray() {
 		return colorHappinessArray;
 	}
 
-	public void setColorHappinessArray(int[] colorHappiness) {
+	public void setColorHappinessArray(double[] colorHappiness) {
 		this.colorHappinessArray = colorHappiness;
 	}
 
-	public int getColorHappiness(int index) {
+	public double getColorHappiness(int index) {
 		return colorHappinessArray[index];
 	}
 

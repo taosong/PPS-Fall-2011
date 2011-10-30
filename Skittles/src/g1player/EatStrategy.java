@@ -53,7 +53,7 @@ public class EatStrategy {
 		} else {
 			
 			int eatIndex = -1;
-			int eatHappiness = -1;
+			double eatHappiness = -1;
 			for(int i=info.getDesiredColorCount(); i<initialPriority.length; i++){
 				if(info.getColorHappiness(initialPriority[i]) >=0 && info.getColorHappiness(initialPriority[i]) < eatHappiness){
 						eatIndex = initialPriority[i];
