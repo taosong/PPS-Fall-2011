@@ -60,9 +60,9 @@ public class OfferStrategy {
 		if(maxQuantity==0){   
 			//TODO: take other's like/dislike into consideration
 			int leastLike = info.getPriority().getLestPriorityColor();
-			int quantity = rand.nextInt(info.getAintInHand()[leastLike]-1)+1;
-			aintOffer[leastLike] = quantity;
-			aintDesire[info.getPriority().getHighestPriorityColor()] = quantity;
+//			int quantity = rand.nextInt(info.getAintInHand()[leastLike]-1)+1;
+//			aintOffer[leastLike] = quantity;
+//			aintDesire[info.getPriority().getHighestPriorityColor()] = quantity;
 		}
 	}
 

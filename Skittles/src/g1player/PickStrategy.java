@@ -59,6 +59,19 @@ public class PickStrategy {
 					bestScore = offerScores[i];
 				}
 			}
+			
+			/* update the skittles we have */
+			int[] skittlesWeHave = info.getAintInHand();
+			int[] getting = aoffCurrentOffers[bestIndex].getOffer();
+			int[] giving = aoffCurrentOffers[bestIndex].getDesire();
+			for (int j = 0; j < getting.length; ++j)
+			{
+				skittlesWeHave[j] -= giving[j];
+				skittlesWeHave[j] += getting[j];
+			}
+			info.setAintInHand(skittlesWeHave);
+
+			/* return chosen offer */
 			return aoffCurrentOffers[bestIndex];
 		}		
 	}

@@ -80,6 +80,7 @@ public class G1Player extends Player {
 		
 		eatStrategy = new EatStrategy();
 		pickStrategy = new PickStrategy();
+		offerStrategy = new OfferStrategy();
 	}
 
 	@Override
