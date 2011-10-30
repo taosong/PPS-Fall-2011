@@ -63,6 +63,7 @@ public class G1Player extends Player {
 	@Override
 	public void initialize(int intPlayerIndex, String strClassName,
 			int[] aintInHand) {
+		info = Infobase.getInfoBase();
 		info.setIntPlayerIndex(intPlayerIndex);
 		info.setStrClassName(strClassName);
 		info.setAintInHand(aintInHand);
@@ -75,10 +76,8 @@ public class G1Player extends Player {
 			info.setAdblTasteElement(intColorIndex, -1);
 			//adblTastes[ intColorIndex ] = -1;
 		}
-		info = Infobase.getInfoBase();
+		
 		info.getPriority().initializePriority(aintInHand);
-		
-		
 	}
 
 	@Override
