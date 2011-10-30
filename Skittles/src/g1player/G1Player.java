@@ -46,8 +46,7 @@ public class G1Player extends Player {
 
 	@Override
 	public Offer pickOffer(Offer[] aoffCurrentOffers) {
-		//return pickStrategy.pick(aoffCurrentOffers,info);
-		return null;
+		return pickStrategy.pick(aoffCurrentOffers,info);
 	}
 
 	@Override
@@ -71,12 +70,22 @@ public class G1Player extends Player {
 		
 		info.setDblHappiness(0);
 		info.setAdblTastes( new double[info.getIntColorNum()]);
+		
+		info.setColorHappinessArray(new double[info.getIntColorNum()]);
 		for ( int intColorIndex = 0; intColorIndex < info.getIntColorNum(); intColorIndex ++ )
 		{
 			info.setAdblTasteElement(intColorIndex, -1);
 			//adblTastes[ intColorIndex ] = -1;
 		}
-		info.getPriority().initializePriority(aintInHand);		
+		info.getPriority().initializePriority(aintInHand);
+		
+		int totalSkittles = 0;
+		for (int i : aintInHand)
+		{
+			totalSkittles += i;
+		}
+		
+		info.setInitialSkittlesPerPlayer(totalSkittles);
 		
 		eatStrategy = new EatStrategy();
 		pickStrategy = new PickStrategy();

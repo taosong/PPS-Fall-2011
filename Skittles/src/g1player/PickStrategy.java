@@ -15,7 +15,7 @@ public class PickStrategy {
 		/* make sure the tables in infobase are created */
 		if (!info.tablesExist())
 		{
-//			info.createTable();
+			info.createTable(aoffCurrentOffers.length);
 		}
 		
 		/* for each offer, analyze how much it's worth to us */
