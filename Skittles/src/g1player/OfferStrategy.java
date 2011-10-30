@@ -17,7 +17,7 @@ public class OfferStrategy {
 	 */
 	public void getOffer(int[] aintOffer, int[] aintDesire, Infobase infoUpdate) {
 		this.info = infoUpdate;
-		this.c=info.getDesiredColorCount();
+//		this.c=info.getDesiredColorCount();
 		count++;
 				
 		int[] priorityArray = info.getPriority().getPriorityArray(); 
