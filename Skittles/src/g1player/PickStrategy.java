@@ -60,26 +60,44 @@ public class PickStrategy {
 			for (int i : offersGainingGoalSkittles)
 			{
 				// if this offer has a better score than the best
-				if (offerScores[i] > bestScore)
+				if (offerScores[i] > bestScore && canAffordTrade(aoffCurrentOffers[i].getDesire(), info))
 				{
 					bestIndex = i;
 					bestScore = offerScores[i];
 				}
 			}
 			
-			/* update the skittles we have */
-			int[] skittlesWeHave = info.getAintInHand();
-			int[] getting = aoffCurrentOffers[bestIndex].getOffer();
-			int[] giving = aoffCurrentOffers[bestIndex].getDesire();
-			for (int j = 0; j < getting.length; ++j)
+			if (bestIndex != -1)
 			{
-				skittlesWeHave[j] -= giving[j];
-				skittlesWeHave[j] += getting[j];
-			}
-			info.setAintInHand(skittlesWeHave);
+				/* update the skittles we have */
+				int[] skittlesWeHave = info.getAintInHand();
+				int[] getting = aoffCurrentOffers[bestIndex].getOffer();
+				int[] giving = aoffCurrentOffers[bestIndex].getDesire();
+				for (int j = 0; j < getting.length; ++j)
+				{
+					skittlesWeHave[j] -= giving[j];
+					skittlesWeHave[j] += getting[j];
+				}	
+				info.setAintInHand(skittlesWeHave);
 
-			/* return chosen offer */
-			return aoffCurrentOffers[bestIndex];
+				/* return chosen offer */
+				return aoffCurrentOffers[bestIndex];
+			}
+			else
+			{
+				return null;
+			}
 		}		
+	}
+	
+	private boolean canAffordTrade(int[] giving, Infobase info)
+	{
+		int[] skittlesWeHave = info.getAintInHand();
+		for(int i = 0; i < giving.length; ++i)
+		{
+			if (!(skittlesWeHave[i] >= giving[i]))
+				return false;
+		}
+		return true;
 	}
 }
