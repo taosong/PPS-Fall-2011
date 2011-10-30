@@ -79,6 +79,8 @@ public class G1Player extends Player {
 		{
 			adblTastes[ intColorIndex ] = -1;
 		}
+		info = Infobase.getInfoBase();
+		info.getPriority().initializePriority(aintInHand);
 	}
 
 	@Override
