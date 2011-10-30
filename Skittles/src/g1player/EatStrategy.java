@@ -43,11 +43,13 @@ public class EatStrategy {
 			for(int i=0; i<initialPriorityForEat.length ; i++){
 				
 				if(initialPriorityForEat[i] != -1){
-					//TODO check with kana
-					aintTempEat[initialPriorityForEat[i]] = 1;
-					aintInHand[initialPriorityForEat[i]]--;
-					initialPriorityForEat[i] = -1;
-					break;
+					if(aintInHand[initialPriorityForEat[i]] > 0){
+						aintTempEat[initialPriorityForEat[i]] = 1;
+						aintInHand[initialPriorityForEat[i]]--;
+						initialPriorityForEat[i] = -1;
+						break;
+					}
+					initialPriorityForEat[i] = -1;	
 				}
 			}
 			
