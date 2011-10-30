@@ -1,5 +1,6 @@
 package g1player;
 
+import g1player.main.DummyMain;
 import skittles.sim.Offer;
 import skittles.sim.Player;
 
@@ -15,6 +16,7 @@ public class G1Player extends Player {
 
 	@Override
 	public void eat(int[] aintTempEat) {
+		DummyMain.printArray(info.getAintInHand(), "info.getAintInHand()");
 		eatStrategy.update(aintTempEat,info);
 		for(int i = 0; i<aintTempEat.length;i++){
 			if(aintTempEat[i]!=0)
@@ -32,6 +34,8 @@ public class G1Player extends Player {
 		int[] aintOffer = new int[info.getIntColorNum()];
 		int[] aintDesire = new int[info.getIntColorNum()];
 		offerStrategy.getOffer(aintOffer,aintDesire,info);
+		DummyMain.printArray(aintOffer, "aintOffer");
+		DummyMain.printArray(aintDesire, "aintDesire");
 		offTemp.setOffer( aintOffer, aintDesire );
 	}
 

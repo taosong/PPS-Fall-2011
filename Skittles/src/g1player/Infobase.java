@@ -101,7 +101,6 @@ public class Infobase {
 	}
 
 	public void updateOfferExecute(Offer offPicked) {
-		// TODO Auto-generated method stub
 		
 	}
 
