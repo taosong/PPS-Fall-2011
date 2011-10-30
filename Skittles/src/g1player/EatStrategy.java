@@ -29,6 +29,13 @@ public class EatStrategy {
 		//TODO decide if we dont require any  more offers for a particular color 
 			
 		//if all desired colors gathered - eat one by one
+		boolean  isWeightedPriorityCompleteTemp =true;
+		for(int i=0; i<initialPriorityForEat.length ; i++){
+			if(initialPriorityForEat[i] != -1){
+				isWeightedPriorityCompleteTemp =false;
+				break;
+			}
+		}
 	    if(complete){
 			
 	    	for(int i=0 ; i<aintInHand.length; i++){
@@ -38,7 +45,7 @@ public class EatStrategy {
 				}
 			}
 			
-		} else if(!isWeightedPriorityComplete){ //for initial n/2  rounds check for colors not tasted according to priority queue
+		} else if(!isWeightedPriorityCompleteTemp){ //for initial n/2  rounds check for colors not tasted according to priority queue
 			
 			for(int i=0; i<initialPriorityForEat.length ; i++){
 				
@@ -56,7 +63,7 @@ public class EatStrategy {
 		} else {
 			
 			int eatIndex = -1;
-			double eatHappiness = -1;
+			double eatHappiness = 10;
 			for(int i=info.getDesiredColorCount(); i<initialPriority.length; i++){
 				if(info.getColorHappiness(initialPriority[i]) >=0 && info.getColorHappiness(initialPriority[i]) < eatHappiness){
 						eatIndex = initialPriority[i];
