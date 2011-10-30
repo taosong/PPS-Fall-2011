@@ -4,21 +4,19 @@ import java.util.Random;
 
 public class OfferStrategy {
 	private Infobase info;
-	private int c = 3 ; 	//how many colors we are going to have last round.N/k or 1.
+	private int c = 2 ; 	//how many colors we are going to have last round.N/k or 1.
 
 	private int count = 0;
 	private Random rand = new Random();
 	
-	public OfferStrategy(int c) {
-		this.c=c;
-	}
-	
+
 	/*
 	 * We look for the most number of skittles we can get this term, in {C}, we don't care what kind of 
 	 * skittles we are going to give away as long as it is not in C.
 	 */
 	public void getOffer(int[] aintOffer, int[] aintDesire, Infobase infoUpdate) {
 		this.info = infoUpdate;
+		this.c=info.getDesiredColorCount();
 		
 		/*
 		 * TODO:at the beginning of the game, we have little info about what other's like of dislike
@@ -34,7 +32,7 @@ public class OfferStrategy {
 		
 		for (int i = 0; i < c; i++){
 			maxOffers[i] = 0;
-			for (int j = c+1;j < priorityArray.length;j++) 
+			for (int j = c;j < priorityArray.length;j++) 
 			{
 				int tempOffer = this.calculateOffer(priorityArray[i],priorityArray[j]);
 				if (tempOffer<info.getAintInHand()[priorityArray[j]]) //check if we have that many of skittles?
