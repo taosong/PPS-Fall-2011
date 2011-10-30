@@ -6,9 +6,6 @@ import skittles.sim.Player;
 
 public class G1Player extends Player {
 	
-	
-	
-	
 	protected EatStrategy eatStrategy;
 	protected OfferStrategy offerStrategy;
 	protected PickStrategy pickStrategy;
@@ -31,6 +28,7 @@ public class G1Player extends Player {
 	
 	@Override
 	public void offer(Offer offTemp) {
+		DummyMain.printArray(info.getAintInHand(), "after eating - info.getAintInHand():");
 		int[] aintOffer = new int[info.getIntColorNum()];
 		int[] aintDesire = new int[info.getIntColorNum()];
 		offerStrategy.getOffer(aintOffer,aintDesire,info);
