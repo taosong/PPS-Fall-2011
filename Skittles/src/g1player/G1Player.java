@@ -5,19 +5,12 @@ import skittles.sim.Player;
 
 public class G1Player extends Player {
 	
-	private int[] aintInHand;
-	private int intColorNum;
-	double dblHappiness;
-	String strClassName;
-	int intPlayerIndex;
 	
-	private double[] adblTastes;
-	private int intLastEatIndex;
-	private int intLastEatNum;
+	
 	
 	protected EatStrategy eatStrategy;
 	protected OfferStrategy offerStrategy;
-	protected PickStrategy pickStrategy;
+	//protected PickStrategy pickStrategy;
 	protected Infobase info; 
 
 	@Override
@@ -26,8 +19,8 @@ public class G1Player extends Player {
 		for(int i = 0; i<aintTempEat.length;i++){
 			if(aintTempEat[i]!=0)
 			{
-				intLastEatIndex = i;
-				intLastEatNum = aintTempEat[i];
+				info.setIntLastEatIndex(i);
+				info.setIntLastEatNum(aintTempEat[i]);
 				break;
 			}
 		}
@@ -35,8 +28,8 @@ public class G1Player extends Player {
 	
 	@Override
 	public void offer(Offer offTemp) {
-		int[] aintOffer = new int[intColorNum];
-		int[] aintDesire = new int[intColorNum];
+		int[] aintOffer = new int[info.getIntColorNum()];
+		int[] aintDesire = new int[info.getIntColorNum()];
 		offerStrategy.getOffer(aintOffer,aintDesire,info);
 		offTemp.setOffer( aintOffer, aintDesire );
 	}
@@ -48,12 +41,13 @@ public class G1Player extends Player {
 
 	@Override
 	public void happier(double dblHappinessUp) {
-		info.updateHappiness(dblHappinessUp,intLastEatIndex, intLastEatNum);
+		info.updateHappiness(dblHappinessUp,info.getIntLastEatIndex(),info.getIntLastEatNum());
 	}
 
 	@Override
 	public Offer pickOffer(Offer[] aoffCurrentOffers) {
-		return pickStrategy.pick(aoffCurrentOffers,info);
+		//return pickStrategy.pick(aoffCurrentOffers,info);
+		return null;
 	}
 
 	@Override
@@ -69,18 +63,22 @@ public class G1Player extends Player {
 	@Override
 	public void initialize(int intPlayerIndex, String strClassName,
 			int[] aintInHand) {
-		this.intPlayerIndex = intPlayerIndex;
-		this.strClassName = strClassName;
-		this.aintInHand = aintInHand;
-		intColorNum = aintInHand.length;
-		dblHappiness = 0;
-		adblTastes = new double[ intColorNum ];
-		for ( int intColorIndex = 0; intColorIndex < intColorNum; intColorIndex ++ )
+		info.setIntPlayerIndex(intPlayerIndex);
+		info.setStrClassName(strClassName);
+		info.setAintInHand(aintInHand);
+		info.setIntColorNum(aintInHand.length);
+		
+		info.setDblHappiness(0);
+		info.setAdblTastes( new double[info.getIntColorNum()]);
+		for ( int intColorIndex = 0; intColorIndex < info.getIntColorNum(); intColorIndex ++ )
 		{
-			adblTastes[ intColorIndex ] = -1;
+			info.setAdblTasteElement(intColorIndex, -1);
+			//adblTastes[ intColorIndex ] = -1;
 		}
 		info = Infobase.getInfoBase();
 		info.getPriority().initializePriority(aintInHand);
+		
+		
 	}
 
 	@Override
@@ -90,7 +88,7 @@ public class G1Player extends Player {
 
 	@Override
 	public int getPlayerIndex() {
-		return intPlayerIndex;
+		return info.getIntPlayerIndex();
 	}
 
 }

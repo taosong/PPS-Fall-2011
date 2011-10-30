@@ -13,13 +13,24 @@ public class Infobase {
 	int[][] estimatedSkittles;
 	int numPlayers;
 	int numColors;
-	protected int[] aintInHand = {0,1,2,3,4,5,6,7,8};   // # of skittles in hand, assigned value for debug
-	//TODO: update aintInHand in infobase
 	
 	int[] happinessPerSkittle; /* I added this to the info base because in order to pick offers I needed to know
 									how much we liked each skittle.  We should discuss this decision tomorrow and 
 									whether or not to keep it */
+	//private Priority priority;
 	private Priority priority;
+	private int desiredColorCount = 0; //'c' as per discussion terminology
+	private int[] colorHappinessArray;//happiness matrix
+	private int[] aintInHand;
+	
+	private int intColorNum;
+	double dblHappiness;
+	String strClassName;
+	int intPlayerIndex;
+	
+	private double[] adblTastes;
+	private int intLastEatIndex;
+	private int intLastEatNum;
 
 
 	/**
@@ -68,6 +79,12 @@ public class Infobase {
 			{
 				estimatedSkittles[i][j] = estSkittlesPerColor;
 			}
+			// calculate desired number of colors for this round
+			if (numPlayers >= numColors) {
+				desiredColorCount = 1;
+			} else {
+				desiredColorCount = Math.round(numColors / numPlayers);
+			}
 		}
 
 	}
@@ -110,5 +127,93 @@ public class Infobase {
 			}
 		}
 	}
+	public int getDesiredColorCount() {
+		return desiredColorCount;
+	}
+
+	public void setDesiredColorCount(int desiredColorCount) {
+		this.desiredColorCount = desiredColorCount;
+	}
+
+	public int[] getColorHappinessArray() {
+		return colorHappinessArray;
+	}
+
+	public void setColorHappinessArray(int[] colorHappiness) {
+		this.colorHappinessArray = colorHappiness;
+	}
+
+	public int getColorHappiness(int index) {
+		return colorHappinessArray[index];
+	}
+
+	public int[] getAintInHand() {
+		return aintInHand;
+	}
+
+	public void setAintInHand(int[] aintInHand) {
+		this.aintInHand = aintInHand;
+	}
+
+	public int getIntColorNum() {
+		return intColorNum;
+	}
+
+	public void setIntColorNum(int intColorNum) {
+		this.intColorNum = intColorNum;
+	}
+
+	public double getDblHappiness() {
+		return dblHappiness;
+	}
+
+	public void setDblHappiness(double dblHappiness) {
+		this.dblHappiness = dblHappiness;
+	}
+
+	public String getStrClassName() {
+		return strClassName;
+	}
+
+	public void setStrClassName(String strClassName) {
+		this.strClassName = strClassName;
+	}
+
+	public int getIntPlayerIndex() {
+		return intPlayerIndex;
+	}
+
+	public void setIntPlayerIndex(int intPlayerIndex) {
+		this.intPlayerIndex = intPlayerIndex;
+	}
+
+	public double[] getAdblTastes() {
+		return adblTastes;
+	}
+
+	public void setAdblTastes(double[] adblTastes) {
+		this.adblTastes = adblTastes;
+	}
+	
+	public void setAdblTasteElement(int index , double  value){
+		this.adblTastes[index] = value;
+	}
+
+	public int getIntLastEatIndex() {
+		return intLastEatIndex;
+	}
+
+	public void setIntLastEatIndex(int intLastEatIndex) {
+		this.intLastEatIndex = intLastEatIndex;
+	}
+
+	public int getIntLastEatNum() {
+		return intLastEatNum;
+	}
+
+	public void setIntLastEatNum(int intLastEatNum) {
+		this.intLastEatNum = intLastEatNum;
+	}
+
 
 }
