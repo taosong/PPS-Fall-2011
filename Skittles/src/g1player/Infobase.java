@@ -11,7 +11,7 @@ public class Infobase {
 	
 	int[][] playerPreferences;
 	int[][] estimatedSkittles;
-	Priority priority;
+	private Priority priority;
 
 	/**
 	 * get the infobase object using this static method.
@@ -25,9 +25,16 @@ public class Infobase {
 	}
 	
 	private Infobase() {
-		
+		priority = new Priority();
 	}
 	
+	public Priority getPriority() {
+		return priority;
+	}
+	public void setPriority(Priority priority) {
+		this.priority = priority;
+	}
+
 	public boolean tablesExist()
 	{
 		if (playerPreferences == null || estimatedSkittles == null)
@@ -50,8 +57,7 @@ public class Infobase {
 				estimatedSkittles[i][j] = estSkittlesPerColor;
 			}
 		}
-		
-		priority.initializePriority();
+
 	}
 	
 	public void updatePlayerPreferences(int playerIndex, Offer playerOffer)
