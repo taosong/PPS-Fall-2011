@@ -27,7 +27,7 @@ public class EatStrategy {
 			}
 		}
 		//TODO decide if we dont require any  more offers for a particular color 
-			
+		boolean isInitial = false;	
 		//if all desired colors gathered - eat one by one
 		boolean  isWeightedPriorityCompleteTemp =true;
 		for(int i=0; i<initialPriorityForEat.length ; i++){
@@ -54,20 +54,26 @@ public class EatStrategy {
 						aintTempEat[initialPriorityForEat[i]] = 1;
 						aintInHand[initialPriorityForEat[i]]--;
 						initialPriorityForEat[i] = -1;
+						isInitial = true;
 						break;
 					}
 					initialPriorityForEat[i] = -1;	
 				}
 			}
 			
-		} else {
+		} 
+	    
+	    if(!isInitial){
 			
 			int eatIndex = -1;
 			double eatHappiness = 10;
 			for(int i=info.getDesiredColorCount(); i<initialPriority.length; i++){
 				if(info.getColorHappiness(initialPriority[i]) >=0 && info.getColorHappiness(initialPriority[i]) < eatHappiness){
+					if(aintInHand[initialPriority[i]] > 0){
 						eatIndex = initialPriority[i];
 						eatHappiness = info.getColorHappiness(initialPriority[i]);
+					}
+						
 				}
 			}
 			if(eatIndex !=-1){
