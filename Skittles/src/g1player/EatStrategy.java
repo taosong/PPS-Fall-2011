@@ -13,6 +13,7 @@ public class EatStrategy {
 
 //		aintTempEat = new int[aintTempEat.length];
 		int[] initialPriority = info.getPriority().getPriorityArray();
+		int[] initialPriorityForEat = info.getPriority().getInitialPriorityForEat();
 		boolean isWeightedPriorityComplete = info.getPriority().isWeightedPriorityComplete();
 		boolean complete = true;
 		
@@ -39,14 +40,16 @@ public class EatStrategy {
 			
 		} else if(!isWeightedPriorityComplete){ //for initial n/2  rounds check for colors not tasted according to priority queue
 			
-			for(int i=0; i<initialPriority.length ; i++){
+			for(int i=0; i<initialPriorityForEat.length ; i++){
 				
-				if(initialPriority[i] != -1){
-					//TODO check with kana
-					aintTempEat[initialPriority[i]] = 1;
-					aintInHand[initialPriority[i]]--;
-					initialPriority[i] = -1;
-					break;
+				if(initialPriorityForEat[i] != -1){
+					if(aintInHand[initialPriorityForEat[i]] > 0){
+						aintTempEat[initialPriorityForEat[i]] = 1;
+						aintInHand[initialPriorityForEat[i]]--;
+						initialPriorityForEat[i] = -1;
+						break;
+					}
+					initialPriorityForEat[i] = -1;	
 				}
 			}
 			
