@@ -100,10 +100,13 @@ public class Infobase {
 			int[] offered = o.getOffer();
 			for (int i = 0; i < desired.length; ++i)
 			{
-				INFO_BASE.playerPreferences[i][offeredBy] += desired[i];
-				INFO_BASE.playerPreferences[i][offeredBy] -= offered[i];
-				INFO_BASE.playerPreferences[i][tookOffer] -= desired[i];
-				INFO_BASE.playerPreferences[i][tookOffer] += offered[i];
+				if (!o.getOfferLive())
+				{
+					INFO_BASE.playerPreferences[i][offeredBy] += desired[i];
+					INFO_BASE.playerPreferences[i][offeredBy] -= offered[i];
+					INFO_BASE.playerPreferences[i][tookOffer] -= desired[i];
+					INFO_BASE.playerPreferences[i][tookOffer] += offered[i];
+				}
 			}
 		}
 	}

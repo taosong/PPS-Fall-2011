@@ -12,6 +12,12 @@ public class PickStrategy {
 		/* keeps track of which offers are giving us goal skittles */
 		ArrayList<Integer> offersGainingGoalSkittles = new ArrayList<Integer>();
 		
+		/* make sure the tables in infobase are created */
+		if (!info.tablesExist())
+		{
+//			info.createTable();
+		}
+		
 		/* for each offer, analyze how much it's worth to us */
 		for (int j = 0; j < aoffCurrentOffers.length; ++j)
 		{
