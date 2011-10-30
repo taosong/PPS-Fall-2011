@@ -35,16 +35,16 @@ public class OfferStrategy {
 			 * so the beginning rounds will have special strategy
 			 */
 			int tempLeast=colorNum;
-			int leastLike = info.getPriority().getLestPriorityColor();
+			int leastLike = priorityArray[tempLeast-1];
+			System.out.println("leastLike<<<<   ".concat(String.valueOf(leastLike)));
 			while(info.getAintInHand()[leastLike]==0){
 				leastLike=priorityArray[--tempLeast];
-				System.out.println("tempLeast<<<<   ".concat(String.valueOf(tempLeast)));
+				System.out.println("tempLeast<<<<   ".concat(String.valueOf(leastLike)));
 			}
 			int quantity = info.getAintInHand()[leastLike];
 			quantity=Math.min(info.getAintInHand()[leastLike], 1);
 
 			aintOffer[leastLike] = quantity;
-			System.out.println("leastLike<<<<   ".concat(String.valueOf(leastLike)));
 			aintDesire[priorityArray[rand.nextInt(c)]] = quantity;
 			return;
 		}
@@ -54,7 +54,7 @@ public class OfferStrategy {
 			for (int j = c;j < priorityArray.length;j++) 
 			{
 				int tempOffer = this.calculateOffer(priorityArray[i],priorityArray[j]);
-				if (tempOffer<info.getAintInHand()[priorityArray[j]]) //check if we have that many of skittles?
+				if (tempOffer>info.getAintInHand()[priorityArray[j]]) //check if we have that many of skittles?
 				{
 					tempOffer = info.getAintInHand()[priorityArray[j]];
 				}
