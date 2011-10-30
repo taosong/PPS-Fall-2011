@@ -101,8 +101,15 @@ public class Infobase {
 	}
 
 	public void updateOfferExecute(Offer offPicked) {
-		// TODO Auto-generated method stub
-		
+		int[] skittlesWeHave = INFO_BASE.getAintInHand();
+		int[] getting = offPicked.getOffer();
+		int[] giving = offPicked.getDesire();
+		for (int j = 0; j < getting.length; ++j)
+		{
+			skittlesWeHave[j] -= giving[j];
+			skittlesWeHave[j] += getting[j];
+		}	
+		INFO_BASE.setAintInHand(skittlesWeHave);		
 	}
 
 	public void updateOfferExe(Offer[] aoffCurrentOffers) {
@@ -112,15 +119,15 @@ public class Infobase {
 			int tookOffer = o.getPickedByIndex();
 			int[] desired = o.getDesire();
 			int[] offered = o.getOffer();
-			for (int i = 0; i < desired.length; ++i)
+			if (!o.getOfferLive())
 			{
-				if (!o.getOfferLive())
+				for (int i = 0; i < desired.length; ++i)
 				{
 					INFO_BASE.playerPreferences[offeredBy][i] += desired[i];
 					INFO_BASE.playerPreferences[offeredBy][i] -= offered[i];
 					INFO_BASE.playerPreferences[tookOffer][i] -= desired[i];
 					INFO_BASE.playerPreferences[tookOffer][i] += offered[i];
-				}
+				}	
 			}
 		}
 	}
