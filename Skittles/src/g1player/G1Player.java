@@ -19,6 +19,7 @@ public class G1Player extends Player {
 		for(int i = 0; i<aintTempEat.length;i++){
 			if(aintTempEat[i]!=0)
 			{
+				System.out.println("[G1Player] [eat] eating Color: " + i);
 				info.setIntLastEatIndex(i);
 				info.setIntLastEatNum(aintTempEat[i]);
 				break;

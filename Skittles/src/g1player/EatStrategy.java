@@ -11,11 +11,12 @@ public class EatStrategy {
 	 */
 	public void update(int[] aintTempEat, Infobase info) {
 
+//		aintTempEat = new int[aintTempEat.length];
 		int[] initialPriority = info.getPriority().getPriorityArray();
 		boolean isWeightedPriorityComplete = info.getPriority().isWeightedPriorityComplete();
 		boolean complete = true;
 		
-		//decide if we do not require any more offers for all the colors - eat all 
+		// decide if we do not require any more offers for all the colors - eat all 
 		// u only have the skittles u desired  to have and u do not have any other skittle
 		int[] aintInHand = info.getAintInHand();
 		ArrayList<Integer>  desiredVector = info.getPriority().getDesiredVector(info);
@@ -39,9 +40,12 @@ public class EatStrategy {
 		} else if(!isWeightedPriorityComplete){ //for initial n/2  rounds check for colors not tasted according to priority queue
 			
 			for(int i=0; i<initialPriority.length ; i++){
-				if(initialPriority[i] != -1){ //TODO check with kana
+				
+				if(initialPriority[i] != -1){
+					//TODO check with kana
 					aintTempEat[initialPriority[i]] = 1;
 					aintInHand[initialPriority[i]]--;
+					initialPriority[i] = -1;
 					break;
 				}
 			}
@@ -59,7 +63,6 @@ public class EatStrategy {
 			if(eatIndex !=-1){
 				aintTempEat[eatIndex] = 1;
 				aintInHand[eatIndex]--;
-				
 			} else {
 				//if no positive color- keep looking here until that code is added
 			}

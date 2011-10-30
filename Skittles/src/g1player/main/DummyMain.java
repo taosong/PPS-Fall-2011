@@ -16,24 +16,29 @@ public class DummyMain {
 		Infobase info = Infobase.getInfoBase();
 		info.setAintInHand(aintInHand);
 		
+		aintTempEat = new int[aintTempEat.length];
 		g1Player.eat(aintTempEat);
 		info.getPriority().updatePriority(info.getIntLastEatIndex(), 0.5);
 		printArray(aintTempEat, "aintTempEat");
 		
+		aintTempEat = new int[aintTempEat.length];
 		g1Player.eat(aintTempEat);
-		info.getPriority().updatePriority(1, 1.0);
+		info.getPriority().updatePriority(info.getIntLastEatIndex(), 1.0);
 		printArray(aintTempEat, "aintTempEat");
 
+		aintTempEat = new int[aintTempEat.length];
 		g1Player.eat(aintTempEat);
-		info.getPriority().updatePriority(2, 0.2);
+		info.getPriority().updatePriority(info.getIntLastEatIndex(), 0.2);
 		printArray(aintTempEat, "aintTempEat");
 		
+		aintTempEat = new int[aintTempEat.length];
 		g1Player.eat(aintTempEat);
-		info.getPriority().updatePriority(3, 0.0);
+		info.getPriority().updatePriority(info.getIntLastEatIndex(), 0.0);
 		printArray(aintTempEat, "aintTempEat");
 
+		aintTempEat = new int[aintTempEat.length];
 		g1Player.eat(aintTempEat);
-		info.getPriority().updatePriority(4, 1.0);
+		info.getPriority().updatePriority(info.getIntLastEatIndex(), 1.0);
 		printArray(aintTempEat, "aintTempEat");		
 	}
 	
