@@ -1,6 +1,5 @@
 package g1player.main;
 
-import g1player.EatStrategy;
 import g1player.G1Player;
 import g1player.Infobase;
 
