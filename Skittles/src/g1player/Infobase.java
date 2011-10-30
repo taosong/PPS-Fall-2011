@@ -9,8 +9,8 @@ public class Infobase {
 	 */
 	public static Infobase INFO_BASE = null;
 	
-	int[][] playerPreferences;
-	int[][] estimatedSkittles;
+	int[][] playerPreferences = null;
+	int[][] estimatedSkittles = null;
 	int numPlayers;
 	
 	//private Priority priority;
@@ -116,10 +116,10 @@ public class Infobase {
 			{
 				if (!o.getOfferLive())
 				{
-					INFO_BASE.playerPreferences[i][offeredBy] += desired[i];
-					INFO_BASE.playerPreferences[i][offeredBy] -= offered[i];
-					INFO_BASE.playerPreferences[i][tookOffer] -= desired[i];
-					INFO_BASE.playerPreferences[i][tookOffer] += offered[i];
+					INFO_BASE.playerPreferences[offeredBy][i] += desired[i];
+					INFO_BASE.playerPreferences[offeredBy][i] -= offered[i];
+					INFO_BASE.playerPreferences[tookOffer][i] -= desired[i];
+					INFO_BASE.playerPreferences[tookOffer][i] += offered[i];
 				}
 			}
 		}

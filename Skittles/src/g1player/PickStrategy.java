@@ -22,22 +22,29 @@ public class PickStrategy {
 		for (int j = 0; j < aoffCurrentOffers.length; ++j)
 		{
 			Offer o = aoffCurrentOffers[j];
-			double score = 0; // initialize score
-			int[] weReceive = o.getOffer();
-			int[] weGiveUp = o.getDesire();
-			/* for each color, add up how our score would change if we accepted the offer */
-			for (int i = 0; i < weReceive.length; ++i)
+			if (o.getOfferLive())
 			{
-				score += weReceive[i] * info.getColorHappiness(i);
-				score -= weGiveUp[i] * info.getColorHappiness(i);
-				/* if it's a skittle we'd be receiving and it's a goal skittle, keep track of it */
-				if (weReceive[i] > 0 && info.getPriority().getHighestPriorityColor() == i)
+				double score = 0; // initialize score
+				int[] weReceive = o.getOffer();
+				int[] weGiveUp = o.getDesire();
+				/* for each color, add up how our score would change if we accepted the offer */
+				for (int i = 0; i < weReceive.length; ++i)
 				{
-					offersGainingGoalSkittles.add(j);
+					score += weReceive[i] * info.getColorHappiness(i);
+					score -= weGiveUp[i] * info.getColorHappiness(i);
+					/* if it's a skittle we'd be receiving and it's a goal skittle, keep track of it */
+					if (weReceive[i] > 0 && info.getPriority().getHighestPriorityColor() == i)
+					{
+						offersGainingGoalSkittles.add(j);
+					}
 				}
-			}
 			
-			offerScores[j] = score; // set score for this offer
+				offerScores[j] = score; // set score for this offer
+			}
+			else
+			{
+				offerScores[j] = Double.NEGATIVE_INFINITY;
+			}
 		}
 		
 		/* based on analysis, choose best offer (or no offer if none are good) */
