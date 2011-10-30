@@ -28,8 +28,8 @@ public class PickStrategy {
 			/* for each color, add up how our score would change if we accepted the offer */
 			for (int i = 0; i < weReceive.length; ++i)
 			{
-				score += weReceive[i] * info.happinessPerSkittle[i];
-				score -= weGiveUp[i] * info.happinessPerSkittle[i];
+				score += weReceive[i] * info.getColorHappiness(i);
+				score -= weGiveUp[i] * info.getColorHappiness(i);
 				/* if it's a skittle we'd be receiving and it's a goal skittle, keep track of it */
 				if (weReceive[i] > 0 && info.getPriority().getHighestPriorityColor() == i)
 				{

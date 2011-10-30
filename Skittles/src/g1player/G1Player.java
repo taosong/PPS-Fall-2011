@@ -10,7 +10,7 @@ public class G1Player extends Player {
 	
 	protected EatStrategy eatStrategy;
 	protected OfferStrategy offerStrategy;
-	//protected PickStrategy pickStrategy;
+	protected PickStrategy pickStrategy;
 	protected Infobase info; 
 
 	@Override
@@ -63,6 +63,7 @@ public class G1Player extends Player {
 	@Override
 	public void initialize(int intPlayerIndex, String strClassName,
 			int[] aintInHand) {
+		info = Infobase.getInfoBase();
 		info.setIntPlayerIndex(intPlayerIndex);
 		info.setStrClassName(strClassName);
 		info.setAintInHand(aintInHand);
@@ -75,10 +76,10 @@ public class G1Player extends Player {
 			info.setAdblTasteElement(intColorIndex, -1);
 			//adblTastes[ intColorIndex ] = -1;
 		}
-		info = Infobase.getInfoBase();
-		info.getPriority().initializePriority(aintInHand);
+		info.getPriority().initializePriority(aintInHand);		
 		
-		
+		eatStrategy = new EatStrategy();
+		pickStrategy = new PickStrategy();
 	}
 
 	@Override

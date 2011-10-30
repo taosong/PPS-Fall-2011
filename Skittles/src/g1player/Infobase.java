@@ -14,9 +14,6 @@ public class Infobase {
 	int numPlayers;
 	int numColors;
 	
-	int[] happinessPerSkittle; /* I added this to the info base because in order to pick offers I needed to know
-									how much we liked each skittle.  We should discuss this decision tomorrow and 
-									whether or not to keep it */
 	//private Priority priority;
 	private Priority priority;
 	private int desiredColorCount = 0; //'c' as per discussion terminology
@@ -69,7 +66,6 @@ public class Infobase {
 		estimatedSkittles = new int[numPlayers][numColors];
 		this.numPlayers = numPlayers;
 		this.numColors = numColors;
-		happinessPerSkittle = new int[numColors];
 		
 		int estSkittlesPerColor = skittlesPerPlayer/numColors;
 		
