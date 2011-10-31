@@ -39,10 +39,10 @@ public class OfferStrategy {
 			 */
 			int tempLeast=colorNum;
 			int leastLike = priorityArray[tempLeast-1];
-			System.out.println("leastLike<<<<   ".concat(String.valueOf(leastLike)));
+			//System.out.println("leastLike<<<<   ".concat(String.valueOf(leastLike)));
 			while(info.getAintInHand()[leastLike]==0){
 				leastLike=priorityArray[--tempLeast];
-				System.out.println("tempLeast<<<<   ".concat(String.valueOf(leastLike)));
+				//System.out.println("tempLeast<<<<   ".concat(String.valueOf(leastLike)));
 			}
 			int quantity = info.getAintInHand()[leastLike];
 			quantity=Math.min(info.getAintInHand()[leastLike], 1);
@@ -82,10 +82,10 @@ public class OfferStrategy {
 		if(maxQuantity==0){   
 			//TODO: take other's like/dislike into consideration
 			int tempLeast=colorNum;
-			int leastLike = priorityArray[tempLeast];
-			while(info.getAintInHand()[leastLike]==0){
+			int leastLike = priorityArray[--tempLeast]; //dhaval modified for array index out of bound exception
+			while(info.getAintInHand()[leastLike]==0 && !info.roundComplete){
 				leastLike=priorityArray[--tempLeast];
-				System.out.println("tempLeast<<<<   ".concat(String.valueOf(tempLeast)));
+				//System.out.println("tempLeast<<<<   ".concat(String.valueOf(tempLeast)));
 			}
 			int quantity = info.getAintInHand()[leastLike];
 

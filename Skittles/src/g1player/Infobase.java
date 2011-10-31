@@ -24,6 +24,7 @@ public class Infobase {
 	double dblHappiness;
 	String strClassName;
 	int intPlayerIndex;
+	public boolean roundComplete = false;
 	
 	private double[] adblTastes;
 	private int intLastEatIndex;
@@ -118,6 +119,9 @@ public class Infobase {
 		{
 			int offeredBy = o.getOfferedByIndex();
 			int tookOffer = o.getPickedByIndex();
+			if(tookOffer == -1 || offeredBy == 1 || offeredBy == intPlayerIndex ){ //dhaval, dont update for our player
+				continue; // dhaval array exception
+			}
 			int[] desired = o.getDesire();
 			int[] offered = o.getOffer();
 			if (!o.getOfferLive())

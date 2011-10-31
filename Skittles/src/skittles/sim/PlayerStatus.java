@@ -136,9 +136,9 @@ public class PlayerStatus
 
 	public boolean checkCanEat(int[] aintTempEat) 
 	{
-		System.out.println("aintTempEat : ");
-		for(int i : aintTempEat)
-		System.out.print(i);
+//		System.out.println("aintTempEat : ");
+//		for(int i : aintTempEat)
+//		System.out.print(i);
 		boolean blnEatAtLeastOne = false;
 		for ( int intColorIndex = 0; intColorIndex < intColorNum; intColorIndex ++ )
 		{

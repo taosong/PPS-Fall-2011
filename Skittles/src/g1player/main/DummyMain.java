@@ -43,20 +43,20 @@ public class DummyMain {
 	
 	public static void printArray(int[] array, String arrayName){
 		int tLength = array.length;
-		System.out.print("" + arrayName + ": ");
-		for(int i=0; i<tLength; i++){
-			System.out.print(array[i] + ", ");
-		}
-		System.out.println();
+//		System.out.print("" + arrayName + ": ");
+//		for(int i=0; i<tLength; i++){
+//			System.out.print(array[i] + ", ");
+//		}
+//		System.out.println();
 	}
 	
 	public static <T> void printArray(T[] array, String arrayName){
 		int tLength = array.length;
-		System.out.print("" + arrayName + ": ");
-		for(int i=0; i<tLength; i++){
-			System.out.print(array[i] + ", ");
-		}
-		System.out.println();
+//		System.out.print("" + arrayName + ": ");
+//		for(int i=0; i<tLength; i++){
+//			System.out.print(array[i] + ", ");
+//		}
+//		System.out.println();
 	}
 	
 }
