@@ -101,9 +101,10 @@ public class Infobase {
 	}
 
 	public void updateOfferExecute(Offer offPicked) {
+		
 		int[] skittlesWeHave = INFO_BASE.getAintInHand();
-		int[] getting = offPicked.getOffer();
-		int[] giving = offPicked.getDesire();
+		int[] giving = offPicked.getOffer();
+		int[] getting= offPicked.getDesire();
 		for (int j = 0; j < getting.length; ++j)
 		{
 			skittlesWeHave[j] -= giving[j];

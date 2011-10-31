@@ -1,5 +1,7 @@
 package g1player;
 
+import g1player.main.DummyMain;
+
 import java.util.Random;
 
 public class OfferStrategy {
@@ -22,6 +24,7 @@ public class OfferStrategy {
 
 				
 		int[] priorityArray = info.getPriority().getPriorityArray(); 
+		DummyMain.printArray(priorityArray, "OfferStrategy priorityArray:");
 		colorNum=priorityArray.length;
 		
 		int[] maxOffers = new int[c]; //# of skittles others able to give us
