@@ -1,0 +1,5 @@
+bin/*
+src/skittles/*
+GameConfig.xml
+GameConfig.out.xml
+
