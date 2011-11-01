@@ -1,4 +1,4 @@
-package g1player;
+package skittles.g1player;
 
 import java.util.ArrayList;
 import java.util.Arrays;

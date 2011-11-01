@@ -1,6 +1,6 @@
-package g1player;
+package skittles.g1player;
 
-import g1player.main.DummyMain;
+import skittles.g1player.main.DummyMain;
 import skittles.sim.Offer;
 import skittles.sim.Player;
 

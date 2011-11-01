@@ -1,8 +1,9 @@
-package g1player;
+package skittles.g1player;
 
-import g1player.main.DummyMain;
 
 import java.util.Random;
+
+import skittles.g1player.main.DummyMain;
 
 public class OfferStrategy {
 	private Infobase info;

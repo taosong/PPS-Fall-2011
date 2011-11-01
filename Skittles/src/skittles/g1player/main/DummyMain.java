@@ -1,7 +1,7 @@
-package g1player.main;
+package skittles.g1player.main;
 
-import g1player.G1Player;
-import g1player.Infobase;
+import skittles.g1player.G1Player;
+import skittles.g1player.Infobase;
 
 public class DummyMain {
 
