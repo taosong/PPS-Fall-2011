@@ -12,6 +12,16 @@ public class OfferStrategy {
 	private int count = 0;
 	private Random rand = new Random();
 	private int colorNum;
+	private int players;
+	protected int[][] offerTracker;
+	
+	protected OfferStrategy(Infobase infoUpdate){
+		this.info = infoUpdate;
+		this.colorNum=info.getIntColorNum();
+		this.players = info.numPlayers;
+		this.offerTracker = new int[colorNum][players];
+	}
+
 	
 
 	/*
@@ -50,6 +60,7 @@ public class OfferStrategy {
 
 			aintOffer[leastLike] = quantity;
 			aintDesire[priorityArray[rand.nextInt(c)]] = quantity;
+			DummyMain.printArray(aintOffer, "Offer: ");
 			return;
 		}
 		
@@ -93,6 +104,7 @@ public class OfferStrategy {
 			aintOffer[leastLike] = quantity;
 			aintDesire[priorityArray[rand.nextInt(c)]] = quantity;
 		}
+		DummyMain.printArray(aintOffer, "Offer: ");
 	}
 
 	// this functions calculates the max number of colorGet we can get from trading colorOffer
@@ -101,9 +113,13 @@ public class OfferStrategy {
 		for(int i = 0; i<info.numPlayers; i++){
 			if(info.playerPreferences[i][colorOffer]>0 && info.playerPreferences[i][colorGet]<0)
 			{
-				if(max<info.estimatedSkittles[i][colorGet])
+				if(max<info.estimatedSkittles[i][colorGet] )
 				{
-					max=info.estimatedSkittles[i][colorGet];
+					if(info.isPlayerInactive(i)){
+						System.out.println("Inactive Player  " + String.valueOf(i));
+					}
+					else
+						max=info.estimatedSkittles[i][colorGet];
 				}
 			}
 		}

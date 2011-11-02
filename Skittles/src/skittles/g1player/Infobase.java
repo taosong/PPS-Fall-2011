@@ -7,7 +7,6 @@ public class Infobase {
 	/**
 	 * made Infobase as a singleton class.
 	 */
-	public static Infobase INFO_BASE = null;
 	
 	int[][] playerPreferences = null;
 	int[][] estimatedSkittles = null;
@@ -31,19 +30,8 @@ public class Infobase {
 	private int intLastEatIndex;
 	private int intLastEatNum;
 
-
-	/**
-	 * get the infobase object using this static method.
-	 * @return
-	 */
-	public static Infobase getInfoBase(){
-		if(INFO_BASE == null){
-			INFO_BASE = new Infobase();
-		}
-		return INFO_BASE;
-	}
 	
-	private Infobase() {
+	public Infobase() {
 		priority = new Priority();
 	}
 	
@@ -99,13 +87,13 @@ public class Infobase {
 	public void updateHappiness(double dblHappinessUp, int intLastEatIndex, int intLastEatNum) {
 		if (intLastEatNum == 1)
 		{
-			INFO_BASE.colorHappinessArray[intLastEatIndex] = dblHappinessUp;
+			this.colorHappinessArray[intLastEatIndex] = dblHappinessUp;
 		}
 	}
 
 	public void updateOfferExecute(Offer offPicked) {
 		
-		int[] skittlesWeHave = INFO_BASE.getAintInHand();
+		int[] skittlesWeHave = this.getAintInHand();
 		int[] giving = offPicked.getOffer();
 		int[] getting= offPicked.getDesire();
 		for (int j = 0; j < getting.length; ++j)
@@ -113,7 +101,7 @@ public class Infobase {
 			skittlesWeHave[j] -= giving[j];
 			skittlesWeHave[j] += getting[j];
 		}	
-		INFO_BASE.setAintInHand(skittlesWeHave);		
+		this.setAintInHand(skittlesWeHave);		
 	}
 	
 	/**
@@ -178,10 +166,10 @@ public class Infobase {
 				updatePlayerSkittles(o);
 				for (int i = 0; i < desired.length; ++i)
 				{
-					INFO_BASE.playerPreferences[offeredBy][i] += desired[i];
-					INFO_BASE.playerPreferences[offeredBy][i] -= offered[i];
-					INFO_BASE.playerPreferences[tookOffer][i] -= desired[i];
-					INFO_BASE.playerPreferences[tookOffer][i] += offered[i];
+					this.playerPreferences[offeredBy][i] += desired[i];
+					this.playerPreferences[offeredBy][i] -= offered[i];
+					this.playerPreferences[tookOffer][i] -= desired[i];
+					this.playerPreferences[tookOffer][i] += offered[i];
 				}	
 			}
 		}

@@ -86,11 +86,12 @@ public class G1Player extends Player {
 	public void initialize(int intPlayerNum, int intPlayerIndex,
 			String strClassName, int[] aintInHand) {
 		
-		info = Infobase.getInfoBase();
+		info = new Infobase();
 		info.setIntPlayerIndex(intPlayerIndex);
 		info.setStrClassName(strClassName);
 		info.setAintInHand(aintInHand);
 		info.setIntColorNum(aintInHand.length);
+		info.createTable(intPlayerNum);
 		
 		info.setDblHappiness(0);
 		info.setAdblTastes( new double[info.getIntColorNum()]);
@@ -103,7 +104,7 @@ public class G1Player extends Player {
 		}
 
 		info.getPriority().initializePriority(aintInHand);
-		info.createTable(intPlayerNum);
+		
 		
 		int totalSkittles = 0;
 		for (int i : aintInHand)
@@ -114,8 +115,7 @@ public class G1Player extends Player {
 		
 		eatStrategy = new EatStrategy();
 		pickStrategy = new PickStrategy();
-		offerStrategy = new OfferStrategy();
-		
+		offerStrategy = new OfferStrategy(info);
 	}
 
 }
