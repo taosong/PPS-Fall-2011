@@ -11,6 +11,7 @@ public class Infobase {
 	
 	int[][] playerPreferences = null;
 	int[][] estimatedSkittles = null;
+	public int[] roundsInactive = null;
 	int numPlayers;
 	
 	//private Priority priority;
@@ -65,6 +66,7 @@ public class Infobase {
 	{
 		playerPreferences = new int[numPlayers][intColorNum];
 		estimatedSkittles = new int[numPlayers][intColorNum];
+		roundsInactive = new int[numPlayers];
 		this.numPlayers = numPlayers;
 		
 		int estSkittlesPerColor = initialSkittlesPerPlayer/intColorNum;
@@ -113,19 +115,67 @@ public class Infobase {
 		}	
 		INFO_BASE.setAintInHand(skittlesWeHave);		
 	}
+	
+	/**
+	 * This method takes in a player index and returns whether or not that
+	 * player is considered inactive.<br />
+	 * Passing a negative number for the player index will signal the function
+	 * to check if EVERY player is inactive, and it will return true if all 
+	 * other players are considered inactive.<br />
+	 * 
+	 * Right now the check for whether a player is inactive is that they
+	 * have offered a null offer for the last three consecutive rounds.
+	 * @param playerIndex index of player, or negative number to indicate all players
+	 * 						besides this player
+	 * @return true if the player(s) is considered inactive
+	 * 			false if the player(s) is considered active
+	 */
+	public boolean isPlayerInactive(int playerIndex)
+	{
+		if (playerIndex < 0)
+		{
+			for (int i = 0; i < numPlayers; ++i)
+			{
+				if (roundsInactive[i] < 3 && i != intPlayerIndex)
+				{
+					return false;
+				}
+			}
+			return true;
+		}
+		else if (playerIndex < numPlayers)
+		{
+			if (roundsInactive[playerIndex] >= 3)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
 
 	public void updateOfferExe(Offer[] aoffCurrentOffers) {
 		for (Offer o : aoffCurrentOffers)
 		{
 			int offeredBy = o.getOfferedByIndex();
 			int tookOffer = o.getPickedByIndex();
-			if(tookOffer == -1 || offeredBy == 1 || offeredBy == intPlayerIndex ){ //dhaval, dont update for our player
+			if (isNullOffer(o))
+			{
+				roundsInactive[offeredBy] += 1;
+			}
+			else
+			{
+				roundsInactive[offeredBy] = 0;
+			}
+//			if(tookOffer == -1 || offeredBy == 1 || offeredBy == intPlayerIndex ){ //dhaval, dont update for our player
+			if(tookOffer == -1 || offeredBy == intPlayerIndex ){ //i dont' know why offeredBy == 1 is included.  It doesn't seem to make sense
 				continue; // dhaval array exception
 			}
 			int[] desired = o.getDesire();
 			int[] offered = o.getOffer();
+
 			if (!o.getOfferLive())
 			{
+				updatePlayerSkittles(o);
 				for (int i = 0; i < desired.length; ++i)
 				{
 					INFO_BASE.playerPreferences[offeredBy][i] += desired[i];
@@ -136,6 +186,24 @@ public class Infobase {
 			}
 		}
 	}
+	
+	private boolean isNullOffer(Offer off)
+	{
+		int[] desired = off.getDesire();
+		int[] offered = off.getOffer();
+		for (int i = 0; i < desired.length; ++i)
+		{
+			if (desired[i] != 0 || offered[i] != 0)
+				return false;
+		}
+		return true;
+	}
+	
+	private void updatePlayerSkittles(Offer off)
+	{
+		// do something here to update estimated skittles
+	}
+	
 	public int getDesiredColorCount() {
 		return desiredColorCount;
 	}

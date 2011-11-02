@@ -103,13 +103,13 @@ public class G1Player extends Player {
 		}
 
 		info.getPriority().initializePriority(aintInHand);
+		info.createTable(intPlayerNum);
 		
 		int totalSkittles = 0;
 		for (int i : aintInHand)
 		{
 			totalSkittles += i;
 		}
-		
 		info.setInitialSkittlesPerPlayer(totalSkittles);
 		
 		eatStrategy = new EatStrategy();
