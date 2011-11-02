@@ -26,6 +26,8 @@ public class EatStrategy {
 				complete = false;
 			}
 		}
+		complete = info.isPlayerInactive(-1);
+		
 		//TODO decide if we dont require any  more offers for a particular color 
 		boolean isInitial = false;	
 		//if all desired colors gathered - eat one by one
