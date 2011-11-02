@@ -5,7 +5,7 @@ import skittles.sim.Offer;
 import skittles.sim.Player;
 
 public class G1Player extends Player {
-	
+	 
 	protected EatStrategy eatStrategy;
 	protected OfferStrategy offerStrategy;
 	protected PickStrategy pickStrategy;
@@ -73,8 +73,19 @@ public class G1Player extends Player {
 	}
 
 	@Override
-	public void initialize(int intPlayerIndex, String strClassName,
-			int[] aintInHand) {
+	public String getClassName() {
+		return "G1Player";
+	}
+
+	@Override
+	public int getPlayerIndex() {
+		return info.getIntPlayerIndex();
+	}
+
+	@Override
+	public void initialize(int intPlayerNum, int intPlayerIndex,
+			String strClassName, int[] aintInHand) {
+		
 		info = Infobase.getInfoBase();
 		info.setIntPlayerIndex(intPlayerIndex);
 		info.setStrClassName(strClassName);
@@ -104,16 +115,7 @@ public class G1Player extends Player {
 		eatStrategy = new EatStrategy();
 		pickStrategy = new PickStrategy();
 		offerStrategy = new OfferStrategy();
-	}
-
-	@Override
-	public String getClassName() {
-		return "G1Player";
-	}
-
-	@Override
-	public int getPlayerIndex() {
-		return info.getIntPlayerIndex();
+		
 	}
 
 }
