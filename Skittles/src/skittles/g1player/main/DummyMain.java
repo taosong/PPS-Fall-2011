@@ -12,7 +12,7 @@ public class DummyMain {
 		G1Player g1Player = new G1Player();
 		g1Player.initialize(3, 1, "g1player", aintInHand);
 		
-		Infobase info = Infobase.getInfoBase();
+		Infobase info = new Infobase();
 		info.setAintInHand(aintInHand);
 		
 		aintTempEat = new int[aintTempEat.length];
