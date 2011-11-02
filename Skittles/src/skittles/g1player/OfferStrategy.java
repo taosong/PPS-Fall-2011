@@ -12,14 +12,19 @@ public class OfferStrategy {
 	private int count = 0;
 	private Random rand = new Random();
 	private int colorNum;
-	private int players;
 	protected int[][] offerTracker;
+	private int lastGet,lastOffer;
+	private boolean validOffer=false;
 	
 	protected OfferStrategy(Infobase infoUpdate){
 		this.info = infoUpdate;
 		this.colorNum=info.getIntColorNum();
-		this.players = info.numPlayers;
-		this.offerTracker = new int[colorNum][players];
+		this.offerTracker = new int[colorNum][colorNum];
+		for(int i=0;i<colorNum;i++){
+			for(int j=0;j<colorNum;j++){
+				offerTracker[i][j]=0;
+			}
+		}
 	}
 
 	
@@ -30,8 +35,12 @@ public class OfferStrategy {
 	 */
 	public void getOffer(int[] aintOffer, int[] aintDesire, Infobase infoUpdate) {
 		this.info = infoUpdate;
-//		this.c=info.getDesiredColorCount();
+		this.c=info.getDesiredColorCount();
 		count++;
+		DummyMain.printArray(info.getAintInHand(), "in hand");
+		if(info.denied && this.validOffer){
+			offerTracker[this.lastGet][this.lastOffer]++;
+		}
 
 				
 		int[] priorityArray = info.getPriority().getPriorityArray(); 
@@ -61,6 +70,7 @@ public class OfferStrategy {
 			aintOffer[leastLike] = quantity;
 			aintDesire[priorityArray[rand.nextInt(c)]] = quantity;
 			DummyMain.printArray(aintOffer, "Offer: ");
+			this.validOffer=false;
 			return;
 		}
 		
@@ -103,6 +113,12 @@ public class OfferStrategy {
 
 			aintOffer[leastLike] = quantity;
 			aintDesire[priorityArray[rand.nextInt(c)]] = quantity;
+			this.validOffer=false;
+		}
+		else{
+			this.lastGet=colorGet;
+			this.lastOffer=colorOffer;
+			this.validOffer=true;
 		}
 		DummyMain.printArray(aintOffer, "Offer: ");
 	}
@@ -123,7 +139,7 @@ public class OfferStrategy {
 				}
 			}
 		}
-		return max;
+		return (int) (max/Math.pow(2, offerTracker[colorGet][colorOffer]));
 	}
 
 	public int getC() {

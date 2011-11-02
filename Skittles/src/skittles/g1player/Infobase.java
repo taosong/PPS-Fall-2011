@@ -29,6 +29,7 @@ public class Infobase {
 	private double[] adblTastes;
 	private int intLastEatIndex;
 	private int intLastEatNum;
+	protected boolean denied; // if last offer was denied
 
 	
 	public Infobase() {
@@ -155,21 +156,22 @@ public class Infobase {
 				roundsInactive[offeredBy] = 0;
 			}
 //			if(tookOffer == -1 || offeredBy == 1 || offeredBy == intPlayerIndex ){ //dhaval, dont update for our player
-			if(tookOffer == -1 || offeredBy == intPlayerIndex ){ //i dont' know why offeredBy == 1 is included.  It doesn't seem to make sense
-				continue; // dhaval array exception
+			if(tookOffer == -1 && offeredBy == intPlayerIndex ){ //i dont' know why offeredBy == 1 is included.  It doesn't seem to make sense
+				this.denied = true;
+				System.out.println("offer denied");
 			}
 			int[] desired = o.getDesire();
 			int[] offered = o.getOffer();
 
-			if (!o.getOfferLive())
-			{
+			if (!o.getOfferLive() && tookOffer != -1) // add tookOffer != -1 to avoid Exception ArrayIndexOutOfBoundsException: -1
+			{										  // fixed, which means sometimes when !offeralive, tookOffer still can be -1
 				updatePlayerSkittles(o);
 				for (int i = 0; i < desired.length; ++i)
 				{
 					this.playerPreferences[offeredBy][i] += desired[i];
 					this.playerPreferences[offeredBy][i] -= offered[i];
-					this.playerPreferences[tookOffer][i] -= desired[i];
-					this.playerPreferences[tookOffer][i] += offered[i];
+					this.playerPreferences[tookOffer][i] -= desired[i]; // why sometimes Exception ArrayIndexOutOfBoundsException: -1?
+					this.playerPreferences[tookOffer][i] += offered[i]; // tookOffer == -1? Not possible....
 				}	
 			}
 		}
