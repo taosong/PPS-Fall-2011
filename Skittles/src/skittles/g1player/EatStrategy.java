@@ -12,6 +12,7 @@ public class EatStrategy {
 	public void update(int[] aintTempEat, Infobase info) {
 
 //		aintTempEat = new int[aintTempEat.length];
+		info.count++;
 		int[] initialPriority = info.getPriority().getPriorityArray();
 		int[] initialPriorityForEat = info.getPriority().getInitialPriorityForEat();
 		boolean isWeightedPriorityComplete = info.getPriority().isWeightedPriorityComplete();

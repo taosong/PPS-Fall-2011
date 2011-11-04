@@ -1,7 +1,21 @@
 package skittles.g1player;
 
+import java.util.ArrayList;
+
 import skittles.sim.Offer;
 
+/**
+ * @author McWings
+ *
+ */
+/**
+ * @author McWings
+ *
+ */
+/**
+ * @author McWings
+ *
+ */
 public class Infobase {
 	
 	/**
@@ -12,6 +26,8 @@ public class Infobase {
 	int[][] estimatedSkittles = null;
 	public int[] roundsInactive = null;
 	int numPlayers;
+	// Round count, updated when eat
+	int count=0;
 	
 	//private Priority priority;
 	private Priority priority;
@@ -30,6 +46,7 @@ public class Infobase {
 	private int intLastEatIndex;
 	private int intLastEatNum;
 	protected boolean denied; // if last offer was denied
+	protected int[] ourselves;
 
 	
 	public Infobase() {
@@ -57,6 +74,7 @@ public class Infobase {
 		estimatedSkittles = new int[numPlayers][intColorNum];
 		roundsInactive = new int[numPlayers];
 		this.numPlayers = numPlayers;
+		this.ourselves = new int[numPlayers];
 		
 		int estSkittlesPerColor = initialSkittlesPerPlayer/intColorNum;
 		
@@ -155,6 +173,19 @@ public class Infobase {
 	public void updateOfferExe(Offer[] aoffCurrentOffers) {
 		for (Offer o : aoffCurrentOffers)
 		{
+			if(this.count==1){
+				/*
+				 *  Check whehter player i is myself in the first round
+				 */
+				int sum=0;
+				for(int i=0;i<this.intColorNum;i++){
+					sum+=o.getOffer()[i];
+					sum-=this.getAintInHand()[i];
+				}
+				if(sum==0 && o.getOfferedByIndex()!=this.getIntPlayerIndex()){
+					this.ourselves[o.getOfferedByIndex()]=1;
+				}
+			}
 			int offeredBy = o.getOfferedByIndex();
 			int tookOffer = o.getPickedByIndex();
 			if (isNullOffer(o))
@@ -300,6 +331,13 @@ public class Infobase {
 
 	public void setInitialSkittlesPerPlayer(int initialSkittlesPerPlayer) {
 		this.initialSkittlesPerPlayer = initialSkittlesPerPlayer;
+	}
+	
+	/*
+	 * check if playerIndex is one of us
+	 */
+	public boolean isOurself(int playerIndex){
+		return this.ourselves[playerIndex]==1;
 	}
 
 
