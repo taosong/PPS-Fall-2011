@@ -3,6 +3,7 @@ package skittles.g1player.main;
 import skittles.g1player.G1Player;
 import skittles.g1player.Infobase;
 
+
 public class DummyMain {
 
 	public static void main(String[] args) {
@@ -43,7 +44,6 @@ public class DummyMain {
 	
 	public static void printArray(int[] array, String arrayName){
 		int tLength;
-
 		tLength= array.length;
 		System.out.print("" + arrayName + ": ");
 		for(int i=0; i<tLength; i++){

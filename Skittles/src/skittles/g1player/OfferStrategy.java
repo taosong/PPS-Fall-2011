@@ -2,7 +2,6 @@ package skittles.g1player;
 
 import java.util.Random;
 
-import skittles.g1player.main.DummyMain;
 
 public class OfferStrategy {
 	private Infobase info;
@@ -31,16 +30,16 @@ public class OfferStrategy {
 		this.info = infoUpdate;
 		this.c = info.getDesiredColorCount();
 		count++;
-		DummyMain.printArray(info.getAintInHand(), "in hand");
-		DummyMain.printArray(this.offerTracker, "Offer Tracker");
-		DummyMain.printArray(info.ourselves, "Ourself");
+		G1Player.printArray(info.getAintInHand(), "in hand");
+		G1Player.printArray(this.offerTracker, "Offer Tracker");
+		G1Player.printArray(info.ourselves, "Ourself");
 		if (info.denied && this.validOffer) {
 			offerTracker[this.lastGet]++;
 			System.out.println("update ++" + String.valueOf(this.lastGet));
 		}
 
 		int[] priorityArray = info.getPriority().getPriorityArray();
-		DummyMain.printArray(priorityArray, "OfferStrategy priorityArray:");
+		G1Player.printArray(priorityArray, "OfferStrategy priorityArray:");
 		colorNum = priorityArray.length;
 
 		int[] maxOffers = new int[c]; // # of skittles others able to give us
@@ -66,7 +65,7 @@ public class OfferStrategy {
 
 			aintOffer[leastLike] = quantity;
 			aintDesire[priorityArray[rand.nextInt(c)]] = quantity;
-			DummyMain.printArray(aintOffer, "Offer: ");
+			G1Player.printArray(aintOffer, "Offer: ");
 			this.validOffer = false;
 			/*
 			 *  The following lines try to identify ourselves in the first round
@@ -135,7 +134,7 @@ public class OfferStrategy {
 			this.lastOffer = colorOffer;
 			this.validOffer = true;
 		}
-		DummyMain.printArray(aintOffer, "Offer: ");
+		G1Player.printArray(aintOffer, "Offer: ");
 	}
 
 	// this functions calculates the max number of colorGet we can get from
