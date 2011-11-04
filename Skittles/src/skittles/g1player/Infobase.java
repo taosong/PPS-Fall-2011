@@ -93,14 +93,24 @@ public class Infobase {
 	}
 
 	public void updateOfferExecute(Offer offPicked) {
-		
+		//Check we are on left side or on right side
+		int flag = 0;
+		if(offPicked.getOfferedByIndex()==this.intPlayerIndex){
+			flag = 1;
+		}
+		if(offPicked.getPickedByIndex()==this.intPlayerIndex){
+			flag = -1;
+		}
+		if(offPicked.getOfferedByIndex()==offPicked.getPickedByIndex()){
+			flag = 0;
+		}
 		int[] skittlesWeHave = this.getAintInHand();
 		int[] giving = offPicked.getOffer();
 		int[] getting= offPicked.getDesire();
 		for (int j = 0; j < getting.length; ++j)
 		{
-			skittlesWeHave[j] -= giving[j];
-			skittlesWeHave[j] += getting[j];
+			skittlesWeHave[j] -= flag*giving[j];	
+			skittlesWeHave[j] += flag*getting[j];
 		}	
 		this.setAintInHand(skittlesWeHave);		
 	}
@@ -160,6 +170,8 @@ public class Infobase {
 				this.denied = true;
 				System.out.println("offer denied");
 			}
+			else
+				this.denied = false;
 			int[] desired = o.getDesire();
 			int[] offered = o.getOffer();
 

@@ -12,19 +12,14 @@ public class OfferStrategy {
 	private int count = 0;
 	private Random rand = new Random();
 	private int colorNum;
-	protected int[][] offerTracker;
+	protected int[] offerTracker;
 	private int lastGet,lastOffer;
 	private boolean validOffer=false;
 	
 	protected OfferStrategy(Infobase infoUpdate){
 		this.info = infoUpdate;
 		this.colorNum=info.getIntColorNum();
-		this.offerTracker = new int[colorNum][colorNum];
-		for(int i=0;i<colorNum;i++){
-			for(int j=0;j<colorNum;j++){
-				offerTracker[i][j]=0;
-			}
-		}
+		this.offerTracker = new int[colorNum];
 	}
 
 	
@@ -38,8 +33,10 @@ public class OfferStrategy {
 		this.c=info.getDesiredColorCount();
 		count++;
 		DummyMain.printArray(info.getAintInHand(), "in hand");
+		DummyMain.printArray(this.offerTracker, "Offer Tracker");
 		if(info.denied && this.validOffer){
-			offerTracker[this.lastGet][this.lastOffer]++;
+			offerTracker[this.lastGet]++;
+			System.out.println("update ++"+String.valueOf(this.lastGet));
 		}
 
 				
@@ -102,18 +99,23 @@ public class OfferStrategy {
 		
 		//if we can't find perfect trade, propose some other trade.
 		if(maxQuantity==0){   
-			//TODO: take other's like/dislike into consideration
+			int quantity=0;
 			int tempLeast=colorNum;
 			int leastLike = priorityArray[--tempLeast]; //dhaval modified for array index out of bound exception
-			while(info.getAintInHand()[leastLike]==0 && !info.roundComplete){
+			quantity = (int) (info.getAintInHand()[leastLike]/Math.pow(2, offerTracker[colorGet]));
+			while(info.getAintInHand()[leastLike]==0 || quantity==0){
+				if(tempLeast==0)
+				{
+					return;
+				}
 				leastLike=priorityArray[--tempLeast];
-				//System.out.println("tempLeast<<<<   ".concat(String.valueOf(tempLeast)));
+				System.out.println("RAND: tempLeast<<<<   ".concat(String.valueOf(tempLeast)));
+				quantity = (int) (info.getAintInHand()[leastLike]/Math.pow(2, offerTracker[colorGet]));
 			}
-			int quantity = info.getAintInHand()[leastLike];
 
 			aintOffer[leastLike] = quantity;
 			aintDesire[priorityArray[rand.nextInt(c)]] = quantity;
-			this.validOffer=false;
+			this.validOffer=true;
 		}
 		else{
 			this.lastGet=colorGet;
@@ -139,7 +141,7 @@ public class OfferStrategy {
 				}
 			}
 		}
-		return (int) (max/Math.pow(2, offerTracker[colorGet][colorOffer]));
+		return (int) (max/Math.pow(2, offerTracker[colorGet]));
 	}
 
 	public int getC() {
