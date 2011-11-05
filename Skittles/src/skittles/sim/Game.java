@@ -537,7 +537,7 @@ public class Game
 					Offer offOfferedByPicking = aoffCurrentOffers[ intPickedByIndex ];
 					if ( offOfferedByPicking.getOfferLive() && !aplsPlayerStatus[ intPickedByIndex ].checkEnoughInHand( offOfferedByPicking.getOffer() ) )
 					{
-						offOfferedByPicking.setOfferLive( true );
+						offOfferedByPicking.setOfferLive( false );
 					}
 				}
 			}

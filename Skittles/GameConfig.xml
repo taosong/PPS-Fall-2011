@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GameConfig>
 	<Game>
-		<ColorNum>5</ColorNum>
-		<SkittleNum>50</SkittleNum>
+		<ColorNum>10</ColorNum>
+		<SkittleNum>100</SkittleNum>
 	</Game>
 
 	<Player>
@@ -10,41 +10,23 @@
 		<Happiness>random,5</Happiness>
 		<InHand>random</InHand>
 	</Player>
-	<Player>
-		<Class>skittles.g1player.G1Player</Class>
-		<Happiness>random,5</Happiness>
-		<InHand>random</InHand>
-	</Player>
-	<Player>
-		<Class>skittles.g1player.G1Player</Class>
-		<Happiness>random,5</Happiness>
-		<InHand>random</InHand>
-	</Player>
-	<Player>
-		<Class>skittles.g1player.G1Player</Class>
-		<Happiness>random,5</Happiness>
-		<InHand>random</InHand>
-	</Player>
-	<Player>
+		<Player>
 		<Class>skittles.g2.Ebenezer</Class>
 		<Happiness>random,5</Happiness>
 		<InHand>random</InHand>
 	</Player>
-	<Player>
-		<Class>skittles.g3.G3Player</Class>
+		<Player>
+		<Class>skittles.g2.Ebenezer</Class>
 		<Happiness>random,5</Happiness>
 		<InHand>random</InHand>
 	</Player>
-	<Player>
-		<Class>skittles.g4FatKid.G4FatKid</Class>
+		<Player>
+		<Class>skittles.g2.Ebenezer</Class>
 		<Happiness>random,5</Happiness>
 		<InHand>random</InHand>
 	</Player>
+	
 
-	<Player>
-		<Class>skittles.g7.G7Player</Class>
-		<Happiness>random,5</Happiness>
-		<InHand>random</InHand>
-	</Player>
+
 
 </GameConfig>
