@@ -231,12 +231,13 @@ public class Infobase {
 	}
 
 	private void checkOurDeniedOffer(Offer off) {
-		if(off.getPickedByIndex() == -1 && off.getOfferedByIndex() == intPlayerIndex ){
+		if(off.getOfferedByIndex() == intPlayerIndex &&off.getPickedByIndex() == -1){
 			this.denied = true;
 			System.out.println("offer denied");
 		}
 		else
-			this.denied = false;
+			if((off.getOfferedByIndex() == intPlayerIndex && off.getPickedByIndex() != -1 ))
+				this.denied = false; 
 	}
 
 	private void checkForNullOffer(Offer off) {
