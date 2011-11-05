@@ -60,7 +60,7 @@ public class Infobase {
 			return true;
 	}
 		
-	public void createTable(int numPlayers)
+	public void createTables(int numPlayers)
 	{
 		playerPreferences = new int[numPlayers][intColorNum];
 		estimatedSkittles = new int[numPlayers][intColorNum];
