@@ -6,45 +6,14 @@
 	</Game>
 
 	<Player>
-		<Class>skittles.g1player.G1Player</Class>
-		<Happiness>random,5</Happiness>
-		<InHand>random</InHand>
+		<Class>skittles.dumpplayer.DumpPlayer</Class>
+		<Happiness>0.8898247731847873,0.9311209934499356,0.5889243529119197,0.8981284376408452,0.8639773793965597</Happiness>
+		<InHand>12,8,8,13,9</InHand>
 	</Player>
 	<Player>
 		<Class>skittles.g1player.G1Player</Class>
-		<Happiness>random,5</Happiness>
-		<InHand>random</InHand>
-	</Player>
-	<Player>
-		<Class>skittles.g1player.G1Player</Class>
-		<Happiness>random,5</Happiness>
-		<InHand>random</InHand>
-	</Player>
-	<Player>
-		<Class>skittles.g1player.G1Player</Class>
-		<Happiness>random,5</Happiness>
-		<InHand>random</InHand>
-	</Player>
-	<Player>
-		<Class>skittles.g2.Ebenezer</Class>
-		<Happiness>random,5</Happiness>
-		<InHand>random</InHand>
-	</Player>
-	<Player>
-		<Class>skittles.g3.G3Player</Class>
-		<Happiness>random,5</Happiness>
-		<InHand>random</InHand>
-	</Player>
-	<Player>
-		<Class>skittles.g4FatKid.G4FatKid</Class>
-		<Happiness>random,5</Happiness>
-		<InHand>random</InHand>
-	</Player>
-
-	<Player>
-		<Class>skittles.g7.G7Player</Class>
-		<Happiness>random,5</Happiness>
-		<InHand>random</InHand>
+		<Happiness>0.6672690141651794,0.8786812019839711,0.9918076310272514,0.6559519496949706,0.8856422353649434</Happiness>
+		<InHand>6,13,9,8,14</InHand>
 	</Player>
 
 </GameConfig>
