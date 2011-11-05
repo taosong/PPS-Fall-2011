@@ -2,6 +2,8 @@ package skittles.g1player;
 
 import java.util.ArrayList;
 
+import skittles.g1player.main.DummyMain;
+
 public class EatStrategy {
 
 	/**
@@ -21,7 +23,9 @@ public class EatStrategy {
 		// decide if we do not require any more offers for all the colors - eat all 
 		// u only have the skittles u desired  to have and u do not have any other skittle
 		int[] aintInHand = info.getAintInHand();
+		DummyMain.printArray(aintInHand, " [--- aintinhand ---] ");
 		ArrayList<Integer>  desiredVector = info.getPriority().getDesiredVector(info);
+		System.out.println(" [--- desiredVecotr ---] " + desiredVector);
 		for(int i=0 ; i<aintInHand.length; i++){
 			if(!desiredVector.contains(i) && aintInHand[i]!=-1){ // except for the desired color  check if ny other left
 				complete = false;
@@ -39,19 +43,21 @@ public class EatStrategy {
 				break;
 			}
 		}
+		
 	    if(complete){
 			
-	    	//System.out.println(" >>[EatStrategy] [update] complete");
+	    	System.out.println(" >>[EatStrategy] [update] complete");
 	    	for(int i=0 ; i<aintInHand.length; i++){
 				if(aintInHand[i] != -1){
 					aintTempEat[i] = aintInHand[i];
 					aintInHand[i] = 0;
+					System.out.print("");
 				}
 			}
 			
 		} else if(!isWeightedPriorityCompleteTemp){ //for initial n/2  rounds check for colors not tasted according to priority queue
 			
-			//System.out.println(" >>[EatStrategy] [update] !complete and !isWeightedPriorityComplete");
+			System.out.println(" >>[EatStrategy] [update] !complete and !isWeightedPriorityComplete");
 			for(int i=0; i<initialPriorityForEat.length ; i++){
 				
 				if(initialPriorityForEat[i] != -1){
@@ -70,7 +76,7 @@ public class EatStrategy {
 	    
 	    if(!isInitial){
 			
-			//System.out.println(" >>[EatStrategy] [update] complete and isWeightedPriorityComplete");
+			System.out.println(" >>[EatStrategy] [update] complete and isWeightedPriorityComplete");
 	    	
 			int eatIndex = -1;
 			double eatHappiness = 10;
@@ -103,20 +109,26 @@ public class EatStrategy {
 				int toEat = -1;
 				int numToEat = Integer.MAX_VALUE;
 				for(int  i=info.getDesiredColorCount()-1; i>=0; i--){
+					DummyMain.printArray(initialPriority, "[EatStrategy] [] initialPriority");
+					DummyMain.printArray(aintInHand, "[EatStrategy] [] aintInHand");
+					System.out.print(" [EatStrategy] [] desiredColorCount=" + info.getDesiredColorCount() + ", i=" +i);
+					System.out.println(", aintInHand[initialPriority[i]]=" + aintInHand[initialPriority[i]] + ", numToEat=" + numToEat);
 					
 					if(aintInHand[initialPriority[i]] > 0 && aintInHand[initialPriority[i]] <= numToEat){
+						System.out.println(" [EatStrategy] [] insideif");
 						numToEat = aintInHand[initialPriority[i]];
 						toEat = initialPriority[i];
+						System.out.print("");
 					}
 				}
+			
 				aintTempEat[toEat] = aintInHand[toEat];
 				aintInHand[toEat] = 0;
 
 			}
 			
-			
-			
 		}
+	    
 	    info.roundComplete = true;
 	    for (int i = 0; i<info.getAintInHand().length; i++){
 	    	if(info.getAintInHand()[i] != 0){
@@ -125,5 +137,4 @@ public class EatStrategy {
 	    }
 	}
 
-	
 }

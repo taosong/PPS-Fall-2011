@@ -49,7 +49,7 @@ public class G1Player extends Player {
 		info.updateHappiness(dblHappinessUp,info.getIntLastEatIndex(),info.getIntLastEatNum());
 		if(!info.getPriority().isWeightedPriorityComplete()){
 			//System.out.println("[G1Player] [happier] " + dblHappinessUp + ", " + info.getIntLastEatIndex() + ", " + info.getIntLastEatNum());
-			info.getPriority().updatePriority(info.getIntLastEatIndex(), dblHappinessUp/info.getIntLastEatNum());
+			info.getPriority().updatePriority(info.getIntLastEatIndex(), dblHappinessUp/info.getIntLastEatNum(), info);
 		}
 	}
 

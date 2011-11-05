@@ -18,27 +18,27 @@ public class DummyMain {
 		
 		aintTempEat = new int[aintTempEat.length];
 		g1Player.eat(aintTempEat);
-		info.getPriority().updatePriority(info.getIntLastEatIndex(), 0.5);
+		info.getPriority().updatePriority(info.getIntLastEatIndex(), 0.5, info);
 		printArray(aintTempEat, "aintTempEat");
 		
 		aintTempEat = new int[aintTempEat.length];
 		g1Player.eat(aintTempEat);
-		info.getPriority().updatePriority(info.getIntLastEatIndex(), 1.0);
+		info.getPriority().updatePriority(info.getIntLastEatIndex(), 1.0, info);
 		printArray(aintTempEat, "aintTempEat");
 
 		aintTempEat = new int[aintTempEat.length];
 		g1Player.eat(aintTempEat);
-		info.getPriority().updatePriority(info.getIntLastEatIndex(), 0.2);
+		info.getPriority().updatePriority(info.getIntLastEatIndex(), 0.2, info);
 		printArray(aintTempEat, "aintTempEat");
 		
 		aintTempEat = new int[aintTempEat.length];
 		g1Player.eat(aintTempEat);
-		info.getPriority().updatePriority(info.getIntLastEatIndex(), 0.0);
+		info.getPriority().updatePriority(info.getIntLastEatIndex(), 0.0, info);
 		printArray(aintTempEat, "aintTempEat");
 
 		aintTempEat = new int[aintTempEat.length];
 		g1Player.eat(aintTempEat);
-		info.getPriority().updatePriority(info.getIntLastEatIndex(), 1.0);
+		info.getPriority().updatePriority(info.getIntLastEatIndex(), 1.0, info);
 		printArray(aintTempEat, "aintTempEat");		
 	}
 	

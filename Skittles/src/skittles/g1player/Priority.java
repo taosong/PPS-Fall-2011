@@ -161,15 +161,29 @@ public class Priority {
 	 * @param colorIndex
 	 * @param happiness
 	 */
-	public void updatePriority(int colorIndex, double happiness){
+	public void updatePriority(int colorIndex, double happiness, Infobase info){
 
 		weightedPercentInHand[colorIndex] = percentInHand[colorIndex] * happiness;
 		
-		//System.out.print(" >>>  weightedPercentInHand: ");
+		/*
+		 * if we have not taseted a particular color yet and if that number
+		 * of skittles fo that color is 0, because of some trade that happened 
+		 * in the previous round of we start with 0 skittles of any color,
+		 * then we would never taste that color and so we give that color 
+		 * a happiness value of -100000, just to make sure that it comes last in the 
+		 * weighted priority list. 
+		 */
+		for(int i=0; i<info.getAintInHand().length; i++){
+			if(info.getAintInHand()[i] == 0 && weightedPercentInHand[i] == -1.0){
+				weightedPercentInHand[i] = -100000;
+			}
+		}
+		
+//		System.out.print(" >>>  weightedPercentInHand: ");
 //		for(int ii=0; ii<weightedPercentInHand.length; ii++){
 //			System.out.print(""+weightedPercentInHand[ii]+", ");
 //		}
-	//	System.out.println();
+//		System.out.println();
 		
 		for(int i=0; i<weightedPercentInHand.length; i++){
 			if(weightedPercentInHand[i] == -1.0){
