@@ -103,7 +103,7 @@ public class Infobase {
 		}
 	}
 	
-	public void updateSkittlesInHand(Offer off)
+	public void updateSkittlesInHand(Offer off, boolean wePickedThis)
 	{
 		int[] skittlesWeHave = this.getAintInHand();
 		int[] giving = null;
@@ -113,7 +113,7 @@ public class Infobase {
 			giving = off.getOffer();
 			getting = off.getDesire();
 		}
-		else if (off.getPickedByIndex() == this.intPlayerIndex)
+		else if (off.getPickedByIndex() == this.intPlayerIndex || wePickedThis)
 		{
 			giving = off.getDesire();
 			getting = off.getOffer();
@@ -131,7 +131,7 @@ public class Infobase {
 
 	public void updateOfferExecute(Offer offPicked) {
 		//Check we are on left side or on right side
-		updateSkittlesInHand(offPicked);
+		updateSkittlesInHand(offPicked, false);
 	}
 	
 	/**
@@ -210,6 +210,10 @@ public class Infobase {
 		{
 			updatePlayerSkittles(off);
 		}
+		else
+		{
+			verifySkittlesCount(off);
+		}
 		for (int i = 0; i < desired.length; ++i)
 		{
 			this.playerPreferences[offeredBy][i] += desired[i];
@@ -220,6 +224,10 @@ public class Infobase {
 				this.playerPreferences[tookOffer][i] += offered[i]; // tookOffer == -1? Not possible....
 			}
 		}
+	}
+	
+	private void verifySkittlesCount(Offer off)
+	{
 	}
 
 	private void checkOurDeniedOffer(Offer off) {
@@ -256,7 +264,19 @@ public class Infobase {
 	
 	private void updatePlayerSkittles(Offer off)
 	{
-		// do something here to update estimated skittles
+		int offeredBy = off.getOfferedByIndex();
+		int pickedBy = off.getPickedByIndex();
+		int[] offeredGivingPickedGetting = off.getOffer();
+		int[] offeredGettingPickedGiving = off.getDesire();
+		int length = offeredGettingPickedGiving.length;
+		
+		for (int i = 0; i < length; ++i)
+		{
+			estimatedSkittles[offeredBy][i] += offeredGettingPickedGiving[i];
+			estimatedSkittles[offeredBy][i] -= offeredGivingPickedGetting[i];
+			estimatedSkittles[pickedBy][i] -= offeredGettingPickedGiving[i];
+			estimatedSkittles[pickedBy][i] += offeredGivingPickedGetting[i];
+		}
 	}
 	
 	public int getDesiredColorCount() {

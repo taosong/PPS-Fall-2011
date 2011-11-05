@@ -70,16 +70,7 @@ public class PickStrategy {
 			if (bestIndex != -1)
 			{
 				/* update the skittles we have */
-				int[] skittlesWeHave = info.getAintInHand();
-				int[] getting = aoffCurrentOffers[bestIndex].getOffer();
-				int[] giving = aoffCurrentOffers[bestIndex].getDesire();
-				for (int j = 0; j < getting.length; ++j)
-				{
-					//this seems backward, but it's working
-					skittlesWeHave[j] += giving[j];
-					skittlesWeHave[j] -= getting[j];
-				}	
-				info.setAintInHand(skittlesWeHave);
+				info.updateSkittlesInHand(aoffCurrentOffers[bestIndex], true);
 
 				/* return chosen offer */
 				return aoffCurrentOffers[bestIndex];
