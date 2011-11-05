@@ -5,7 +5,7 @@ import skittles.sim.Player;
 
 public class G1Player extends Player {
 	
-	public static final boolean DEBUG = true;
+	public static final boolean DEBUG = false;
 	 
 	protected EatStrategy eatStrategy;
 	protected OfferStrategy offerStrategy;
@@ -92,6 +92,14 @@ public class G1Player extends Player {
 		info.setStrClassName(strClassName);
 		info.setAintInHand(aintInHand);
 		info.setIntColorNum(aintInHand.length);
+
+		int totalSkittles = 0;
+		for (int i : aintInHand)
+		{
+			totalSkittles += i;
+		}
+		info.setInitialSkittlesPerPlayer(totalSkittles);
+
 		info.createTables(intPlayerNum);
 		
 		info.setDblHappiness(0);
@@ -106,13 +114,6 @@ public class G1Player extends Player {
 
 		info.getPriority().initializePriority(aintInHand);
 		
-		
-		int totalSkittles = 0;
-		for (int i : aintInHand)
-		{
-			totalSkittles += i;
-		}
-		info.setInitialSkittlesPerPlayer(totalSkittles);
 		
 		eatStrategy = new EatStrategy();
 		pickStrategy = new PickStrategy();

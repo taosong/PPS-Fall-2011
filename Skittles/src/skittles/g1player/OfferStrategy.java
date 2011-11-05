@@ -188,7 +188,7 @@ public class OfferStrategy {
 	// this functions calculates the max number of colorGet we can get from
 	// trading colorOffer
 	private int calculateOffer(int colorGet, int colorOffer) {
-		int max = 0;
+		double max = 0;
 		for (int i = 0; i < info.numPlayers; i++) {
 			if (info.playerPreferences[i][colorOffer] > 0
 					&& info.playerPreferences[i][colorGet] < 0) {
