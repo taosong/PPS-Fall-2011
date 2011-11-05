@@ -2,7 +2,6 @@ package skittles.g1player;
 
 import java.util.Random;
 
-
 public class OfferStrategy {
 	private Infobase info;
 	private int c = 2;
@@ -12,7 +11,7 @@ public class OfferStrategy {
 	private Random rand = new Random();
 	private int colorNum;
 	protected int[] offerTracker;
-	private int lastGet, lastOffer;
+	private int lastGet;
 	private boolean validOffer = false;
 
 	protected OfferStrategy(Infobase infoUpdate) {
@@ -68,11 +67,11 @@ public class OfferStrategy {
 			G1Player.printArray(aintOffer, "Offer: ");
 			this.validOffer = false;
 			/*
-			 *  The following lines try to identify ourselves in the first round
-			 *  It will be more complex in the tournament
+			 * The following lines try to identify ourselves in the first round
+			 * It will be more complex in the tournament
 			 */
-			for(int i=0;i<colorNum;i++){
-				aintDesire[i]=aintOffer[i]=info.getAintInHand()[i];
+			for (int i = 0; i < colorNum; i++) {
+				aintDesire[i] = aintOffer[i] = info.getAintInHand()[i];
 			}
 
 			return;
@@ -106,34 +105,65 @@ public class OfferStrategy {
 		aintDesire[colorGet] = maxQuantity;
 
 		// if we can't find perfect trade, propose some other trade.
+		int quantity = 0;
 		if (maxQuantity == 0) {
-			int quantity = 0;
-			int tempLeast = colorNum;
-			int leastLike = priorityArray[--tempLeast]; // dhaval modified for
-														// array index out of
-														// bound exception
+			int tempLeast = rand.nextInt(colorNum - c) + c;
+			int leastLike = priorityArray[tempLeast];
 			quantity = (int) (info.getAintInHand()[leastLike] / Math.pow(2,
 					offerTracker[colorGet]));
+			int randcount = 0;
 			while (info.getAintInHand()[leastLike] == 0 || quantity == 0) {
-				if (tempLeast == 0) {
-					//TODO: give eating strategy a signal
-					return;
+				if (randcount++ > colorNum) {
+					break;
 				}
-				leastLike = priorityArray[--tempLeast];
-				System.out.println("RAND: tempLeast<<<<   ".concat(String
-						.valueOf(tempLeast)));
+				tempLeast = rand.nextInt(colorNum - c) + c;
+				leastLike = priorityArray[tempLeast];
 				quantity = (int) (info.getAintInHand()[leastLike] / Math.pow(2,
 						offerTracker[colorGet]));
 			}
-
+			// quantity = Math.min(quantity, 3);
 			aintOffer[leastLike] = quantity;
-			aintDesire[priorityArray[rand.nextInt(c)]] = quantity;
+			int mostLike = priorityArray[rand.nextInt(c)];
+			aintDesire[mostLike] = quantity;
+			this.lastGet = mostLike;
 			this.validOffer = true;
 		} else {
 			this.lastGet = colorGet;
-			this.lastOffer = colorOffer;
 			this.validOffer = true;
 		}
+
+		// tried everything for not_in_c -> c, then try c->c
+		if (quantity == 0 && c > 1) {
+			int c1 = rand.nextInt(c);
+			int c2 = 0;
+			int randcount = 0;
+			// randomly pick some color to give away
+			do {
+				c2 = rand.nextInt(c);
+				randcount++;
+			} while ((c2 == c1 || info.getAintInHand()[c2]>0) && randcount < colorNum * 2);
+			int q1 = info.getAintInHand()[c1];
+			int q2 = info.getAintInHand()[c2];
+			double u1 = info.getColorHappiness(c1);
+			double u2 = info.getColorHappiness(c2);
+			randcount = 0;
+			if (q2 >= 1) {
+				do {
+					quantity = (int) (rand.nextInt(q2) / Math.pow(2,
+							offerTracker[colorGet]));
+					randcount++;
+				} while ((u1 * q1 * q1 + u2 * q2 * q2) <= (u1 * (q1 + quantity)
+						* (q1 + quantity) + u2 * (q2 - quantity)
+						* (q2 - quantity))
+						&& randcount < colorNum * 2);
+			}
+
+			this.lastGet = c1;
+			this.validOffer = true;
+			aintOffer[c2] = quantity;
+			aintDesire[c1] = quantity;
+		}
+
 		G1Player.printArray(aintOffer, "Offer: ");
 	}
 
