@@ -8,14 +8,6 @@ import skittles.sim.Offer;
  * @author McWings
  *
  */
-/**
- * @author McWings
- *
- */
-/**
- * @author McWings
- *
- */
 public class Infobase {
 	
 	/**
@@ -68,7 +60,7 @@ public class Infobase {
 			return true;
 	}
 		
-	public void createTable(int numPlayers)
+	public void createTables(int numPlayers)
 	{
 		playerPreferences = new int[numPlayers][intColorNum];
 		estimatedSkittles = new int[numPlayers][intColorNum];
@@ -94,43 +86,52 @@ public class Infobase {
 
 	}
 	
-	public void updatePlayerPreferences(int playerIndex, Offer playerOffer)
+/*	public void updatePlayerPreferences(int playerIndex, Offer playerOffer)
 	{
 		
-	}
+	}*/
 	
-	public void updateEstSkittles(int playerIndex, Offer playerOffer)
+/*	public void updateEstSkittles(int playerIndex, Offer playerOffer)
 	{
 		
-	}
+	}*/
+
 	public void updateHappiness(double dblHappinessUp, int intLastEatIndex, int intLastEatNum) {
 		if (intLastEatNum == 1)
 		{
 			this.colorHappinessArray[intLastEatIndex] = dblHappinessUp;
 		}
 	}
+	
+	public void updateSkittlesInHand(Offer off, boolean wePickedThis)
+	{
+		int[] skittlesWeHave = this.getAintInHand();
+		int[] giving = null;
+		int[] getting = null;
+		if (off.getOfferedByIndex() == this.intPlayerIndex)
+		{
+			giving = off.getOffer();
+			getting = off.getDesire();
+		}
+		else if (off.getPickedByIndex() == this.intPlayerIndex || wePickedThis)
+		{
+			giving = off.getDesire();
+			getting = off.getOffer();
+		}
+		if (giving != null && getting != null)
+		{
+			for (int j = 0; j < getting.length; ++j)
+			{
+				skittlesWeHave[j] -= giving[j];	
+				skittlesWeHave[j] += getting[j];
+			}
+		}
+		this.setAintInHand(skittlesWeHave);		
+	}
 
 	public void updateOfferExecute(Offer offPicked) {
 		//Check we are on left side or on right side
-		int flag = 0;
-		if(offPicked.getOfferedByIndex()==this.intPlayerIndex){
-			flag = 1;
-		}
-		if(offPicked.getPickedByIndex()==this.intPlayerIndex){
-			flag = -1;
-		}
-		if(offPicked.getOfferedByIndex()==offPicked.getPickedByIndex()){
-			flag = 0;
-		}
-		int[] skittlesWeHave = this.getAintInHand();
-		int[] giving = offPicked.getOffer();
-		int[] getting= offPicked.getDesire();
-		for (int j = 0; j < getting.length; ++j)
-		{
-			skittlesWeHave[j] -= flag*giving[j];	
-			skittlesWeHave[j] += flag*getting[j];
-		}	
-		this.setAintInHand(skittlesWeHave);		
+		updateSkittlesInHand(offPicked, false);
 	}
 	
 	/**
@@ -186,37 +187,66 @@ public class Infobase {
 					this.ourselves[o.getOfferedByIndex()]=1;
 				}
 			}
-			int offeredBy = o.getOfferedByIndex();
-			int tookOffer = o.getPickedByIndex();
-			if (isNullOffer(o))
-			{
-				roundsInactive[offeredBy] += 1;
-			}
-			else
-			{
-				roundsInactive[offeredBy] = 0;
-			}
-//			if(tookOffer == -1 || offeredBy == 1 || offeredBy == intPlayerIndex ){ //dhaval, dont update for our player
-			if(tookOffer == -1 && offeredBy == intPlayerIndex ){ //i dont' know why offeredBy == 1 is included.  It doesn't seem to make sense
-				this.denied = true;
-				System.out.println("offer denied");
-			}
-			else
-				this.denied = false;
-			int[] desired = o.getDesire();
-			int[] offered = o.getOffer();
+			
+			updateTables(o);
+		}
+	}
+	
+	private void updateTables(Offer off)
+	{
+		/* update inactive for null offers */
+		checkForNullOffer(off);
+		
+		/* if the offer was made by us and not taken, set denied = true */
+		checkOurDeniedOffer(off);
+		
+		/* update skittles and priority based on offer taken */
+		int offeredBy = off.getOfferedByIndex();
+		int tookOffer = off.getPickedByIndex();
+		int[] desired = off.getDesire();
+		int[] offered = off.getOffer();
 
-			if (!o.getOfferLive() && tookOffer != -1) // add tookOffer != -1 to avoid Exception ArrayIndexOutOfBoundsException: -1
-			{										  // fixed, which means sometimes when !offeralive, tookOffer still can be -1
-				updatePlayerSkittles(o);
-				for (int i = 0; i < desired.length; ++i)
-				{
-					this.playerPreferences[offeredBy][i] += desired[i];
-					this.playerPreferences[offeredBy][i] -= offered[i];
-					this.playerPreferences[tookOffer][i] -= desired[i]; // why sometimes Exception ArrayIndexOutOfBoundsException: -1?
-					this.playerPreferences[tookOffer][i] += offered[i]; // tookOffer == -1? Not possible....
-				}	
+		if (tookOffer != -1)
+		{
+			updatePlayerSkittles(off);
+		}
+		else
+		{
+			verifySkittlesCount(off);
+		}
+		for (int i = 0; i < desired.length; ++i)
+		{
+			this.playerPreferences[offeredBy][i] += desired[i];
+			this.playerPreferences[offeredBy][i] -= offered[i];
+			if (tookOffer != -1)
+			{
+				this.playerPreferences[tookOffer][i] -= desired[i]; // why sometimes Exception ArrayIndexOutOfBoundsException: -1?
+				this.playerPreferences[tookOffer][i] += offered[i]; // tookOffer == -1? Not possible....
 			}
+		}
+	}
+	
+	private void verifySkittlesCount(Offer off)
+	{
+	}
+
+	private void checkOurDeniedOffer(Offer off) {
+		if(off.getPickedByIndex() == -1 && off.getOfferedByIndex() == intPlayerIndex ){
+			this.denied = true;
+			System.out.println("offer denied");
+		}
+		else
+			this.denied = false;
+	}
+
+	private void checkForNullOffer(Offer off) {
+		if (isNullOffer(off))
+		{
+			roundsInactive[off.getOfferedByIndex()] += 1;
+		}
+		else
+		{
+			roundsInactive[off.getOfferedByIndex()] = 0;
 		}
 	}
 	
@@ -234,7 +264,19 @@ public class Infobase {
 	
 	private void updatePlayerSkittles(Offer off)
 	{
-		// do something here to update estimated skittles
+		int offeredBy = off.getOfferedByIndex();
+		int pickedBy = off.getPickedByIndex();
+		int[] offeredGivingPickedGetting = off.getOffer();
+		int[] offeredGettingPickedGiving = off.getDesire();
+		int length = offeredGettingPickedGiving.length;
+		
+		for (int i = 0; i < length; ++i)
+		{
+			estimatedSkittles[offeredBy][i] += offeredGettingPickedGiving[i];
+			estimatedSkittles[offeredBy][i] -= offeredGivingPickedGetting[i];
+			estimatedSkittles[pickedBy][i] -= offeredGettingPickedGiving[i];
+			estimatedSkittles[pickedBy][i] += offeredGivingPickedGetting[i];
+		}
 	}
 	
 	public int getDesiredColorCount() {

@@ -92,7 +92,7 @@ public class G1Player extends Player {
 		info.setStrClassName(strClassName);
 		info.setAintInHand(aintInHand);
 		info.setIntColorNum(aintInHand.length);
-		info.createTable(intPlayerNum);
+		info.createTables(intPlayerNum);
 		
 		info.setDblHappiness(0);
 		info.setAdblTastes( new double[info.getIntColorNum()]);
