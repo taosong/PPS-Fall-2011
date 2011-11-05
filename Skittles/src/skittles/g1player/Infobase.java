@@ -1,7 +1,21 @@
 package skittles.g1player;
 
+import java.util.ArrayList;
+
 import skittles.sim.Offer;
 
+/**
+ * @author McWings
+ *
+ */
+/**
+ * @author McWings
+ *
+ */
+/**
+ * @author McWings
+ *
+ */
 public class Infobase {
 	
 	/**
@@ -12,6 +26,8 @@ public class Infobase {
 	int[][] estimatedSkittles = null;
 	public int[] roundsInactive = null;
 	int numPlayers;
+	// Round count, updated when eat
+	int count=0;
 	
 	//private Priority priority;
 	private Priority priority;
@@ -29,6 +45,8 @@ public class Infobase {
 	private double[] adblTastes;
 	private int intLastEatIndex;
 	private int intLastEatNum;
+	protected boolean denied; // if last offer was denied
+	protected int[] ourselves;
 
 	
 	public Infobase() {
@@ -56,6 +74,7 @@ public class Infobase {
 		estimatedSkittles = new int[numPlayers][intColorNum];
 		roundsInactive = new int[numPlayers];
 		this.numPlayers = numPlayers;
+		this.ourselves = new int[numPlayers];
 		
 		int estSkittlesPerColor = initialSkittlesPerPlayer/intColorNum;
 		
@@ -92,14 +111,24 @@ public class Infobase {
 	}
 
 	public void updateOfferExecute(Offer offPicked) {
-		
+		//Check we are on left side or on right side
+		int flag = 0;
+		if(offPicked.getOfferedByIndex()==this.intPlayerIndex){
+			flag = 1;
+		}
+		if(offPicked.getPickedByIndex()==this.intPlayerIndex){
+			flag = -1;
+		}
+		if(offPicked.getOfferedByIndex()==offPicked.getPickedByIndex()){
+			flag = 0;
+		}
 		int[] skittlesWeHave = this.getAintInHand();
 		int[] giving = offPicked.getOffer();
 		int[] getting= offPicked.getDesire();
 		for (int j = 0; j < getting.length; ++j)
 		{
-			skittlesWeHave[j] -= giving[j];
-			skittlesWeHave[j] += getting[j];
+			skittlesWeHave[j] -= flag*giving[j];	
+			skittlesWeHave[j] += flag*getting[j];
 		}	
 		this.setAintInHand(skittlesWeHave);		
 	}
@@ -144,6 +173,19 @@ public class Infobase {
 	public void updateOfferExe(Offer[] aoffCurrentOffers) {
 		for (Offer o : aoffCurrentOffers)
 		{
+			if(this.count==1){
+				/*
+				 *  Check whehter player i is myself in the first round
+				 */
+				int sum=0;
+				for(int i=0;i<this.intColorNum;i++){
+					sum+=o.getOffer()[i];
+					sum-=this.getAintInHand()[i];
+				}
+				if(sum==0 && o.getOfferedByIndex()!=this.getIntPlayerIndex()){
+					this.ourselves[o.getOfferedByIndex()]=1;
+				}
+			}
 			int offeredBy = o.getOfferedByIndex();
 			int tookOffer = o.getPickedByIndex();
 			if (isNullOffer(o))
@@ -155,21 +197,24 @@ public class Infobase {
 				roundsInactive[offeredBy] = 0;
 			}
 //			if(tookOffer == -1 || offeredBy == 1 || offeredBy == intPlayerIndex ){ //dhaval, dont update for our player
-			if(tookOffer == -1 || offeredBy == intPlayerIndex ){ //i dont' know why offeredBy == 1 is included.  It doesn't seem to make sense
-				continue; // dhaval array exception
+			if(tookOffer == -1 && offeredBy == intPlayerIndex ){ //i dont' know why offeredBy == 1 is included.  It doesn't seem to make sense
+				this.denied = true;
+				System.out.println("offer denied");
 			}
+			else
+				this.denied = false;
 			int[] desired = o.getDesire();
 			int[] offered = o.getOffer();
 
-			if (!o.getOfferLive())
-			{
+			if (!o.getOfferLive() && tookOffer != -1) // add tookOffer != -1 to avoid Exception ArrayIndexOutOfBoundsException: -1
+			{										  // fixed, which means sometimes when !offeralive, tookOffer still can be -1
 				updatePlayerSkittles(o);
 				for (int i = 0; i < desired.length; ++i)
 				{
 					this.playerPreferences[offeredBy][i] += desired[i];
 					this.playerPreferences[offeredBy][i] -= offered[i];
-					this.playerPreferences[tookOffer][i] -= desired[i];
-					this.playerPreferences[tookOffer][i] += offered[i];
+					this.playerPreferences[tookOffer][i] -= desired[i]; // why sometimes Exception ArrayIndexOutOfBoundsException: -1?
+					this.playerPreferences[tookOffer][i] += offered[i]; // tookOffer == -1? Not possible....
 				}	
 			}
 		}
@@ -286,6 +331,13 @@ public class Infobase {
 
 	public void setInitialSkittlesPerPlayer(int initialSkittlesPerPlayer) {
 		this.initialSkittlesPerPlayer = initialSkittlesPerPlayer;
+	}
+	
+	/*
+	 * check if playerIndex is one of us
+	 */
+	public boolean isOurself(int playerIndex){
+		return this.ourselves[playerIndex]==1;
 	}
 
 

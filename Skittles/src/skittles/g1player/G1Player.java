@@ -1,10 +1,11 @@
 package skittles.g1player;
 
-import skittles.g1player.main.DummyMain;
 import skittles.sim.Offer;
 import skittles.sim.Player;
 
 public class G1Player extends Player {
+	
+	public static final boolean DEBUG = true;
 	 
 	protected EatStrategy eatStrategy;
 	protected OfferStrategy offerStrategy;
@@ -13,9 +14,9 @@ public class G1Player extends Player {
 
 	@Override
 	public void eat(int[] aintTempEat) {
-		DummyMain.printArray(info.getAintInHand(), "[G1Player] [eat] info.getAintInHand()");
+		G1Player.printArray(info.getAintInHand(), "[G1Player] [eat] info.getAintInHand()");
 		eatStrategy.update(aintTempEat,info);
-		DummyMain.printArray(aintTempEat, "[G1Player] [eat] aintTempEat");
+		G1Player.printArray(aintTempEat, "[G1Player] [eat] aintTempEat");
 		for(int i = 0; i<aintTempEat.length;i++){
 			if(aintTempEat[i]!=0)
 			{
@@ -29,12 +30,12 @@ public class G1Player extends Player {
 	
 	@Override
 	public void offer(Offer offTemp) {
-		DummyMain.printArray(info.getAintInHand(), "after eating - info.getAintInHand():");
+		G1Player.printArray(info.getAintInHand(), "after eating - info.getAintInHand():");
 		int[] aintOffer = new int[info.getIntColorNum()];
 		int[] aintDesire = new int[info.getIntColorNum()];
 		offerStrategy.getOffer(aintOffer,aintDesire,info);
-		DummyMain.printArray(aintOffer, "aintOffer");
-		DummyMain.printArray(aintDesire, "aintDesire");
+		G1Player.printArray(aintOffer, "aintOffer");
+		G1Player.printArray(aintDesire, "aintDesire");
 		offTemp.setOffer( aintOffer, aintDesire );
 	}
 
@@ -116,6 +117,18 @@ public class G1Player extends Player {
 		eatStrategy = new EatStrategy();
 		pickStrategy = new PickStrategy();
 		offerStrategy = new OfferStrategy(info);
+	}
+	
+	public static void printArray(int[] array, String arrayName){
+		if(G1Player.DEBUG){
+			int tLength;
+			tLength= array.length;
+			System.out.print("" + arrayName + ": ");
+			for(int i=0; i<tLength; i++){
+				System.out.print(array[i] + ", ");
+			}
+			System.out.println();
+		}
 	}
 
 }

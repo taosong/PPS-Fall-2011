@@ -12,6 +12,7 @@ public class EatStrategy {
 	public void update(int[] aintTempEat, Infobase info) {
 
 //		aintTempEat = new int[aintTempEat.length];
+		info.count++;
 		int[] initialPriority = info.getPriority().getPriorityArray();
 		int[] initialPriorityForEat = info.getPriority().getInitialPriorityForEat();
 		boolean isWeightedPriorityComplete = info.getPriority().isWeightedPriorityComplete();
@@ -87,13 +88,30 @@ public class EatStrategy {
 				aintTempEat[eatIndex] = 1;
 				aintInHand[eatIndex]--;
 			} else {
+				// changed by Erica
+				// I added in the toEat and numToEat check because the loop was running
+				// and for every skittle we had left it was adding it to the aintTempEat
+				// array, meaning we were trying to eat multiple colors
+				// so the toEat keeps track of which one we plan to eat, and the numToEat 
+				// is how many of that skittle we have.  The loop updates those, and then
+				// only assigns what we will eat at the end.  This will hopefully fix the 
+				// trying to eat multiple colors bug.  
+				
+				// right now it's choosing to eat the skittle we have the least of first.
+				// We might want to change this, but I thought it would be an ok way to decide
+				// for now at least.
+				int toEat = -1;
+				int numToEat = Integer.MAX_VALUE;
 				for(int  i=info.getDesiredColorCount()-1; i>=0; i--){
 					
-					if(aintInHand[initialPriority[i]] > 0){
-						aintTempEat[initialPriority[i]] = aintInHand[initialPriority[i]];
-						aintInHand[initialPriority[i]] = 0;
+					if(aintInHand[initialPriority[i]] > 0 && aintInHand[initialPriority[i]] <= numToEat){
+						numToEat = aintInHand[initialPriority[i]];
+						toEat = initialPriority[i];
 					}
 				}
+				aintTempEat[toEat] = aintInHand[toEat];
+				aintInHand[toEat] = 0;
+
 			}
 			
 			
