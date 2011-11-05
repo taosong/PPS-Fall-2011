@@ -76,6 +76,24 @@ public class OfferStrategy {
 
 			return;
 		}
+		
+		if(count<colorNum/2){
+			this.validOffer = false;
+			int tempLeast = colorNum;
+			int leastLike = priorityArray[tempLeast - 1];
+			// find least like, not zero inventory
+			while (info.getAintInHand()[leastLike] == 0) {
+				leastLike = priorityArray[--tempLeast];
+			}
+			int quantity = info.getAintInHand()[leastLike];
+			int mostLike = rand.nextInt(Math.min(c,count));
+			for(int i=0;i<info.numPlayers;i++){
+				if(info.estimatedSkittles[i][mostLike]<quantity)
+					quantity = info.estimatedSkittles[i][mostLike];
+			}
+			aintOffer[leastLike] = quantity;
+			aintDesire[mostLike] = quantity;
+		}
 
 		for (int i = 0; i < c; i++) {
 			maxOffers[i] = 0;

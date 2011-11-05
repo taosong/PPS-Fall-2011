@@ -1,32 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GameConfig>
 	<Game>
-		<ColorNum>10</ColorNum>
+		<ColorNum>5</ColorNum>
 		<SkittleNum>100</SkittleNum>
 	</Game>
 
 	<Player>
 		<Class>skittles.g1player.G1Player</Class>
-		<Happiness>random,5</Happiness>
+		<Happiness>random,0</Happiness>
 		<InHand>random</InHand>
 	</Player>
 		<Player>
 		<Class>skittles.g2.Ebenezer</Class>
-		<Happiness>random,5</Happiness>
+		<Happiness>random,0</Happiness>
 		<InHand>random</InHand>
 	</Player>
 		<Player>
 		<Class>skittles.g2.Ebenezer</Class>
-		<Happiness>random,5</Happiness>
+		<Happiness>random,0</Happiness>
 		<InHand>random</InHand>
 	</Player>
 		<Player>
 		<Class>skittles.g2.Ebenezer</Class>
-		<Happiness>random,5</Happiness>
+		<Happiness>random,0</Happiness>
 		<InHand>random</InHand>
 	</Player>
 	
-
+	<Player>
+		<Class>skittles.g3.G3Player</Class>
+		<Happiness>random,0</Happiness>
+		<InHand>random</InHand>
+	</Player>
+	<Player>
+		<Class>skittles.g4FatKid.G4FatKid</Class>
+		<Happiness>random,0</Happiness>
+		<InHand>random</InHand>
+	</Player>
 
 
 </GameConfig>
