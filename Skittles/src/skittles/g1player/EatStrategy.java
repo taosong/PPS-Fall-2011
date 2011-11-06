@@ -43,17 +43,18 @@ public class EatStrategy {
 				break;
 			}
 		}
-		
+		System.out.print("");
 	    if(complete){
 			
 	    	System.out.println(" >>[EatStrategy] [update] complete");
 	    	for(int i=0 ; i<aintInHand.length; i++){
-				if(aintInHand[i] != -1){
+				if(aintInHand[i] != -1 && aintInHand[i] > 0){
 					aintTempEat[i] = aintInHand[i];
 					aintInHand[i] = 0;
-					System.out.print("");
+					break;
 				}
 			}
+	    	System.out.print("");
 			
 		} else if(!isWeightedPriorityCompleteTemp){ //for initial n/2  rounds check for colors not tasted according to priority queue
 			
