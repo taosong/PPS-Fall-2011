@@ -12,6 +12,9 @@ public class OfferStrategy {
 	private int colorNum;
 	protected int[] offerTracker;
 	private int lastGet;
+	private int lastGivePrioty; // used by first several rounds, points to the
+								// priority list
+	private int totSkittles = 0;
 	private boolean validOffer = false;
 
 	protected OfferStrategy(Infobase infoUpdate) {
@@ -20,11 +23,6 @@ public class OfferStrategy {
 		this.offerTracker = new int[colorNum];
 	}
 
-	/*
-	 * We look for the most number of skittles we can get this term, in {C}, we
-	 * don't care what kind of skittles we are going to give away as long as it
-	 * is not in C.
-	 */
 	public void getOffer(int[] aintOffer, int[] aintDesire, Infobase infoUpdate) {
 		this.info = infoUpdate;
 		this.c = info.getDesiredColorCount();
@@ -34,7 +32,8 @@ public class OfferStrategy {
 		G1Player.printArray(info.ourselves, "Ourself");
 		if (info.denied && this.validOffer) {
 			offerTracker[this.lastGet]++;
-			System.out.println("update ++" + String.valueOf(this.lastGet));
+			if (G1Player.DEBUG)
+				System.out.println("update ++" + String.valueOf(this.lastGet));
 		}
 
 		int[] priorityArray = info.getPriority().getPriorityArray();
@@ -46,25 +45,12 @@ public class OfferStrategy {
 		int colorOffer = 0;
 		int colorGet = 0;
 
+		/*
+		 * STEP 1: at the beginning of the game, we have little info about what
+		 * other's like of dislike so the beginning rounds will have special
+		 * strategy
+		 */
 		if (count == 1) {
-			/*
-			 * at the beginning of the game, we have little info about what
-			 * other's like of dislike so the beginning rounds will have special
-			 * strategy
-			 */
-			int tempLeast = colorNum;
-			int leastLike = priorityArray[tempLeast - 1];
-			// System.out.println("leastLike<<<<   ".concat(String.valueOf(leastLike)));
-			while (info.getAintInHand()[leastLike] == 0) {
-				leastLike = priorityArray[--tempLeast];
-				// System.out.println("tempLeast<<<<   ".concat(String.valueOf(leastLike)));
-			}
-			int quantity = info.getAintInHand()[leastLike];
-			quantity = Math.min(info.getAintInHand()[leastLike], 1);
-
-			aintOffer[leastLike] = quantity;
-			aintDesire[priorityArray[rand.nextInt(c)]] = quantity;
-			G1Player.printArray(aintOffer, "Offer: ");
 			this.validOffer = false;
 			/*
 			 * The following lines try to identify ourselves in the first round
@@ -72,29 +58,56 @@ public class OfferStrategy {
 			 */
 			for (int i = 0; i < colorNum; i++) {
 				aintDesire[i] = aintOffer[i] = info.getAintInHand()[i];
+				totSkittles += info.getAintInHand()[i];
 			}
 
 			return;
 		}
-		
-		if(count<colorNum/2){
+
+		/*
+		 * STEP 2: in the first several rounds, when we don't know most of the
+		 * colors' value, our offer strategy is try to give away what's in the
+		 * end of the priority list and ask for what's in {C}
+		 */
+		if (count < Math.min(colorNum / 2, 4)) {
+			// here 4 is a magic number, pls try to run some test to find the
+			// best one when eating bug fixed.
+
 			this.validOffer = false;
-			int tempLeast = colorNum;
+			// start from last one we proposed to offer
+			int tempLeast = this.lastGivePrioty;
 			int leastLike = priorityArray[tempLeast - 1];
-			// find least like, not zero inventory
+			// find least like, with positive inventory
 			while (info.getAintInHand()[leastLike] == 0) {
 				leastLike = priorityArray[--tempLeast];
+				if (tempLeast < c) {
+					if (G1Player.DEBUG)
+						System.out
+								.println("!!!!!!!!!!!!!!WTF!!!!!!!!!!!!!!!!!!!!!!!!!!!!~~~~~~~~~~~~~~~~~");
+					break;
+				}
 			}
-			int quantity = info.getAintInHand()[leastLike];
-			int mostLike = rand.nextInt(Math.min(c,count));
-			for(int i=0;i<info.numPlayers;i++){
-				if(info.estimatedSkittles[i][mostLike]<quantity)
-					quantity = info.estimatedSkittles[i][mostLike];
-			}
+			this.lastGivePrioty = tempLeast;
+			// 0.8 is a magic number.
+			int quantity = (int) (totSkittles / colorNum * 0.8);
+			// we've tasted count colors, randomly choose one
+			int mostLike = rand.nextInt(Math.min(c, count));
+			// check if someone happen to be willing make a deal
+			quantity = Math.max(quantity,
+					this.calculateOffer(mostLike, leastLike));
+			// check inventory
+			quantity = Math.min(info.getAintInHand()[leastLike], quantity);
+
 			aintOffer[leastLike] = quantity;
 			aintDesire[mostLike] = quantity;
+			return;
 		}
 
+		/*
+		 * STEP 3: We look for the most number of skittles we can get this term,
+		 * in {C}, we don't care what kind of skittles we are going to give away
+		 * as long as it is not in C.
+		 */
 		for (int i = 0; i < c; i++) {
 			maxOffers[i] = 0;
 			for (int j = c; j < priorityArray.length; j++) {
@@ -122,7 +135,10 @@ public class OfferStrategy {
 		aintOffer[colorOffer] = maxQuantity;
 		aintDesire[colorGet] = maxQuantity;
 
-		// if we can't find perfect trade, propose some other trade.
+		/*
+		 * STEP 4: if we can't find perfect trade, propose some other trade,
+		 * randomly.
+		 */
 		int quantity = 0;
 		if (maxQuantity == 0) {
 			int tempLeast = rand.nextInt(colorNum - c) + c;
@@ -150,7 +166,9 @@ public class OfferStrategy {
 			this.validOffer = true;
 		}
 
-		// tried everything for not_in_c -> c, then try c->c
+		/*
+		 * STEP 5: tried everything for not_in_c -> c, then try c->c
+		 */
 		if (quantity == 0 && c > 1) {
 			int c1 = rand.nextInt(c);
 			int c2 = 0;
@@ -159,7 +177,8 @@ public class OfferStrategy {
 			do {
 				c2 = rand.nextInt(c);
 				randcount++;
-			} while ((c2 == c1 || info.getAintInHand()[c2]>0) && randcount < colorNum * 2);
+			} while ((c2 == c1 || info.getAintInHand()[c2] > 0)
+					&& randcount < colorNum * 2);
 			int q1 = info.getAintInHand()[c1];
 			int q2 = info.getAintInHand()[c2];
 			double u1 = info.getColorHappiness(c1);
@@ -185,8 +204,10 @@ public class OfferStrategy {
 		G1Player.printArray(aintOffer, "Offer: ");
 	}
 
-	// this functions calculates the max number of colorGet we can get from
-	// trading colorOffer
+	/*
+	 * this functions calculates the max number of colorGet we can get from
+	 * trading colorOffer
+	 */
 	private int calculateOffer(int colorGet, int colorOffer) {
 		double max = 0;
 		for (int i = 0; i < info.numPlayers; i++) {
@@ -194,8 +215,9 @@ public class OfferStrategy {
 					&& info.playerPreferences[i][colorGet] < 0) {
 				if (max < info.estimatedSkittles[i][colorGet]) {
 					if (info.isPlayerInactive(i)) {
-						System.out.println("Inactive Player  "
-								+ String.valueOf(i));
+						if (G1Player.DEBUG)
+							System.out.println("Inactive Player  "
+									+ String.valueOf(i));
 					} else
 						max = info.estimatedSkittles[i][colorGet];
 				}
