@@ -71,31 +71,6 @@ public class Priority {
 		return initialPriority;
 	}
 	
-/*	/**
-	 * returns a 2D array containing the sorted priority list. <br />
-	 * the first column contains the priority, and the second contains the color number.
-	 * @return
-	 */
-/*	public int[][] getSortedPriorityArray()
-	{
-		int[] toSort;
-		int[][] sorted;
-		if (isWeightedPriorityComplete)
-		{
-			toSort = weightedPriority;
-		}
-		else
-		{
-			toSort = initialPriority;
-		}
-		sorted = new int[toSort.length][toSort.length];
-		
-		for (int i = 0; i < toSort.length; ++i)
-		{
-			sorted = 
-		}
-	}*/
-	
 	/**
 	 * initialize the proirity arrays.
 	 */
@@ -179,11 +154,11 @@ public class Priority {
 			}
 		}
 		
-//		System.out.print(" >>>  weightedPercentInHand: ");
-//		for(int ii=0; ii<weightedPercentInHand.length; ii++){
-//			System.out.print(""+weightedPercentInHand[ii]+", ");
-//		}
-//		System.out.println();
+		System.out.print(" >>>  weightedPercentInHand: ");
+		for(int ii=0; ii<weightedPercentInHand.length; ii++){
+			System.out.print(""+weightedPercentInHand[ii]+", ");
+		}
+		System.out.println();
 		
 		for(int i=0; i<weightedPercentInHand.length; i++){
 			if(weightedPercentInHand[i] == -1.0){
@@ -221,11 +196,11 @@ public class Priority {
 			}
 		}
 		
-//		System.out.print(" >>>  weightedPriority: ");
-//		for(int ii=0; ii<numColors; ii++){
-//			System.out.print(""+weightedPriority[ii]+", ");
-//		}
-//		System.out.println();
+		System.out.print(" >>>  weightedPriority: ");
+		for(int ii=0; ii<numColors; ii++){
+			System.out.print(""+weightedPriority[ii]+", ");
+		}
+		System.out.println();
 		
 		isWeightedPriorityComplete = true;
 	}

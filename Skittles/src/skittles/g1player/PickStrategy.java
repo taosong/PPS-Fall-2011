@@ -11,14 +11,13 @@ public class PickStrategy {
 		double[] offerScores = new double[aoffCurrentOffers.length];
 		/* keeps track of which offers are giving us goal skittles */
 		ArrayList<Integer> offersGainingGoalSkittles = new ArrayList<Integer>();
+		ArrayList<Integer> desiredColorList = info.getPriority().getDesiredVector(info);
+	    int[] inHand = info.getAintInHand();
 		
-		/* make sure the tables in infobase are created */
-		if (!info.tablesExist())
-		{
-//			info.createTable(aoffCurrentOffers.length);
-		}
 		
-		/* for each offer, analyze how much it's worth to us */
+		/* for each offer, analyze how much would be my score increase after taking this offer
+		 * calculation done considering only the desired elements
+		 */
 		for (int j = 0; j < aoffCurrentOffers.length; ++j)
 		{
 			Offer o = aoffCurrentOffers[j];
@@ -30,15 +29,18 @@ public class PickStrategy {
 				/* for each color, add up how our score would change if we accepted the offer */
 				for (int i = 0; i < weReceive.length; ++i)
 				{
-					score += weReceive[i] * info.getColorHappiness(i);
-					score -= weGiveUp[i] * info.getColorHappiness(i);
-					/* if it's a skittle we'd be receiving and it's a goal skittle, keep track of it */
-					if (weReceive[i] > 0 && info.getPriority().getHighestPriorityColor() == i)
+					if(desiredColorList.contains(i)){
+						score += Math.pow((inHand[i]+weReceive[i]),2) * info.getColorHappiness(i);
+						score -= Math.pow((inHand[i]+weGiveUp[i]),2) * info.getColorHappiness(i);
+					}
+//					//score -= weGiveUp[i] * info.getColorHappiness(i);
+					/* if it's a skittle we'd be receiving and it's a desired skittle, keep track of it */
+					if (weReceive[i] > 0 && desiredColorList.contains(i))
 					{
 						offersGainingGoalSkittles.add(j);
 					}
 				}
-			
+							
 				offerScores[j] = score; // set score for this offer
 			}
 			else
@@ -46,6 +48,9 @@ public class PickStrategy {
 				offerScores[j] = Double.NEGATIVE_INFINITY;
 			}
 		}
+		
+		
+		
 		
 		/* based on analysis, choose best offer (or no offer if none are good) */
 		if (offersGainingGoalSkittles.size() == 0)
@@ -56,7 +61,7 @@ public class PickStrategy {
 		else
 		{
 			int bestIndex = -1; // initialize best offer to non-existent index
-			double bestScore = -1000; // initialize best score to very low score
+			double bestScore = Double.NEGATIVE_INFINITY; // initialize best score to very low score
 			for (int i : offersGainingGoalSkittles)
 			{
 				// if this offer has a better score than the best
@@ -65,6 +70,14 @@ public class PickStrategy {
 					bestIndex = i;
 					bestScore = offerScores[i];
 				}
+				//if there is a conflict for desired colors i.e same score Pick the which gives u high trade value non desired  skittle
+				// round the best score to have proper comparison  or put some range
+				if (offerScores[i] == bestScore && canAffordTrade(aoffCurrentOffers[i].getDesire(), info))
+				{
+					//look for high  trade value
+					//keep looking here
+				}
+				
 			}
 			
 			if (bestIndex != -1)

@@ -1,6 +1,7 @@
 package skittles.g1player;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import skittles.sim.Offer;
 
@@ -15,7 +16,7 @@ public class Infobase {
 	 */
 	
 	int[][] playerPreferences = null;
-	int[][] estimatedSkittles = null;
+	double[][] estimatedSkittles = null;
 	public int[] roundsInactive = null;
 	int numPlayers;
 	// Round count, updated when eat
@@ -63,12 +64,12 @@ public class Infobase {
 	public void createTables(int numPlayers)
 	{
 		playerPreferences = new int[numPlayers][intColorNum];
-		estimatedSkittles = new int[numPlayers][intColorNum];
+		estimatedSkittles = new double[numPlayers][intColorNum];
 		roundsInactive = new int[numPlayers];
 		this.numPlayers = numPlayers;
 		this.ourselves = new int[numPlayers];
 		
-		int estSkittlesPerColor = initialSkittlesPerPlayer/intColorNum;
+		double estSkittlesPerColor = (double)initialSkittlesPerPlayer/(double)intColorNum;
 		
 		for (int i = 0; i < numPlayers; ++i)
 		{
@@ -83,7 +84,6 @@ public class Infobase {
 				desiredColorCount = Math.round(intColorNum / numPlayers);
 			}
 		}
-
 	}
 	
 /*	public void updatePlayerPreferences(int playerIndex, Offer playerOffer)
@@ -118,6 +118,7 @@ public class Infobase {
 			giving = off.getDesire();
 			getting = off.getOffer();
 		}
+		
 		if (giving != null && getting != null)
 		{
 			for (int j = 0; j < getting.length; ++j)
@@ -126,7 +127,34 @@ public class Infobase {
 				skittlesWeHave[j] += getting[j];
 			}
 		}
-		this.setAintInHand(skittlesWeHave);		
+		this.setAintInHand(skittlesWeHave);
+	}
+
+	private void verifySkittlesCountIsPositive(int player)
+	{
+		double[] ourEstimate = estimatedSkittles[player];
+		LinkedList<Integer> adjusted = new LinkedList<Integer>();
+		double totalWrong = 0;
+		
+		for (int i = 0; i < intColorNum; ++i)
+		{
+			if (ourEstimate[i] < 0)
+			{
+				adjusted.add(i);
+				totalWrong -= ourEstimate[i];
+				ourEstimate[i] = 0;
+			}
+		}
+		
+		double adjustment = totalWrong/(intColorNum - adjusted.size());
+		
+		for (int i = 0; i < intColorNum; ++i)
+		{
+			if (!adjusted.contains(i))
+			{
+				ourEstimate[i] -= adjustment;
+			}
+		}
 	}
 
 	public void updateOfferExecute(Offer offPicked) {
@@ -172,6 +200,7 @@ public class Infobase {
 	}
 
 	public void updateOfferExe(Offer[] aoffCurrentOffers) {
+		accountForEating();
 		for (Offer o : aoffCurrentOffers)
 		{
 			if(this.count==1){
@@ -192,6 +221,17 @@ public class Infobase {
 		}
 	}
 	
+	private void accountForEating()
+	{
+		for (int i = 0; i < numPlayers; ++i)
+		{
+			for(int j = 0; j < intColorNum; ++j)
+			{
+				estimatedSkittles[i][j] -= (1/(double)intColorNum);
+			}
+		}
+	}
+	
 	private void updateTables(Offer off)
 	{
 		/* update inactive for null offers */
@@ -206,13 +246,10 @@ public class Infobase {
 		int[] desired = off.getDesire();
 		int[] offered = off.getOffer();
 
+		verifySkittlesCount(off);
 		if (tookOffer != -1)
 		{
 			updatePlayerSkittles(off);
-		}
-		else
-		{
-			verifySkittlesCount(off);
 		}
 		for (int i = 0; i < desired.length; ++i)
 		{
@@ -228,15 +265,41 @@ public class Infobase {
 	
 	private void verifySkittlesCount(Offer off)
 	{
+		int offeredBy = off.getOfferedByIndex();
+		int[] skittlesOffered = off.getOffer();
+		double[] ourEstimate = estimatedSkittles[offeredBy];
+		LinkedList<Integer> adjusted = new LinkedList<Integer>();
+		double totalWrong = 0;
+		
+		for (int i = 0; i < intColorNum; ++i)
+		{
+			if (ourEstimate[i] < skittlesOffered[i])
+			{
+				adjusted.add(i);
+				totalWrong += skittlesOffered[i] - ourEstimate[i];
+				ourEstimate[i] = skittlesOffered[i];
+			}
+		}
+		
+		double adjustment = totalWrong/(intColorNum - adjusted.size());
+		
+		for (int i = 0; i < intColorNum; ++i)
+		{
+			if (!adjusted.contains(i))
+			{
+				ourEstimate[i] -= adjustment;
+			}
+		}
 	}
 
 	private void checkOurDeniedOffer(Offer off) {
-		if(off.getPickedByIndex() == -1 && off.getOfferedByIndex() == intPlayerIndex ){
+		if(off.getOfferedByIndex() == intPlayerIndex &&off.getPickedByIndex() == -1){
 			this.denied = true;
 			System.out.println("offer denied");
 		}
 		else
-			this.denied = false;
+			if((off.getOfferedByIndex() == intPlayerIndex && off.getPickedByIndex() != -1 ))
+				this.denied = false; 
 	}
 
 	private void checkForNullOffer(Offer off) {
@@ -276,6 +339,26 @@ public class Infobase {
 			estimatedSkittles[offeredBy][i] -= offeredGivingPickedGetting[i];
 			estimatedSkittles[pickedBy][i] -= offeredGettingPickedGiving[i];
 			estimatedSkittles[pickedBy][i] += offeredGivingPickedGetting[i];
+		}
+		
+		verifySkittlesCountIsPositive(offeredBy);
+		verifySkittlesCountIsPositive(pickedBy);
+	}
+	
+	public void dumpSkittleCounts()
+	{
+		if (G1Player.DEBUG)
+		{
+			System.out.println("Estimated Skittles: ");
+			for (int i = 0; i < numPlayers; ++i)
+			{
+				for(int j = 0; j < intColorNum; ++j)
+				{
+					System.out.print(estimatedSkittles[i][j] + "\t");
+				}	
+				System.out.println();
+			}
+			System.out.println();
 		}
 	}
 	
