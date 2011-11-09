@@ -75,7 +75,7 @@ public class EatStrategy {
 	    		int colorIndex = initialPriority[i];
 				if(info.getColorHappiness(colorIndex) >= 0 && aintInHand[colorIndex] > 0){
 					aintTempEat[colorIndex] = aintInHand[colorIndex];
-					aintInHand[i] = 0;
+					aintInHand[colorIndex] = 0;
 					if(G1Player.DEBUG){
 						System.out.println(" >>[EatStrategy] [update] complete - Negatives NOT present, eating all - colorIndex=" + colorIndex);
 					}
@@ -153,7 +153,7 @@ public class EatStrategy {
 		    		int colorIndex = initialPriority[i];
 					if(info.getColorHappiness(colorIndex) >= 0 && aintInHand[colorIndex] > 0){
 						aintTempEat[colorIndex] = aintInHand[colorIndex];
-						aintInHand[i] = 0;
+						aintInHand[colorIndex] = 0;
 						if(G1Player.DEBUG){
 							System.out.println(" >>[EatStrategy] [update] (toEat == -1) - Negatives NOT present, eating all - colorIndex=" + colorIndex);
 						}
