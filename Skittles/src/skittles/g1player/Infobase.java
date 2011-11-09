@@ -352,26 +352,25 @@ public class Infobase {
 	public void calculateMarketValues()
 	{
 		ArrayList<Integer> desiredColorList = this.getPriority().getDesiredVector(this);
+		int multiplier = 0;
 		for (int i = 0; i < intColorNum; ++i)
 		{
 			marketValues[i] = 0;
 			for (int j = 0; j < numPlayers; ++j)
 			{
+				multiplier = 1;
 				if (j != this.intPlayerIndex)
 				{
 					for(Integer goodColor : desiredColorList)
 					{
-						if (playerPreferences[j][i] > 0)
+						if (goodColor != -1 && playerPreferences[j][goodColor] < 0)
 						{
-							if (playerPreferences[j][goodColor] < 0)
-							{
-								marketValues[i] += 2 * playerPreferences[j][i];
-							}	
-							else
-							{
-								marketValues[i] += playerPreferences[j][i];
-							}
+							multiplier += 1;
 						}
+					}
+					if (playerPreferences[j][i] > 0)
+					{
+						marketValues[i] += playerPreferences[j][i] * multiplier;
 					}
 				}
 			}
