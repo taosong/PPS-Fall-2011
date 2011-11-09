@@ -95,11 +95,13 @@ public class Priority {
 		for(int i=0; i<numColors; i++){
 			percentInHand[i] = (double)aintInHand[i]/totalSkittles;
 		}
+		if(G1Player.DEBUG){
 //		System.out.print(" >>>  percentInHand: ");
 //		for(int i=0; i<numColors; i++){
 //			System.out.print(""+percentInHand[i]+", ");
 //		}
 //		System.out.println();
+		}
 		
 		int priorityOfColor;
 		for(int i=0; i<numColors; i++){
@@ -111,7 +113,9 @@ public class Priority {
 					priorityOfColor++;
 				}
 			}
-//			System.out.println(" >> priorityOfColor=" + priorityOfColor);
+			if(G1Player.DEBUG){
+//				System.out.println(" >> priorityOfColor=" + priorityOfColor);
+			}
 			int k=0;
 			while(true){
 				if(initialPriority[priorityOfColor+k] == -1){
@@ -122,11 +126,13 @@ public class Priority {
 			}
 		}
 
+		if(G1Player.DEBUG){
 //		System.out.print(" >>>  initialPriority: ");
 //		for(int ii=0; ii<numColors; ii++){
 //			System.out.print(""+initialPriority[ii]+", ");
 //		}
 //		System.out.println();
+		}
 		
 		initialPriorityForEat = Arrays.copyOf(initialPriority, initialPriority.length);
 	}
@@ -154,11 +160,13 @@ public class Priority {
 			}
 		}
 		
-		System.out.print(" >>>  weightedPercentInHand: ");
-		for(int ii=0; ii<weightedPercentInHand.length; ii++){
-			System.out.print(""+weightedPercentInHand[ii]+", ");
+		if(G1Player.DEBUG){
+			System.out.print(" >>>  weightedPercentInHand: ");
+			for(int ii=0; ii<weightedPercentInHand.length; ii++){
+				System.out.print(""+weightedPercentInHand[ii]+", ");
+			}
+			System.out.println();
 		}
-		System.out.println();
 		
 		for(int i=0; i<weightedPercentInHand.length; i++){
 			if(weightedPercentInHand[i] == -1.0){
@@ -196,11 +204,13 @@ public class Priority {
 			}
 		}
 		
-		System.out.print(" >>>  weightedPriority: ");
-		for(int ii=0; ii<numColors; ii++){
-			System.out.print(""+weightedPriority[ii]+", ");
+		if(G1Player.DEBUG){
+			System.out.print(" >>>  weightedPriority: ");
+			for(int ii=0; ii<numColors; ii++){
+				System.out.print(""+weightedPriority[ii]+", ");
+			}
+			System.out.println();
 		}
-		System.out.println();
 		
 		isWeightedPriorityComplete = true;
 	}

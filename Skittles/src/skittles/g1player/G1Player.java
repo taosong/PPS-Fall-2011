@@ -5,7 +5,7 @@ import skittles.sim.Player;
 
 public class G1Player extends Player {
 	
-	public static final boolean DEBUG = true;
+	public static final boolean DEBUG = false;
 	 
 	protected EatStrategy eatStrategy;
 	protected OfferStrategy offerStrategy;
