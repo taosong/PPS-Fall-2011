@@ -69,7 +69,7 @@ public class OfferStrategy {
 		 * colors' value, our offer strategy is try to give away what's in the
 		 * end of the priority list and ask for what's in {C}
 		 */
-		if (count < Math.min(colorNum / 2, 4)) {
+		if (count < 1){//Math.min(colorNum / 2, 4)) {
 			// here 4 is a magic number, pls try to run some test to find the
 			// best one when eating bug fixed.
 
