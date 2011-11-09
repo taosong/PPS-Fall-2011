@@ -21,7 +21,7 @@ public class PickStrategy {
 		for (int j = 0; j < aoffCurrentOffers.length; ++j)
 		{
 			Offer o = aoffCurrentOffers[j];
-			if (o.getOfferLive())
+			if (o.getOfferLive() && o.getOfferedByIndex() != info.intPlayerIndex)
 			{
 				double score = 0; // initialize score
 				int[] weReceive = o.getOffer();

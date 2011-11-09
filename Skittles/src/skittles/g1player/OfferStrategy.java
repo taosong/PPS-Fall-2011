@@ -12,7 +12,7 @@ public class OfferStrategy {
 	private int colorNum;
 	protected int[] offerTracker;
 	private int lastGet;
-	private int lastGivePrioty; // used by first several rounds, points to the
+	private int lastGivePrioty = 1; // used by first several rounds, points to the
 								// priority list
 	private int totSkittles = 0;
 	private boolean validOffer = false;
@@ -38,7 +38,7 @@ public class OfferStrategy {
 
 		int[] priorityArray = info.getPriority().getPriorityArray();
 		G1Player.printArray(priorityArray, "OfferStrategy priorityArray:");
-		colorNum = priorityArray.length;
+		colorNum = info.intColorNum; // Erica: changed this to intColorNum to be more direct than length of priority array
 
 		int[] maxOffers = new int[c]; // # of skittles others able to give us
 		int[] colorOffers = new int[c]; // what should we offer
@@ -69,7 +69,8 @@ public class OfferStrategy {
 		 * colors' value, our offer strategy is try to give away what's in the
 		 * end of the priority list and ask for what's in {C}
 		 */
-		if (count < 1){//Math.min(colorNum / 2, 4)) {
+		// Erica: this says 4 is magic number, why was it changed to 1?
+		if (count < 4){//Math.min(colorNum / 2, 4)) {
 			// here 4 is a magic number, pls try to run some test to find the
 			// best one when eating bug fixed.
 
