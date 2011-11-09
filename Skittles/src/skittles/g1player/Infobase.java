@@ -30,7 +30,7 @@ public class Infobase {
 	private int[] aintInHand;
 	private int initialSkittlesPerPlayer;
 	
-	private int intColorNum;
+	public int intColorNum;
 	double dblHappiness;
 	String strClassName;
 	int intPlayerIndex;
@@ -110,12 +110,12 @@ public class Infobase {
 		int[] skittlesWeHave = this.getAintInHand();
 		int[] giving = null;
 		int[] getting = null;
-		if (off.getOfferedByIndex() == this.intPlayerIndex)
+		if (off.getOfferedByIndex() == this.intPlayerIndex && off.getPickedByIndex() != this.intPlayerIndex)
 		{
 			giving = off.getOffer();
 			getting = off.getDesire();
 		}
-		else if (off.getPickedByIndex() == this.intPlayerIndex || wePickedThis)
+		else if ((off.getPickedByIndex() == this.intPlayerIndex || wePickedThis) && off.getOfferedByIndex() != this.intPlayerIndex)
 		{
 			giving = off.getDesire();
 			getting = off.getOffer();
@@ -299,7 +299,10 @@ public class Infobase {
 	private void checkOurDeniedOffer(Offer off) {
 		if(off.getOfferedByIndex() == intPlayerIndex &&off.getPickedByIndex() == -1){
 			this.denied = true;
-			System.out.println("offer denied");
+			if (G1Player.DEBUG)
+			{
+				System.out.println("offer denied");
+			}
 		}
 		else
 			if((off.getOfferedByIndex() == intPlayerIndex && off.getPickedByIndex() != -1 ))
