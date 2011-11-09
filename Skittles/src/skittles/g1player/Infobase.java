@@ -18,6 +18,7 @@ public class Infobase {
 	int[][] playerPreferences = null;
 	double[][] estimatedSkittles = null;
 	public int[] roundsInactive = null;
+	double[] marketValues = null;
 	int numPlayers;
 	// Round count, updated when eat
 	int count=0;
@@ -66,6 +67,7 @@ public class Infobase {
 		playerPreferences = new int[numPlayers][intColorNum];
 		estimatedSkittles = new double[numPlayers][intColorNum];
 		roundsInactive = new int[numPlayers];
+		marketValues = new double[intColorNum];
 		this.numPlayers = numPlayers;
 		this.ourselves = new int[numPlayers];
 		
@@ -219,6 +221,8 @@ public class Infobase {
 			
 			updateTables(o);
 		}
+		
+		calculateMarketValues();
 	}
 	
 	private void accountForEating()
@@ -345,6 +349,52 @@ public class Infobase {
 		verifySkittlesCountIsPositive(pickedBy);
 	}
 	
+	public void calculateMarketValues()
+	{
+		ArrayList<Integer> desiredColorList = this.getPriority().getDesiredVector(this);
+		int multiplier = 0;
+		for (int i = 0; i < intColorNum; ++i)
+		{
+			marketValues[i] = 0;
+			for (int j = 0; j < numPlayers; ++j)
+			{
+				multiplier = 1;
+				if (j != this.intPlayerIndex)
+				{
+					for(Integer goodColor : desiredColorList)
+					{
+						if (goodColor != -1 && playerPreferences[j][goodColor] < 0)
+						{
+							multiplier += 1;
+						}
+					}
+					if (playerPreferences[j][i] > 0)
+					{
+						marketValues[i] += playerPreferences[j][i] * multiplier;
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * @return an array of market values for each skittle.  The index of the array
+	 * 			corresponds to the color index for that skittle
+	 */
+	public double[] getMarketValues()
+	{
+		return marketValues;
+	}
+	
+	/**
+	 * @param color the index of the color
+	 * @return the corresponding market value
+	 */
+	public double getMarketValueForColor(int color)
+	{
+		return marketValues[color];
+	}
+		
 	public void dumpSkittleCounts()
 	{
 		if (G1Player.DEBUG)
