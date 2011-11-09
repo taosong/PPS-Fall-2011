@@ -357,17 +357,20 @@ public class Infobase {
 			marketValues[i] = 0;
 			for (int j = 0; j < numPlayers; ++j)
 			{
-				for(Integer goodColor : desiredColorList)
+				if (j != this.intPlayerIndex)
 				{
-					if (playerPreferences[j][i] > 0)
+					for(Integer goodColor : desiredColorList)
 					{
-						if (playerPreferences[j][goodColor] < 0)
+						if (playerPreferences[j][i] > 0)
 						{
-							marketValues[i] += 2 * playerPreferences[j][i];
-						}	
-						else
-						{
-							marketValues[i] += playerPreferences[j][i];
+							if (playerPreferences[j][goodColor] < 0)
+							{
+								marketValues[i] += 2 * playerPreferences[j][i];
+							}	
+							else
+							{
+								marketValues[i] += playerPreferences[j][i];
+							}
 						}
 					}
 				}
