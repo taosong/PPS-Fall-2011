@@ -83,7 +83,7 @@ public class PickStrategy {
 			if (bestIndex != -1)
 			{
 				/* update the skittles we have */
-				info.updateSkittlesInHand(aoffCurrentOffers[bestIndex], true);
+///				info.updateSkittlesInHand(aoffCurrentOffers[bestIndex], true);
 
 				/* return chosen offer */
 				return aoffCurrentOffers[bestIndex];

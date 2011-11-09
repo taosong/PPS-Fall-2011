@@ -250,6 +250,11 @@ public class Infobase {
 		int[] desired = off.getDesire();
 		int[] offered = off.getOffer();
 
+		if (tookOffer == this.intPlayerIndex)
+		{
+			updateSkittlesInHand(off, false);
+		}
+		
 		verifySkittlesCount(off);
 		if (tookOffer != -1)
 		{
