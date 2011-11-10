@@ -87,6 +87,7 @@ public class Priority {
 		}
 		int[] retArray = new int[initialPriority.length];
 		int index = 0;
+		try{
 		for(Color c : positivePriorityTao){
 			retArray[index] = c.colorIndex;
 			index++;
@@ -96,8 +97,11 @@ public class Priority {
 			index++;
 		}
 		for(Color c : negativePriorityTao){
-			retArray[index] = c.colorIndex;
+			retArray[index] = c.colorIndex; 
 			index++;
+		}
+		}catch(ArrayIndexOutOfBoundsException e){
+			e.printStackTrace();
 		}
 		return retArray;
 	}
@@ -189,8 +193,6 @@ public class Priority {
 	 */
 	public void updatePriority(int colorIndex, double happiness, Infobase info){
 		
-		updateTaoPriority(colorIndex, happiness);
-		
 		weightedPercentInHand[colorIndex] = percentInHand[colorIndex] * happiness;
 		
 		/*
@@ -206,7 +208,9 @@ public class Priority {
 				weightedPercentInHand[i] = -100000;
 			}
 		}
-		
+
+		updateTaoPriority(colorIndex, happiness, info);
+			
 		if(G1Player.DEBUG){
 			System.out.print(" >>>  weightedPercentInHand: ");
 			for(int ii=0; ii<weightedPercentInHand.length; ii++){
@@ -308,15 +312,31 @@ public class Priority {
 	}
 	
 	
-	private void updateTaoPriority(int colorIndex, double happiness){
+	private void updateTaoPriority(int colorIndex, double happiness, Infobase infobase){
 		Color c = new Color(colorIndex, happiness, percentInHand[colorIndex]);
 		if(happiness <= 0){
-			negativePriorityTao.add(c);
-			nonePriorityTao.remove(c);
+			if(!negativePriorityTao.contains(c)){
+				negativePriorityTao.add(c);
+				nonePriorityTao.remove(c);
+			}
 		} else {
-			positivePriorityTao.add(c);
-			nonePriorityTao.remove(c);
+			if(!positivePriorityTao.contains(c)){
+				positivePriorityTao.add(c);
+				nonePriorityTao.remove(c);
+			}
 		}
+		
+//		Color cZero = null;
+//		for(int i=0; i<weightedPercentInHand.length; i++){
+//			if(weightedPercentInHand[i] == -100000){
+//				cZero = new Color(i, 0, percentInHand[i]);
+//				System.out.println(" CZERO = " + cZero + ",,, from index=" + infobase.getIntPlayerIndex());
+//				if(!negativePriorityTao.contains(cZero) && !positivePriorityTao.contains(cZero)){
+//					negativePriorityTao.add(cZero);
+//					nonePriorityTao.remove(cZero);
+//				}
+//			}
+//		}
 		
 		Collections.sort(negativePriorityTao);
 		Collections.sort(nonePriorityTao);
