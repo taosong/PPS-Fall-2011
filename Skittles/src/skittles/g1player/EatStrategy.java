@@ -2,7 +2,6 @@ package skittles.g1player;
 
 import java.util.ArrayList;
 
-import skittles.g1player.main.DummyMain;
 
 public class EatStrategy {
 
@@ -23,7 +22,7 @@ public class EatStrategy {
 		// u only have the skittles u desired  to have and u do not have any other skittle
 		int[] aintInHand = info.getAintInHand();
 		if(G1Player.DEBUG){
-			DummyMain.printArray(aintInHand, " [--- aintinhand ---] ");
+			G1Player.printArray(aintInHand, " [--- aintinhand ---] ");
 		}
 		ArrayList<Integer>  desiredVector = info.getPriority().getDesiredVector(info);
 		if(G1Player.DEBUG){

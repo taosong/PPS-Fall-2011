@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import skittles.g1player.main.DummyMain;
 
 
 public class Priority {
@@ -266,7 +265,7 @@ public class Priority {
 		isWeightedPriorityComplete = true;
 		
 		if(G1Player.DEBUG){
-			DummyMain.printArray(getPriorityArrayTao(), " getPriorityArrayTao Complete-");
+			G1Player.printArray(getPriorityArrayTao(), " getPriorityArrayTao Complete-");
 		}
 	}
 	
@@ -382,7 +381,7 @@ public class Priority {
 			System.out.println("negativePriorityTao" + negativePriorityTao);
 			System.out.println("nonePriorityTao" + nonePriorityTao);
 			System.out.println("positivePriorityTao" + positivePriorityTao);
-			DummyMain.printArray(getPriorityArrayTao(), " getPriorityArrayTao Intermediate -");
+			G1Player.printArray(getPriorityArrayTao(), " getPriorityArrayTao Intermediate -");
 		}
 	}	
 }
