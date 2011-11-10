@@ -16,7 +16,7 @@
 	</Player>
 	
 	<Player>
-		<Class>skittles.g3.G3Player</Class>
+		<Class>skittles.g3_2.G3Player</Class>
 		<Happiness>random,0.5</Happiness>
 		<InHand>random</InHand>
 	</Player>
@@ -28,12 +28,18 @@
 	</Player>
 	
 	<Player>
+		<Class>skittles.g5.FatKidPositive</Class>
+		<Happiness>random,0.5</Happiness>
+		<InHand>random</InHand>
+	</Player>
+	
+	<Player>
 		<Class>skittles.g6.CompulsiveEater</Class>
 		<Happiness>random,0.5</Happiness>
 		<InHand>random</InHand>
 	</Player>	
 	<Player>
-		<Class>skittles.g7.G7Player</Class>
+		<Class>skittles.g7.LittlePlayer</Class>
 		<Happiness>random,0.5</Happiness>
 		<InHand>random</InHand>
 	</Player>

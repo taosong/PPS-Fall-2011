@@ -91,21 +91,25 @@ public class OfferGeneratorImplementer implements OfferGenerator{
 	 * @param anOffer
 	 * @return
 	 */
-	
 	// TODO: check for null offers
-
-/*	public boolean isOfferCold(Offer anOffer){
+	/*public boolean isOfferCold(Offer anOffer){
 		int myPlayerIndex = myCompulsiveEater.getPlayerIndex();
+		int turn = myCompulsiveEater.getTurnCounter();
 		if (turn > 1){
-			if ( compareOffers(offersHistory.get(turn)[myPlayerIndex], anOffer)
-					|| compareOffers(offersHistory.get(turn-1)[myPlayerIndex], anOffer) ){
+			if ( compareOffers(offersHistory.get(turn-1)[myPlayerIndex], anOffer)
+					&& compareOffers(offersHistory.get(turn-2)[myPlayerIndex], anOffer) ){
 				return true;
 			}
 		}
 		return false;
 	}*/
-	
-	/*public boolean compareOffers(Offer offer1, Offer offer2){
+/*	*//**
+	 * @author, Jonathan
+	 * @param offer1
+	 * @param offer2
+	 * @return
+	 *//*
+	public boolean compareOffers(Offer offer1, Offer offer2){
 		for (int i=0; i<intColorNum; i++){
 			if (offer1.getOffer()[i] != offer2.getOffer()[i])
 				return false;
@@ -240,13 +244,14 @@ public class OfferGeneratorImplementer implements OfferGenerator{
 				}*/
 			}
 			else{  //SECONDARY_THRESHOLD < currentPreference < PRIMARY_THRESHOLD
-				tradeAmount = currentColor.getFront() / Parameters.BIG_AMOUNT_DIVISOR;
+				tradeAmount = currentColor.getFront()/Parameters.BIG_AMOUNT_DIVISOR;
 				aintOffer[currentColor.getBack()] = tradeAmount;
 				aintDesire[piles.get(0).getBack()] = tradeAmount; 
 			}
 		}
 		else{ //if currentTurn == intColorNum -1
-			tradeAmount = currentColor.getFront()/Parameters.BIG_AMOUNT_DIVISOR;
+			//tradeAmount = currentColor.getFront()/Parameters.BIG_AMOUNT_DIVISOR;
+			tradeAmount = piles.get(getLowestPreference()).getFront()/Parameters.BIG_AMOUNT_DIVISOR;
 			aintOffer[getLowestPreference()] = tradeAmount;
 			aintDesire[getHighestPreference()] = tradeAmount;
 		}

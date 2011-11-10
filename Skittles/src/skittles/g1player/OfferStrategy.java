@@ -70,7 +70,7 @@ public class OfferStrategy {
 		 * colors' value, our offer strategy is try to give away what's in the
 		 * end of the priority list and ask for what's in {C}
 		 */
-		if (count < 4){//Math.min(colorNum / 2, 4)) {
+		if (count < Math.min(colorNum, 4)) {
 			// here 4 is a magic number, pls try to run some test to find the
 			// best one when eating bug fixed.
 
@@ -126,12 +126,14 @@ public class OfferStrategy {
 			}
 		}
 		int maxQuantity = 0;
+		int maxValue = 0;
 		
 		for (int i = 0; i < c; i++) {
-			if (maxQuantity < maxOffers[i]) {
+			if (maxValue < maxOffers[i]*info.getAintInHand()[i]*info.getColorHappiness(i)) {
 				maxQuantity = maxOffers[i];
 				colorGet = priorityArray[i];
 				colorOffer = colorOffers[i];
+				maxValue = (int) (maxQuantity*info.getAintInHand()[i]*info.getColorHappiness(i));
 			}
 		}
 		
@@ -152,10 +154,11 @@ public class OfferStrategy {
 				}
 			}
 			for (int i = 0; i < c; i++) {
-				if (maxQuantity < maxOffers[i]) {
+				if (maxValue < maxOffers[i]*info.getAintInHand()[i]*info.getColorHappiness(i)) {
 					maxQuantity = maxOffers[i];
 					colorGet = priorityArray[i];
 					colorOffer = colorOffers[i];
+					maxValue = (int) (maxQuantity*info.getAintInHand()[i]*info.getColorHappiness(i));
 				}
 			}
 		}

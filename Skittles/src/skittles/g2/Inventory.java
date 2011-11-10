@@ -6,13 +6,23 @@ import java.util.PriorityQueue;
 public class Inventory {
 	
 	private Skittle[] skittles;
-	
+	private int startingSkittles;
 	
 	public Inventory(int[] aintInHand) {
+		startingSkittles = 0;
 		skittles = new Skittle[aintInHand.length];
 		for (int i = 0; i < skittles.length; i++) {
 			skittles[i] = new Skittle(aintInHand[i], i);
+			this.startingSkittles += aintInHand[i];
 		}
+	}
+	
+	public int getStartingSkittles() {
+		return startingSkittles;
+	}
+	
+	public double getIndividualHappiness(double happiness, int count) {
+		return (happiness / (Math.sqrt(count * 1.0)));
 	}
 	
 	/* This would return true only for the skittle with the highest score currently */
@@ -47,6 +57,20 @@ public class Inventory {
 	
 	public Skittle[] getSkittles() {
 		return skittles;
+	}
+	
+	public int getNumColors() {
+		return skittles.length;
+	}
+	
+	public double[] getColorValues() {
+		double[] values = new double[skittles.length];
+		
+		for(int i = 0; i < values.length; i++) {
+			values[i] = skittles[i].getValue();
+		}
+		
+		return values;
 	}
 	
 	public PriorityQueue<Skittle> untastedSkittlesByCount() {
