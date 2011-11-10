@@ -96,7 +96,7 @@ public class Priority {
 			index++;
 		}
 		for(Color c : negativePriorityTao){
-			retArray[index] = c.colorIndex;
+			retArray[index] = c.colorIndex; 
 			index++;
 		}
 		return retArray;

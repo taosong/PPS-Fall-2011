@@ -37,7 +37,7 @@ public class OfferStrategy {
 				System.out.println("update ++" + String.valueOf(this.lastGet));
 		}
 
-		int[] priorityArray = info.getPriority().getPriorityArray();
+		int[] priorityArray = info.getPriority().getPriorityArrayTao();
 		G1Player.printArray(priorityArray, "OfferStrategy priorityArray:");
 		colorNum = info.intColorNum; // Erica: changed this to intColorNum to be more direct than length of priority array
 
