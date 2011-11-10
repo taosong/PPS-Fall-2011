@@ -185,7 +185,7 @@ public class FatKidPositive extends Player
 		int colorsIgnored=0;
 		while(loopOn && colorsIgnored<intColorNum) {
 			maxValue=findBestOfferToMake(ignoreColors);
-			System.out.println("maxValueTasteIndex="+maxValueTasteIndex+"minValueTasteIndex="+minValueTasteIndex+"transactionSize="+transactionSize+"maxValue="+maxValue);
+			//System.out.println("maxValueTasteIndex="+maxValueTasteIndex+"minValueTasteIndex="+minValueTasteIndex+"transactionSize="+transactionSize+"maxValue="+maxValue);
 			loopOn=false;
 			if(lastOfferMinIndex==minValueTasteIndex && lastOfferMaxIndex==maxValueTasteIndex ) {
 				if( lastRoundOurOfferAccepted!=(round-1)) {
