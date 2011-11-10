@@ -522,6 +522,14 @@ public class Infobase {
 	public boolean isOurself(int playerIndex){
 		return this.ourselves[playerIndex]==1;
 	}
-
+	
+	public boolean isOurself(){
+		boolean flag = true;
+		for(int i = 0; i<this.ourselves.length;i++){
+			if(this.ourselves[i]==0 && i!=this.intPlayerIndex)
+				flag = false;
+		}
+		return flag;
+	}
 
 }

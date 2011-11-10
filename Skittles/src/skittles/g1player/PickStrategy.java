@@ -35,7 +35,9 @@ public class PickStrategy {
 					}
 //					//score -= weGiveUp[i] * info.getColorHappiness(i);
 					/* if it's a skittle we'd be receiving and it's a desired skittle, keep track of it */
-					if (weReceive[i] > 0 && desiredColorList.contains(i))
+					
+					//Tao: add || info.isOurself(o.getOfferedByIndex()) to cooperate
+					if ((weReceive[i] > 0 && desiredColorList.contains(i)) || info.isOurself(o.getOfferedByIndex()))
 					{
 						offersGainingGoalSkittles.add(j);
 					}

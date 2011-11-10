@@ -55,7 +55,6 @@ public class OfferStrategy {
 			this.validOffer = false;
 			/*
 			 * The following lines try to identify ourselves in the first round
-			 * It will be more complex in the tournament
 			 */
 			for (int i = 0; i < colorNum; i++) {
 				aintDesire[i] = aintOffer[i] = info.getAintInHand()[i];
@@ -64,13 +63,13 @@ public class OfferStrategy {
 
 			return;
 		}
+		
 
 		/*
 		 * STEP 2: in the first several rounds, when we don't know most of the
 		 * colors' value, our offer strategy is try to give away what's in the
 		 * end of the priority list and ask for what's in {C}
 		 */
-		// Erica: this says 4 is magic number, why was it changed to 1?
 		if (count < 4){//Math.min(colorNum / 2, 4)) {
 			// here 4 is a magic number, pls try to run some test to find the
 			// best one when eating bug fixed.
@@ -96,7 +95,7 @@ public class OfferStrategy {
 			int mostLike = rand.nextInt(Math.min(c, count));
 			// check if someone happen to be willing make a deal
 			quantity = Math.max(quantity,
-					this.calculateOffer(mostLike, leastLike));
+					this.calculateOffer(mostLike, leastLike, false));
 			// check inventory
 			quantity = Math.min(info.getAintInHand()[leastLike], quantity);
 
@@ -114,7 +113,7 @@ public class OfferStrategy {
 			maxOffers[i] = 0;
 			for (int j = c; j < priorityArray.length; j++) {
 				int tempOffer = this.calculateOffer(priorityArray[i],
-						priorityArray[j]);
+						priorityArray[j], false);
 				if (tempOffer > info.getAintInHand()[priorityArray[j]])
 				// check if we have that many of skittles?
 				{
@@ -127,6 +126,7 @@ public class OfferStrategy {
 			}
 		}
 		int maxQuantity = 0;
+		
 		for (int i = 0; i < c; i++) {
 			if (maxQuantity < maxOffers[i]) {
 				maxQuantity = maxOffers[i];
@@ -134,8 +134,35 @@ public class OfferStrategy {
 				colorOffer = colorOffers[i];
 			}
 		}
+		
+		if(maxQuantity==0){ // no perfect offer, check whether we can cooperate
+			for (int i = 0; i < c; i++) {
+				maxOffers[i] = 0;
+				for (int j = c; j < priorityArray.length; j++) {
+					int tempOffer = this.calculateOffer(priorityArray[i],
+							priorityArray[j], true);
+					if (tempOffer > info.getAintInHand()[priorityArray[j]])
+					{
+						tempOffer = info.getAintInHand()[priorityArray[j]];
+					}
+					if (tempOffer > maxOffers[i]) {
+						maxOffers[i] = tempOffer;
+						colorOffers[i] = priorityArray[j];
+					}
+				}
+			}
+			for (int i = 0; i < c; i++) {
+				if (maxQuantity < maxOffers[i]) {
+					maxQuantity = maxOffers[i];
+					colorGet = priorityArray[i];
+					colorOffer = colorOffers[i];
+				}
+			}
+		}
+		
 		aintOffer[colorOffer] = maxQuantity;
 		aintDesire[colorGet] = maxQuantity;
+		
 
 		/*
 		 * STEP 4: if we can't find perfect trade, propose some other trade,
@@ -210,11 +237,11 @@ public class OfferStrategy {
 	 * this functions calculates the max number of colorGet we can get from
 	 * trading colorOffer
 	 */
-	private int calculateOffer(int colorGet, int colorOffer) {
+	private int calculateOffer(int colorGet, int colorOffer, boolean cooperate) {
 		double max = 0;
 		for (int i = 0; i < info.numPlayers; i++) {
-			if (info.playerPreferences[i][colorOffer] > 0
-					&& info.playerPreferences[i][colorGet] < 0) {
+			if ((info.playerPreferences[i][colorOffer] > 0 || (info.isOurself(i) && cooperate))
+					&& (info.playerPreferences[i][colorGet] < 0)|| (info.isOurself(i) && cooperate)) {
 				if (max < info.estimatedSkittles[i][colorGet]) {
 					if (info.isPlayerInactive(i)) {
 						if (G1Player.DEBUG)
