@@ -119,7 +119,6 @@ public class EatStrategy {
 						eatIndex = initialPriority[i];
 						eatHappiness = info.getColorHappiness(initialPriority[i]);
 					}
-						
 				}
 			}
 			
