@@ -12,7 +12,7 @@ public class OfferStrategy {
 	private int colorNum;
 	protected int[] offerTracker;
 	private int lastGet;
-	private int lastGivePrioty = 1; // used by first several rounds, points to the
+	private int lastGivePrioty; // used by first several rounds, points to the
 								// priority list
 	private int totSkittles = 0;
 	private boolean validOffer = false;
@@ -21,6 +21,7 @@ public class OfferStrategy {
 		this.info = infoUpdate;
 		this.colorNum = info.getIntColorNum();
 		this.offerTracker = new int[colorNum];
+		this.lastGivePrioty = info.getIntColorNum();
 	}
 
 	public void getOffer(int[] aintOffer, int[] aintDesire, Infobase infoUpdate) {
