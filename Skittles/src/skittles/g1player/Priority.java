@@ -268,17 +268,36 @@ public class Priority {
 	
 	
 	/*
-	 * this will return the all the colors  that we desire to have at the end
-	 */
-	public ArrayList<Integer> getDesiredVector(Infobase info){
-		ArrayList<Integer> desiredVector = new ArrayList<Integer>();
-		for(int i = 0; i<info.getDesiredColorCount(); i++){
-			desiredVector.add(weightedPriority[i]);
-		}
-		return desiredVector;
-	}
-	
-	public Boolean isWeightedPriorityComplete(){
+     * this will return the all the colors  that we desire to have at the end
+     */
+     public ArrayList<Integer> getDesiredVector(Infobase info){
+            ArrayList<Integer> desiredVector = new ArrayList<Integer>();
+            int k = info.getDesiredColorCount();
+           
+            //if the weight priority array is not complete , then desired vector would be positive array
+            if(!isWeightedPriorityComplete){
+//                   return desiredVector; // return positive matrix
+            	ArrayList<Integer> returnList = new ArrayList<Integer>();
+            	for(Color c : positivePriorityTao)
+            	{
+            		returnList.add(c.colorIndex);
+            	}
+            	return returnList;
+            }else{
+                   for(int i = 0; i<k; i++){
+                         if(!(info.getColorHappiness(weightedPriority[i])<=0.0)){
+                                desiredVector.add(weightedPriority[i]); 
+                         }
+                         else{
+                                info.setDesiredColorCount(info.getDesiredColorCount() - 1);
+                         }
+                        
+                   }
+                   return desiredVector;
+            }
+     }	
+
+     public Boolean isWeightedPriorityComplete(){
 		return isWeightedPriorityComplete;
 	}
 	public int[] getInitialPriorityForEat() {
@@ -310,7 +329,5 @@ public class Priority {
 			System.out.println("positivePriorityTao" + positivePriorityTao);
 			DummyMain.printArray(getPriorityArrayTao(), " getPriorityArrayTao Intermediate -");
 		}
-	}
-	
-	
+	}	
 }
