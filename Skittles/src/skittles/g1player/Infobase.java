@@ -520,7 +520,7 @@ public class Infobase {
 	 * check if playerIndex is one of us
 	 */
 	public boolean isOurself(int playerIndex){
-		return this.ourselves[playerIndex]==1 || (playerIndex!=this.intPlayerIndex && this.numPlayers == 2);
+		return (this.ourselves[playerIndex]==1 && this.isOurself()) || (playerIndex!=this.intPlayerIndex && this.numPlayers == 2);
 	}
 	
 	public boolean isOurself(){
