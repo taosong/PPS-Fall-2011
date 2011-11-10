@@ -2,6 +2,10 @@ package skittles.g1player;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+import skittles.g1player.main.DummyMain;
 
 
 public class Priority {
@@ -12,7 +16,12 @@ public class Priority {
 	 */
 	private int[] initialPriority;
 	private int[] initialPriorityForEat;
-	
+	/**
+	 * Tao's priority array.
+	 */
+	private List<Color> positivePriorityTao;
+	private List<Color> nonePriorityTao;
+	private List<Color> negativePriorityTao;
 	/**
 	 * Priorities of all the colors calculated based on the knowledge of the %
 	 * of each color and the happiness of each color.
@@ -71,12 +80,37 @@ public class Priority {
 		return initialPriority;
 	}
 	
+	
+	public int[] getPriorityArrayTao(){
+		if(isWeightedPriorityComplete){
+			return weightedPriority;
+		}
+		int[] retArray = new int[initialPriority.length];
+		int index = 0;
+		for(Color c : positivePriorityTao){
+			retArray[index] = c.colorIndex;
+			index++;
+		}
+		for(Color c : nonePriorityTao){
+			retArray[index] = c.colorIndex;
+			index++;
+		}
+		for(Color c : negativePriorityTao){
+			retArray[index] = c.colorIndex;
+			index++;
+		}
+		return retArray;
+	}
+	
 	/**
 	 * initialize the proirity arrays.
 	 */
 	public void initializePriority(int[] aintInHand){
 		int numColors = aintInHand.length;
 		int totalSkittles = 0;
+		nonePriorityTao = new ArrayList<Color>();
+		positivePriorityTao = new ArrayList<Color>();
+		negativePriorityTao = new ArrayList<Color>();
 		initialPriority = new int[numColors];
 		weightedPriority  = new int[numColors];
 		percentInHand  = new double[numColors];
@@ -84,12 +118,11 @@ public class Priority {
 		// intialize the arrays to -1 and calculate totolSkitles.
 		for(int i=0; i<numColors; i++){
 			initialPriority[i] = -1;
-			weightedPriority[i] = -1;
+ 			weightedPriority[i] = -1;
 			percentInHand[i] = -1.0;
 			weightedPercentInHand[i] = -1.0;
 			totalSkittles += aintInHand[i];
 		}
-//		System.out.println(" >> totalSkittles=" + totalSkittles);
 		
 		// calculate the percent of each color.
 		for(int i=0; i<numColors; i++){
@@ -135,6 +168,18 @@ public class Priority {
 		}
 		
 		initialPriorityForEat = Arrays.copyOf(initialPriority, initialPriority.length);
+	
+		// initialize nonePriorityTao
+		Color c = null;
+		for(int i=0; i<numColors; i++){
+			c = new Color(i, 1.0, percentInHand[i]);
+			nonePriorityTao.add(c);
+		}
+		Collections.sort(nonePriorityTao);
+		
+		if(G1Player.DEBUG) {
+			System.out.println("initialize nonePriorityTao: " + nonePriorityTao);
+		}
 	}
 	
 	/**
@@ -143,7 +188,9 @@ public class Priority {
 	 * @param happiness
 	 */
 	public void updatePriority(int colorIndex, double happiness, Infobase info){
-
+		
+		updateTaoPriority(colorIndex, happiness);
+		
 		weightedPercentInHand[colorIndex] = percentInHand[colorIndex] * happiness;
 		
 		/*
@@ -213,7 +260,12 @@ public class Priority {
 		}
 		
 		isWeightedPriorityComplete = true;
+		
+		if(G1Player.DEBUG){
+			DummyMain.printArray(getPriorityArrayTao(), " getPriorityArrayTao Complete-");
+		}
 	}
+	
 	
 	/*
 	 * this will return the all the colors  that we desire to have at the end
@@ -235,4 +287,30 @@ public class Priority {
 	public void setInitialPriorityForEat(int[] initialPriorityForEat) {
 		this.initialPriorityForEat = initialPriorityForEat;
 	}
+	
+	
+	private void updateTaoPriority(int colorIndex, double happiness){
+		Color c = new Color(colorIndex, happiness, percentInHand[colorIndex]);
+		if(happiness <= 0){
+			negativePriorityTao.add(c);
+			nonePriorityTao.remove(c);
+		} else {
+			positivePriorityTao.add(c);
+			nonePriorityTao.remove(c);
+		}
+		
+		Collections.sort(negativePriorityTao);
+		Collections.sort(nonePriorityTao);
+		Collections.sort(positivePriorityTao);
+		
+		if(G1Player.DEBUG){
+			System.out.println("[updateTaoPriority] colorIndex="+colorIndex+", happiness="+happiness);
+			System.out.println("negativePriorityTao" + negativePriorityTao);
+			System.out.println("nonePriorityTao" + nonePriorityTao);
+			System.out.println("positivePriorityTao" + positivePriorityTao);
+			DummyMain.printArray(getPriorityArrayTao(), " getPriorityArrayTao Intermediate -");
+		}
+	}
+	
+	
 }
