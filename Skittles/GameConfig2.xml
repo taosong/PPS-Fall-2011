@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <GameConfig>
 	<Game>
-		<ColorNum>5</ColorNum>
-		<SkittleNum>50</SkittleNum>
+		<ColorNum>20</ColorNum>
+		<SkittleNum>1000</SkittleNum>
 	</Game>
 	<Player>
 		<Class>skittles.g1player.G1Player</Class>
@@ -16,7 +16,7 @@
 	</Player>
 	
 	<Player>
-		<Class>skittles.g3.G3Player</Class>
+		<Class>skittles.g3_2.G3Player</Class>
 		<Happiness>random,0.1</Happiness>
 		<InHand>random</InHand>
 	</Player>
@@ -33,7 +33,7 @@
 		<InHand>random</InHand>
 	</Player>	
 	<Player>
-		<Class>skittles.g7.G7Player</Class>
+		<Class>skittles.g7.LittlePlayer</Class>
 		<Happiness>random,0.1</Happiness>
 		<InHand>random</InHand>
 	</Player>
