@@ -272,17 +272,71 @@ public class Priority {
 	
 	
 	/*
-	 * this will return the all the colors  that we desire to have at the end
-	 */
-	public ArrayList<Integer> getDesiredVector(Infobase info){
-		ArrayList<Integer> desiredVector = new ArrayList<Integer>();
-		for(int i = 0; i<info.getDesiredColorCount(); i++){
-			desiredVector.add(weightedPriority[i]);
-		}
-		return desiredVector;
-	}
-	
-	public Boolean isWeightedPriorityComplete(){
+     * this will return the all the colors  that we desire to have at the end
+     */
+     public ArrayList<Integer> getDesiredVector(Infobase info){
+            ArrayList<Integer> desiredVector = new ArrayList<Integer>();
+            int k = info.getDesiredColorCount();
+            int count = 0;
+           
+            //if the weight priority array is not complete , then desired vector would be positive array
+            if(!isWeightedPriorityComplete){
+//                   return desiredVector; // return positive matrix
+            	ArrayList<Integer> returnList = new ArrayList<Integer>();
+            	for(Color c : positivePriorityTao)
+            	{
+            		if(count==k){
+            			break;
+            		}
+            		returnList.add(c.colorIndex);
+            		count++;
+            	}
+            	if(count<k){
+            		for(Color c : nonePriorityTao)
+                	{
+                		if(count==k){
+                			break;
+                		}
+                		returnList.add(c.colorIndex);
+                		count++;
+                	}
+            	}
+            	if(count<k){
+            		for(Color c : negativePriorityTao)
+                	{
+                		if(count==k){
+                			break;
+                		}
+                		returnList.add(c.colorIndex);
+                		count++;
+                	}
+            	}
+            	return returnList;
+            }else{
+            	
+            	
+                   for(int i = 0; i<k; i++){
+                       if(!(info.getColorHappiness(weightedPriority[i])<=0.0)){
+                                desiredVector.add(weightedPriority[i]); 
+                      }
+//                         else{
+//                                info.setDesiredColorCount(info.getDesiredColorCount() - 1);
+//                         }
+                   }
+                   if(desiredVector.size() == 0){
+                	   for(int i = 0; i<k; i++){
+                            desiredVector.add(weightedPriority[i]); 
+                          }
+                   }else{
+                	   info.setDesiredColorCount(desiredVector.size());
+                   }
+                   
+                   
+                   return desiredVector;
+            }
+     }	
+
+     public Boolean isWeightedPriorityComplete(){
 		return isWeightedPriorityComplete;
 	}
 	public int[] getInitialPriorityForEat() {
@@ -330,7 +384,5 @@ public class Priority {
 			System.out.println("positivePriorityTao" + positivePriorityTao);
 			DummyMain.printArray(getPriorityArrayTao(), " getPriorityArrayTao Intermediate -");
 		}
-	}
-	
-	
+	}	
 }
