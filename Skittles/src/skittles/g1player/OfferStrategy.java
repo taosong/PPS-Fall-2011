@@ -93,7 +93,7 @@ public class OfferStrategy {
 			// 0.8 is a magic number.
 			int quantity = (int) (totSkittles / colorNum * 0.8);
 			// we've tasted count colors, randomly choose one
-			int mostLike = rand.nextInt(Math.min(c, count));
+			int mostLike = priorityArray[rand.nextInt(Math.min(c, count))];
 			// check if someone happen to be willing make a deal
 			quantity = Math.max(quantity,
 					this.calculateOffer(mostLike, leastLike, false));
