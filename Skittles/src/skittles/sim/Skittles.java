@@ -4,7 +4,9 @@ public class Skittles
 {
 	public static void main( String[] args )
 	{		
-		Game gamNew = new Game( "GameConfig3.xml" );
+		while(true){
+		Game gamNew = new Game( "GameConfig.xml" );
 		gamNew.runGame();
+		}
 	}
 }

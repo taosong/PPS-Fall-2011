@@ -175,7 +175,8 @@ public class OfferStrategy {
 		 * randomly.
 		 */
 		int quantity = 0;
-		if (maxQuantity == 0) {
+		// added check statement to make sure never run rand.nextint(0)
+		if (maxQuantity == 0 && c>0 && (colorNum-c)>0) {
 			int tempLeast = rand.nextInt(colorNum - c) + c;
 			int leastLike = priorityArray[tempLeast];
 			quantity = (int) (info.getAintInHand()[leastLike] / Math.pow(2,
